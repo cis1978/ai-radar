@@ -61,6 +61,25 @@ h1 { font-size: 33px; line-height: 1.45; margin: 0 0 18px; font-weight: 800;
        border: 1px solid var(--line); border-radius: 999px; padding: 3px 13px;
        cursor: pointer; white-space: nowrap; }
 .btn:hover { color: var(--accent); border-color: var(--accent); }
+.btn.on { color: #fff; background: var(--accent); border-color: var(--accent); }
+.ctrl { display: flex; gap: 8px; flex: none; }
+.toc-note { margin: 14px 0 0; font-size: 12.5px; color: var(--sub); }
+
+/* 用語注釈 */
+.term { border-bottom: 1px dotted var(--accent); cursor: help; }
+.term:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.term-pop { position: absolute; z-index: 20; max-width: 320px; background: #1f2430;
+            color: #fff; font-size: 13.5px; line-height: 1.7; padding: 12px 15px;
+            border-radius: 8px; box-shadow: 0 6px 22px rgba(0,0,0,.25); }
+.term-pop b { display: block; font-size: 12px; color: #9fc0ff; margin-bottom: 4px; }
+
+/* やさしい説明 */
+.easy { display: none; background: #fffbe9; border-radius: 6px; padding: 13px 16px;
+        margin: 0 0 14px; font-size: 15.5px; line-height: 1.8; }
+.easy-tag { display: block; font-size: 11.5px; letter-spacing: .1em; font-weight: 700;
+            color: #9a7b12; margin-bottom: 5px; }
+body.easy-on .easy { display: block; }
+body.easy-on .term { background: #fffbe9; }
 
 /* 項目 */
 .item { border-top: 1px solid var(--line); padding: 28px 0 4px; }
@@ -152,7 +171,10 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 <nav class="toc">
   <div class="toc-head">
     <span class="toc-title">目次 — 4件</span>
-    <button class="btn" id="toggle-all" type="button">すべて開く</button>
+    <span class="ctrl">
+      <button class="btn" id="easy-mode" type="button">やさしく表示</button>
+      <button class="btn" id="toggle-all" type="button">すべて開く</button>
+    </span>
   </div>
   <ol>
     <li><a href="#i1">Excel Copilot のカスタムスキルは「OneDriveに置いた SKILL.md」</a></li>
@@ -160,21 +182,22 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
     <li><a href="#i3">長時間タスクの鍵は「圧縮」ではなく「コンテキストのリセット＋引き継ぎ資料」</a></li>
     <li><a href="#i4">Excel が外部データソースに直結し始めた</a></li>
   </ol>
+  <p class="toc-note">用語の点線をタップすると説明が出ます。</p>
 </nav>
 <section class="item">
   <h2 id="i1"><span class="num">01</span>Excel Copilot のカスタムスキルは「OneDriveに置いた SKILL.md」</h2>
-  <p class="sum">Microsoft が Excel 向けに <strong>skills</strong> を導入した。DCF構築、月次決算、レポートモデルの更新、差異分析といった繰り返し業務について、Copilotに踏ませる手順を定義できる。</p>
+  <p class="sum">Microsoft が Excel 向けに <strong>skills</strong> を導入した。DCF構築、月次決算、レポートモデルの更新、差異分析といった繰り返し業務について、<span class="term" tabindex="0" role="button" data-d="Microsoft のAI機能の総称。Word や Excel の中で動く">Copilot</span>に踏ませる手順を定義できる。</p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><p>決定的なのは実装形式で、<strong>オープン標準のMarkdownファイル</strong>である。OneDriveに <code>SKILL.md</code> を保存するとCopilotが拾い、定義した手順どおりに三表モデルや取締役会資料を組み立てる。プロンプトからは <code>@variance-analysis</code> <code>@model-update</code> のように呼び出す。</p>
-<p>サンプルのfinance skillsライブラリは提供済み。カスタムスキルはWindows/Mac の Insiders で利用可能、来月Web含めGA予定。パートナー製スキルは2026 Q3。</p>
+    <div class="detail"><p>決定的なのは実装形式で、<strong>オープン標準のMarkdownファイル</strong>である。OneDriveに <code>SKILL.md</code> を保存するとCopilotが拾い、定義した手順どおりに三表モデルや取締役会資料を組み立てる。<span class="term" tabindex="0" role="button" data-d="AIへの指示文">プロンプト</span>からは <code>@variance-analysis</code> <code>@model-update</code> のように呼び出す。</p>
+<p>サンプルのfinance skillsライブラリは提供済み。カスタム<span class="term" tabindex="0" role="button" data-d="よく使う作業手順をまとめて名前を付けたもの。毎回説明し直さずに呼び出せる">スキル</span>はWindows/Mac の <span class="term" tabindex="0" role="button" data-d="正式提供前の試験公開。動作が変わることがある">Insiders</span> で利用可能、来月Web含め<span class="term" tabindex="0" role="button" data-d="正式版として誰でも使える状態。試験提供（プレビュー、ベータ）の次の段階">GA</span>予定。パートナー製スキルは2026 Q3。</p>
 <div class="idea"><div class="idea-title">転用アイデア</div><p>前号の「業務手順を文書化してスキル化する」が、Excelでも同じファイル形式で通るようになった。<strong>まず1本書けば、置き場所を変えるだけで使い回せる。</strong> shujiさんが毎月やっている集計や差異チェックがあれば、そこが最初の1本の候補。</p></div>
 <p class="source">出典: <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/06/25/copilot-in-excel-built-for-the-era-of-frontier-finance/">Copilot in Excel: Built for the era of Frontier Finance</a> / <a href="https://aka.ms/ExcelSkills">スキルの作成・管理ドキュメント</a></p></div>
   </details>
 </section>
 <section class="item">
   <h2 id="i2"><span class="num">02</span>「提案するAI」から「手を動かすAI」への転換が、数字で出た</h2>
-  <p class="sum">Word・Excel・PowerPoint のエージェント機能がGAし、全Microsoft 365サブスクリプションで<strong>デフォルト体験</strong>になった。Microsoftが公表したGA後1ヶ月の変化:</p>
+  <p class="sum">Word・Excel・PowerPoint の<span class="term" tabindex="0" role="button" data-d="指示を受けて、自分で手順を考えて複数の作業を実行するAI。「聞いたら答える」ではなく「頼んだらやっておいてくれる」タイプ">エージェント</span>機能がGAし、全Microsoft 365サブスクリプションで<strong>デフォルト体験</strong>になった。Microsoftが公表したGA後1ヶ月の変化:</p>
   <details>
     <summary>詳しく読む</summary>
     <div class="detail"><table><thead><tr><th>アプリ</th><th>利用頻度（週あたり/ユーザー）</th><th>新規ユーザー継続率</th><th>満足度（👍率）</th></tr></thead><tbody><tr><td>Word</td><td>+52%</td><td>+11%</td><td>+21%</td></tr><tr><td><strong>Excel</strong></td><td><strong>+67%</strong></td><td><strong>+50%</strong></td><td><strong>+65%</strong></td></tr><tr><td>PowerPoint</td><td>+11%</td><td>+36%</td><td>+25%</td></tr></tbody></table>
@@ -185,7 +208,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 </section>
 <section class="item">
   <h2 id="i3"><span class="num">03</span>長時間タスクの鍵は「圧縮」ではなく「コンテキストのリセット＋引き継ぎ資料」</h2>
-  <p class="sum">長く走らせるエージェントの根本問題は、セッションが切れると記憶がゼロに戻ることにある。Anthropicの設計知見は、会話を要約して引き延ばす（compaction）のではなく、<strong>意図的にコンテキストをリセットし、次のセッションが読む引き継ぎ成果物を残す</strong>という方向。</p>
+  <p class="sum">長く走らせるエージェントの根本問題は、セッションが切れると記憶がゼロに戻ることにある。Anthropicの設計知見は、会話を要約して引き延ばす（<span class="term" tabindex="0" role="button" data-d="会話が長くなったとき、それまでの内容を要約して圧縮すること。流れは保てるが細部が落ちる">compaction</span>）のではなく、<strong>意図的に<span class="term" tabindex="0" role="button" data-d="AIが一度に読める文章の量。ここに入りきらない情報は忘れる。人間でいう「机の上に広げられる資料の量」">コンテキスト</span>をリセットし、次のセッションが読む引き継ぎ成果物を残す</strong>という方向。</p>
   <details>
     <summary>詳しく読む</summary>
     <div class="detail"><p>構成は2種類のエージェント。初回に環境を整える初期化エージェントと、毎回少しずつ前進させて次回用の成果物を残す実行エージェント。作業を扱えるサイズに分解し、状態を構造化した成果物として受け渡す。</p>
@@ -195,7 +218,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 </section>
 <section class="item">
   <h2 id="i4"><span class="num">04</span>Excel が外部データソースに直結し始めた</h2>
-  <p class="sum">5月のLSEG・Moody'sに続き、Copilot in Excel の金融データコネクタが拡張された。<strong>CB Insights</strong>（未上場企業の予測インテリジェンス）、<strong>Daloopa</strong>（SEC提出書類由来の監査対応可能なファンダメンタルズ）、<strong>FactSet</strong>（7月GA予定）、<strong>Morningstar</strong>、<strong>PitchBook</strong>、<strong>S&amp;P Global</strong>。手作業でのデータ取得を挟まず、最新ソースから分析を始められる。</p>
+  <p class="sum">5月のLSEG・Moody'sに続き、Copilot in Excel の金融データ<span class="term" tabindex="0" role="button" data-d="外部サービスとの接続部品。つなぐと、そのサービスのデータをAIが直接読めるようになる">コネクタ</span>が拡張された。<strong>CB Insights</strong>（未上場企業の予測インテリジェンス）、<strong>Daloopa</strong>（SEC提出書類由来の監査対応可能なファンダメンタルズ）、<strong>FactSet</strong>（7月GA予定）、<strong>Morningstar</strong>、<strong>PitchBook</strong>、<strong>S&amp;P Global</strong>。手作業でのデータ取得を挟まず、最新ソースから分析を始められる。</p>
   <details>
     <summary>詳しく読む</summary>
     <div class="detail"><p>※ サードパーティコネクタは提供元との別途契約が必要。</p>
@@ -214,14 +237,26 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 </div>
 <script>
 (function () {
-  var btn = document.getElementById('toggle-all');
-  if (!btn) return;
-  btn.addEventListener('click', function () {
-    var ds = document.querySelectorAll('details');
-    var open = btn.textContent.indexOf('開く') >= 0;
-    ds.forEach(function (d) { d.open = open; });
-    btn.textContent = open ? 'すべて閉じる' : 'すべて開く';
+  var all = document.getElementById('toggle-all');
+  if (all) all.addEventListener('click', function () {
+    var open = all.textContent.indexOf('開く') >= 0;
+    document.querySelectorAll('details').forEach(function (d) { d.open = open; });
+    all.textContent = open ? 'すべて閉じる' : 'すべて開く';
   });
+
+  var easy = document.getElementById('easy-mode');
+  if (easy) {
+    if (localStorage.getItem('ai-radar-easy') === '1') {
+      document.body.classList.add('easy-on');
+      easy.classList.add('on');
+    }
+    easy.addEventListener('click', function () {
+      var on = document.body.classList.toggle('easy-on');
+      easy.classList.toggle('on', on);
+      try { localStorage.setItem('ai-radar-easy', on ? '1' : '0'); } catch (e) {}
+    });
+  }
+
   document.querySelectorAll('.toc a').forEach(function (a) {
     a.addEventListener('click', function () {
       var sec = document.querySelector(a.getAttribute('href'));
@@ -230,6 +265,30 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
       if (d) d.open = true;
     });
   });
+
+  var pop = null;
+  function close() { if (pop) { pop.remove(); pop = null; } }
+  function show(el) {
+    close();
+    pop = document.createElement('div');
+    pop.className = 'term-pop';
+    pop.innerHTML = '<b>' + el.textContent + '</b>' + el.getAttribute('data-d');
+    document.body.appendChild(pop);
+    var r = el.getBoundingClientRect();
+    var w = Math.min(320, window.innerWidth - 24);
+    pop.style.width = w + 'px';
+    var left = Math.min(r.left + window.scrollX, window.innerWidth - w - 12);
+    pop.style.left = Math.max(12, left) + 'px';
+    pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+  }
+  document.querySelectorAll('.term').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.stopPropagation(); show(el); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(el); }
+    });
+  });
+  document.addEventListener('click', close);
+  window.addEventListener('scroll', close, { passive: true });
 })();
 </script>
 </body>

@@ -31,6 +31,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ISSUES = ROOT / "issues"
 DOCS = ROOT / "docs"
+GLOSSARY = ROOT / "glossary.md"
 
 SITE = "https://cis1978.github.io/ai-radar"
 WEEKDAY_JA = ["月", "火", "水", "木", "金", "土", "日"]
@@ -81,6 +82,25 @@ h1 { font-size: 33px; line-height: 1.45; margin: 0 0 18px; font-weight: 800;
        border: 1px solid var(--line); border-radius: 999px; padding: 3px 13px;
        cursor: pointer; white-space: nowrap; }
 .btn:hover { color: var(--accent); border-color: var(--accent); }
+.btn.on { color: #fff; background: var(--accent); border-color: var(--accent); }
+.ctrl { display: flex; gap: 8px; flex: none; }
+.toc-note { margin: 14px 0 0; font-size: 12.5px; color: var(--sub); }
+
+/* 用語注釈 */
+.term { border-bottom: 1px dotted var(--accent); cursor: help; }
+.term:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.term-pop { position: absolute; z-index: 20; max-width: 320px; background: #1f2430;
+            color: #fff; font-size: 13.5px; line-height: 1.7; padding: 12px 15px;
+            border-radius: 8px; box-shadow: 0 6px 22px rgba(0,0,0,.25); }
+.term-pop b { display: block; font-size: 12px; color: #9fc0ff; margin-bottom: 4px; }
+
+/* やさしい説明 */
+.easy { display: none; background: #fffbe9; border-radius: 6px; padding: 13px 16px;
+        margin: 0 0 14px; font-size: 15.5px; line-height: 1.8; }
+.easy-tag { display: block; font-size: 11.5px; letter-spacing: .1em; font-weight: 700;
+            color: #9a7b12; margin-bottom: 5px; }
+body.easy-on .easy { display: block; }
+body.easy-on .term { background: #fffbe9; }
 
 /* 項目 */
 .item { border-top: 1px solid var(--line); padding: 28px 0 4px; }
@@ -164,6 +184,71 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 
 def esc(s):
     return html.escape(s, quote=False)
+
+
+def load_glossary():
+    """glossary.md を読んで [(表記, 説明)] を返す。長い表記から先にマッチさせる。"""
+    if not GLOSSARY.exists():
+        return []
+    terms = []
+    for line in GLOSSARY.read_text(encoding="utf-8").split("\n"):
+        m = re.match(r"^-\s+(.+?):\s+(.+)$", line.strip())
+        if not m:
+            continue
+        desc = m.group(2).strip()
+        for alias in m.group(1).split("|"):
+            alias = alias.strip()
+            if alias:
+                terms.append((alias, desc))
+    terms.sort(key=lambda t: len(t[0]), reverse=True)
+    return terms
+
+
+SKIP_TAGS = ("code", "pre", "a", "summary", "h1", "h2", "button")
+
+
+def annotate(body, terms):
+    """本文中の用語に、クリックで説明が開く注釈を付ける。
+
+    タグの内側、code / pre / a / 見出し の中には手を出さない。
+    同じ語は最初の1回だけ注釈する（うるさくならないように）。
+    """
+    if not terms:
+        return body
+
+    parts = re.split(r"(<[^>]+>)", body)
+    depth = 0
+    used = set()
+    out = []
+
+    for part in parts:
+        if part.startswith("<"):
+            tag = re.match(r"</?\s*([a-zA-Z0-9]+)", part)
+            name = tag.group(1).lower() if tag else ""
+            if name in SKIP_TAGS:
+                if part.startswith("</"):
+                    depth = max(0, depth - 1)
+                elif not part.rstrip().endswith("/>"):
+                    depth += 1
+            out.append(part)
+            continue
+
+        if depth > 0 or not part.strip():
+            out.append(part)
+            continue
+
+        seg = part
+        for alias, desc in terms:
+            if alias in used or alias not in seg:
+                continue
+            idx = seg.find(alias)
+            chip = (f'<span class="term" tabindex="0" role="button" '
+                    f'data-d="{html.escape(desc, quote=True)}">{alias}</span>')
+            seg = seg[:idx] + chip + seg[idx + len(alias):]
+            used.add(alias)
+        out.append(seg)
+
+    return "".join(out)
 
 
 def inline(text):
@@ -352,15 +437,29 @@ def parse(md):
 
 
 def split_item(lines):
-    """項目本文を「要約（最初の段落）」と「詳細（残り）」に分ける。"""
+    """項目本文を「要約 / やさしい説明 / 詳細」に分ける。
+
+    最初の段落 = 要約（常に表示）
+    `やさしく:` で始まる行 = 非エンジニア向けの言い換え（トグルで表示）
+    それ以降 = 詳細（折りたたみの中）
+    """
+    easy = ""
+    rest = []
+    for ln in lines:
+        m = re.match(r"^\s*やさしく[:：]\s*(.+)$", ln)
+        if m and not easy:
+            easy = m.group(1).strip()
+        else:
+            rest.append(ln)
+
     i = 0
-    while i < len(lines) and not lines[i].strip():
+    while i < len(rest) and not rest[i].strip():
         i += 1
     summary = []
-    while i < len(lines) and lines[i].strip():
-        summary.append(lines[i].strip())
+    while i < len(rest) and rest[i].strip():
+        summary.append(rest[i].strip())
         i += 1
-    return " ".join(summary), lines[i:]
+    return " ".join(summary), easy, rest[i:]
 
 
 def headline(h1, raw, date_str):
@@ -417,19 +516,25 @@ def build_body(items, tail, date_str):
         '<nav class="toc">',
         '  <div class="toc-head">',
         f'    <span class="toc-title">目次 — {len(items)}件</span>',
-        '    <button class="btn" id="toggle-all" type="button">すべて開く</button>',
+        '    <span class="ctrl">',
+        '      <button class="btn" id="easy-mode" type="button">やさしく表示</button>',
+        '      <button class="btn" id="toggle-all" type="button">すべて開く</button>',
+        "    </span>",
         "  </div>",
         f"  <ol>\n{toc}\n  </ol>",
+        '  <p class="toc-note">用語の点線をタップすると説明が出ます。</p>',
         "</nav>",
     ]
 
     for n, it in enumerate(items, 1):
-        summary, detail_lines = split_item(it["lines"])
+        summary, easy, detail_lines = split_item(it["lines"])
         detail = render(detail_lines).strip()
         blocks.append('<section class="item">')
         blocks.append(f'  <h2 id="i{n}"><span class="num">{n:02d}</span>{inline(it["title"])}</h2>')
         if summary:
             blocks.append(f'  <p class="sum">{inline(summary)}</p>')
+        if easy:
+            blocks.append(f'  <p class="easy"><span class="easy-tag">かんたんに言うと</span>{inline(easy)}</p>')
         if detail:
             blocks.append("  <details>")
             blocks.append("    <summary>詳しく読む</summary>")
@@ -480,7 +585,7 @@ def page(title, date_str, lead_lines, items, tail, prev_link, next_link, desc):
   <div class="dateline">{y}年{mth}月{d}日（{wd}）</div>
 {img}
 {lead}
-{build_body(items, tail, date_str)}
+{annotate(build_body(items, tail, date_str), load_glossary())}
   <footer>
     判断軸は「明日から自分の業務に転用できるか」の一点。<br>
     収集方針は <code>config.md</code> に定義。書き換えれば翌朝から反映されます。
@@ -490,14 +595,26 @@ def page(title, date_str, lead_lines, items, tail, prev_link, next_link, desc):
 </div>
 <script>
 (function () {{
-  var btn = document.getElementById('toggle-all');
-  if (!btn) return;
-  btn.addEventListener('click', function () {{
-    var ds = document.querySelectorAll('details');
-    var open = btn.textContent.indexOf('開く') >= 0;
-    ds.forEach(function (d) {{ d.open = open; }});
-    btn.textContent = open ? 'すべて閉じる' : 'すべて開く';
+  var all = document.getElementById('toggle-all');
+  if (all) all.addEventListener('click', function () {{
+    var open = all.textContent.indexOf('開く') >= 0;
+    document.querySelectorAll('details').forEach(function (d) {{ d.open = open; }});
+    all.textContent = open ? 'すべて閉じる' : 'すべて開く';
   }});
+
+  var easy = document.getElementById('easy-mode');
+  if (easy) {{
+    if (localStorage.getItem('ai-radar-easy') === '1') {{
+      document.body.classList.add('easy-on');
+      easy.classList.add('on');
+    }}
+    easy.addEventListener('click', function () {{
+      var on = document.body.classList.toggle('easy-on');
+      easy.classList.toggle('on', on);
+      try {{ localStorage.setItem('ai-radar-easy', on ? '1' : '0'); }} catch (e) {{}}
+    }});
+  }}
+
   document.querySelectorAll('.toc a').forEach(function (a) {{
     a.addEventListener('click', function () {{
       var sec = document.querySelector(a.getAttribute('href'));
@@ -506,6 +623,30 @@ def page(title, date_str, lead_lines, items, tail, prev_link, next_link, desc):
       if (d) d.open = true;
     }});
   }});
+
+  var pop = null;
+  function close() {{ if (pop) {{ pop.remove(); pop = null; }} }}
+  function show(el) {{
+    close();
+    pop = document.createElement('div');
+    pop.className = 'term-pop';
+    pop.innerHTML = '<b>' + el.textContent + '</b>' + el.getAttribute('data-d');
+    document.body.appendChild(pop);
+    var r = el.getBoundingClientRect();
+    var w = Math.min(320, window.innerWidth - 24);
+    pop.style.width = w + 'px';
+    var left = Math.min(r.left + window.scrollX, window.innerWidth - w - 12);
+    pop.style.left = Math.max(12, left) + 'px';
+    pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+  }}
+  document.querySelectorAll('.term').forEach(function (el) {{
+    el.addEventListener('click', function (e) {{ e.stopPropagation(); show(el); }});
+    el.addEventListener('keydown', function (e) {{
+      if (e.key === 'Enter' || e.key === ' ') {{ e.preventDefault(); show(el); }}
+    }});
+  }});
+  document.addEventListener('click', close);
+  window.addEventListener('scroll', close, {{ passive: true }});
 }})();
 </script>
 </body>

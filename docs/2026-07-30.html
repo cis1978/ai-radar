@@ -61,6 +61,25 @@ h1 { font-size: 33px; line-height: 1.45; margin: 0 0 18px; font-weight: 800;
        border: 1px solid var(--line); border-radius: 999px; padding: 3px 13px;
        cursor: pointer; white-space: nowrap; }
 .btn:hover { color: var(--accent); border-color: var(--accent); }
+.btn.on { color: #fff; background: var(--accent); border-color: var(--accent); }
+.ctrl { display: flex; gap: 8px; flex: none; }
+.toc-note { margin: 14px 0 0; font-size: 12.5px; color: var(--sub); }
+
+/* 用語注釈 */
+.term { border-bottom: 1px dotted var(--accent); cursor: help; }
+.term:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.term-pop { position: absolute; z-index: 20; max-width: 320px; background: #1f2430;
+            color: #fff; font-size: 13.5px; line-height: 1.7; padding: 12px 15px;
+            border-radius: 8px; box-shadow: 0 6px 22px rgba(0,0,0,.25); }
+.term-pop b { display: block; font-size: 12px; color: #9fc0ff; margin-bottom: 4px; }
+
+/* やさしい説明 */
+.easy { display: none; background: #fffbe9; border-radius: 6px; padding: 13px 16px;
+        margin: 0 0 14px; font-size: 15.5px; line-height: 1.8; }
+.easy-tag { display: block; font-size: 11.5px; letter-spacing: .1em; font-weight: 700;
+            color: #9a7b12; margin-bottom: 5px; }
+body.easy-on .easy { display: block; }
+body.easy-on .term { background: #fffbe9; }
 
 /* 項目 */
 .item { border-top: 1px solid var(--line); padding: 28px 0 4px; }
@@ -152,7 +171,10 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 <nav class="toc">
   <div class="toc-head">
     <span class="toc-title">目次 — 5件</span>
-    <button class="btn" id="toggle-all" type="button">すべて開く</button>
+    <span class="ctrl">
+      <button class="btn" id="easy-mode" type="button">やさしく表示</button>
+      <button class="btn" id="toggle-all" type="button">すべて開く</button>
+    </span>
   </div>
   <ol>
     <li><a href="#i1">数字：3ヶ月で 316 → 457 PR</a></li>
@@ -161,10 +183,11 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
     <li><a href="#i4">モデルとスクリプトの分担線</a></li>
     <li><a href="#i5">examples の検証を「終了コード」で済ませない</a></li>
   </ol>
+  <p class="toc-note">用語の点線をタップすると説明が出ます。</p>
 </nav>
 <section class="item">
   <h2 id="i1"><span class="num">01</span>数字：3ヶ月で 316 → 457 PR</h2>
-  <p class="sum">OpenAI Agents SDK の Python / TypeScript 2リポジトリでの実測。</p>
+  <p class="sum">OpenAI Agents SDK の Python / TypeScript 2<span class="term" tabindex="0" role="button" data-d="プログラムのソースコードを保管する場所">リポジトリ</span>での実測。</p>
   <details>
     <summary>詳しく読む</summary>
     <div class="detail"><table><thead><tr><th>期間</th><th>Python</th><th>TypeScript</th><th>合計</th></tr></thead><tbody><tr><td>2025-09-01 〜 11-30</td><td>182</td><td>134</td><td><strong>316</strong></td></tr><tr><td>2025-12-01 〜 2026-02-28</td><td>226</td><td>231</td><td><strong>457</strong></td></tr></tbody></table>
@@ -172,11 +195,11 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 <p>構成は驚くほど単純で、4つだけ。</p>
 <ul>
 <li>リポジトリのポリシーを <code>AGENTS.md</code> に書く</li>
-<li>repo-local スキルを <code>.agents/skills/</code> に置く</li>
+<li><span class="term" tabindex="0" role="button" data-d="プログラムのソースコードを保管する場所">repo</span>-local <span class="term" tabindex="0" role="button" data-d="よく使う作業手順をまとめて名前を付けたもの。毎回説明し直さずに呼び出せる">スキル</span>を <code>.agents/skills/</code> に置く</li>
 <li>スキル内に任意で <code>scripts/</code> と <code>references/</code></li>
-<li>同じ手順をCIでも回すなら Codex GitHub Action</li>
+<li>同じ手順をCIでも回すなら <span class="term" tabindex="0" role="button" data-d="OpenAI のコーディング支援ツール">Codex</span> GitHub Action</li>
 </ul>
-<div class="idea"><div class="idea-title">転用アイデア</div><p>「AIを入れたら速くなった」ではなく<strong>「AIに渡す手順書を整備したら速くなった」</strong>という話。前号の SKILL.md と完全に同じ構造で、これで3社目。手順の文書化は、もう特定製品の話ではない。</p></div>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>「AIを入れたら速くなった」ではなく<strong>「AIに渡す手順書を整備したら速くなった」</strong>という話。前号の <span class="term" tabindex="0" role="button" data-d="業務手順を書いたテキストファイル。AIに渡すと、その手順どおりに作業してくれる。いわば作業マニュアル">SKILL.md</span> と完全に同じ構造で、これで3社目。手順の文書化は、もう特定製品の話ではない。</p></div>
 <p class="source">出典: <a href="https://developers.openai.com/blog/skills-agents-sdk">Using skills to accelerate OSS maintenance（OpenAI, 2026-03-09）</a></p></div>
   </details>
 </section>
@@ -195,14 +218,14 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 - OpenAI API / プラットフォーム関連の作業では $openai-knowledge
 - まとまった作業が完了しレビュー可能になったら $pr-draft-summary</code></pre>
 <p>重要なのは <code>$code-change-verification</code> のルールの立て方。「常に長い検証を回せ」ではなく、<strong>「ランタイムコード・テスト・examples・ビルド挙動が変わったときに回し、通るまで完了扱いにしない」</strong>。条件付きなのでドキュメントだけの変更は軽いまま、SDKの変更は必ず標準手順を通る。</p>
-<p><code>AGENTS.md</code> にはスキルのトリガーだけでなく、公開APIの互換性ルール（コンストラクタ引数の位置の意味を保つ、新しい任意引数は末尾に足す）も一緒に書かれている。<strong>リリースを壊しうるルールと、スキルのトリガーを同じ場所に置く</strong>という考え方。</p>
+<p><code>AGENTS.md</code> にはスキルのトリガーだけでなく、公開<span class="term" tabindex="0" role="button" data-d="ソフト同士がデータをやり取りするための窓口">API</span>の互換性ルール（コンストラクタ引数の位置の意味を保つ、新しい任意引数は末尾に足す）も一緒に書かれている。<strong>リリースを壊しうるルールと、スキルのトリガーを同じ場所に置く</strong>という考え方。</p>
 <div class="idea"><div class="idea-title">転用アイデア</div><p><code>config.md</code> に近いことを既にやっているが、<strong>「いつ呼ぶか」を条件文で書く</strong>という発想は入っていない。「〜のときは必ず〜する」の形にすると強制力が変わる。</p></div>
 <p class="source">出典: <a href="https://developers.openai.com/blog/skills-agents-sdk">Using skills to accelerate OSS maintenance</a> / <a href="https://developers.openai.com/codex/guides/agents-md">AGENTS.md ガイド</a></p></div>
   </details>
 </section>
 <section class="item">
   <h2 id="i3"><span class="num">03</span><code>description</code> はルーティング契約であって、飾りではない</h2>
-  <p class="sum">Agent Skills 仕様では <code>SKILL.md</code> frontmatter の必須項目は <code>name</code> と <code>description</code> の2つ。<strong>起動時に全スキルについて読み込まれるのはこの2つだけ</strong>で、本体や <code>scripts/</code> <code>references/</code> は選択後に初めて読まれる（progressive disclosure）。</p>
+  <p class="sum">Agent <span class="term" tabindex="0" role="button" data-d="よく使う作業手順をまとめて名前を付けたもの。毎回説明し直さずに呼び出せる">Skills</span> 仕様では <code>SKILL.md</code> <span class="term" tabindex="0" role="button" data-d="ファイルの先頭に書く設定部分。名前や説明などを記載する">frontmatter</span> の必須項目は <code>name</code> と <code>description</code> の2つ。<strong>起動時に全スキルについて読み込まれるのはこの2つだけ</strong>で、本体や <code>scripts/</code> <code>references/</code> は選択後に初めて読まれる（progressive disclosure）。</p>
   <details>
     <summary>詳しく読む</summary>
     <div class="detail"><p>つまり <code>description</code> が実質的なルーティング信号になる。記事の実例が分かりやすい。</p>
@@ -240,11 +263,11 @@ runtime code, tests, or build/test behavior in the OpenAI Agents JS monorepo.</c
     <div class="detail"><p>手順は、examples のソースとコメントを読む → 意図した流れを推測する → 対応するログを開く → 意図と実際の出力を突き合わせる。これを<strong>成功した例も含めて全件</strong>やる。</p>
 <p>理由は明快で、実APIを叩いたりツールを使ったり構造化出力を返す例では、<strong>終了コードが0でも正しいとは限らない</strong>から。固定のアサーションを書くより、出力を記録してからソースと突き合わせるほうが正確で柔軟だという判断。</p>
 <p>JS側にはもう一層あり、Verdaccio のローカルレジストリに publish して Node.js / Bun / Deno / Cloudflare Workers / Vite React で install して動くかまで確認している。</p>
-<div class="idea"><div class="idea-title">転用アイデア</div><p><strong>「機械が実行して証拠を残し、モデルが証拠を評価する」</strong>という2段構え。テストに限らず、チェック業務全般に効く型。目視確認でやっている作業があれば、証拠を残す部分だけ自動化してAIに突き合わせさせられる。</p></div>
+<div class="idea"><div class="idea-title">転用アイデア</div><p><strong>「機械が実行して証拠を残し、モデルが証拠を<span class="term" tabindex="0" role="button" data-d="AIの出力が正しいかを機械的に採点する仕組み。テストのようなもの">評価</span>する」</strong>という2段構え。テストに限らず、チェック業務全般に効く型。目視確認でやっている作業があれば、証拠を残す部分だけ自動化してAIに突き合わせさせられる。</p></div>
 <p class="source">出典: <a href="https://developers.openai.com/blog/skills-agents-sdk">Using skills to accelerate OSS maintenance</a></p></div>
   </details>
 </section>
-<div class="box"><div class="box-title">今日の空振り</div><p>Anthropic の evals / context engineering / managed agents 系の記事群は今回も未読。エージェント設計の話が3社で揃ってきたので、次はここを読んで横断で整理したい。</p>
+<div class="box"><div class="box-title">今日の空振り</div><p>Anthropic の <span class="term" tabindex="0" role="button" data-d="AIの出力が正しいかを機械的に採点する仕組み。テストのようなもの">eval</span>s / context engineering / managed agents 系の記事群は今回も未読。<span class="term" tabindex="0" role="button" data-d="指示を受けて、自分で手順を考えて複数の作業を実行するAI。「聞いたら答える」ではなく「頼んだらやっておいてくれる」タイプ">エージェント</span>設計の話が3社で揃ってきたので、次はここを読んで横断で整理したい。</p>
 <p><em>この号は日次運用の取りこぼしを埋めるために後から作成。元記事の公開は 2026-03-09。</em></p></div>
   <footer>
     判断軸は「明日から自分の業務に転用できるか」の一点。<br>
@@ -255,14 +278,26 @@ runtime code, tests, or build/test behavior in the OpenAI Agents JS monorepo.</c
 </div>
 <script>
 (function () {
-  var btn = document.getElementById('toggle-all');
-  if (!btn) return;
-  btn.addEventListener('click', function () {
-    var ds = document.querySelectorAll('details');
-    var open = btn.textContent.indexOf('開く') >= 0;
-    ds.forEach(function (d) { d.open = open; });
-    btn.textContent = open ? 'すべて閉じる' : 'すべて開く';
+  var all = document.getElementById('toggle-all');
+  if (all) all.addEventListener('click', function () {
+    var open = all.textContent.indexOf('開く') >= 0;
+    document.querySelectorAll('details').forEach(function (d) { d.open = open; });
+    all.textContent = open ? 'すべて閉じる' : 'すべて開く';
   });
+
+  var easy = document.getElementById('easy-mode');
+  if (easy) {
+    if (localStorage.getItem('ai-radar-easy') === '1') {
+      document.body.classList.add('easy-on');
+      easy.classList.add('on');
+    }
+    easy.addEventListener('click', function () {
+      var on = document.body.classList.toggle('easy-on');
+      easy.classList.toggle('on', on);
+      try { localStorage.setItem('ai-radar-easy', on ? '1' : '0'); } catch (e) {}
+    });
+  }
+
   document.querySelectorAll('.toc a').forEach(function (a) {
     a.addEventListener('click', function () {
       var sec = document.querySelector(a.getAttribute('href'));
@@ -271,6 +306,30 @@ runtime code, tests, or build/test behavior in the OpenAI Agents JS monorepo.</c
       if (d) d.open = true;
     });
   });
+
+  var pop = null;
+  function close() { if (pop) { pop.remove(); pop = null; } }
+  function show(el) {
+    close();
+    pop = document.createElement('div');
+    pop.className = 'term-pop';
+    pop.innerHTML = '<b>' + el.textContent + '</b>' + el.getAttribute('data-d');
+    document.body.appendChild(pop);
+    var r = el.getBoundingClientRect();
+    var w = Math.min(320, window.innerWidth - 24);
+    pop.style.width = w + 'px';
+    var left = Math.min(r.left + window.scrollX, window.innerWidth - w - 12);
+    pop.style.left = Math.max(12, left) + 'px';
+    pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+  }
+  document.querySelectorAll('.term').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.stopPropagation(); show(el); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(el); }
+    });
+  });
+  document.addEventListener('click', close);
+  window.addEventListener('scroll', close, { passive: true });
 })();
 </script>
 </body>
