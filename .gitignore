@@ -1,0 +1,10 @@
+# 取得結果のキャッシュ（毎回作り直されるので履歴に残す意味がない）
+feeds_latest.json
+
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+.venv/
