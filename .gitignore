@@ -1,6 +1,10 @@
 # 取得結果のキャッシュ（毎回作り直されるので履歴に残す意味がない）
 feeds_latest.json
 
+# アクセストークンの受け渡し用（絶対にコミットしない）
+.token
+*.token
+
 # macOS
 .DS_Store
 
