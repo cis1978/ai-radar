@@ -77,11 +77,15 @@ def base_canvas(title, subtitle, date_str):
 
     # スマホでは1600px幅が実質350px程度まで縮む（約0.22倍）。
     # 12px相当で読ませるには元が55pt前後必要なので、全体的に大きめに取っている。
-    ax.text(90, H - 100, title, fontproperties=BOLD, fontsize=54,
+    title_fs, sub_fs = 54, 36
+    title_top = H - 95
+
+    ax.text(90, title_top, title, fontproperties=BOLD, fontsize=title_fs,
             color=INK, va="top", ha="left")
     if subtitle:
-        ax.text(90, H - 182, subtitle, fontproperties=REG, fontsize=36,
-                color=SUB, va="top", ha="left")
+        # タイトルの下端から余白を空けて置く。タイトルを大きくしたら自動で下がる
+        ax.text(90, title_top - title_fs * 1.55, subtitle, fontproperties=REG,
+                fontsize=sub_fs, color=SUB, va="top", ha="left")
     ax.text(90, 50, f"AI Radar｜{date_str}", fontproperties=REG, fontsize=26,
             color=SUB, va="center", ha="left")
     return fig, ax
@@ -160,7 +164,7 @@ def draw_map(ax, groups):
     # タイトルと補足の行間。グループ間の余白がこれより広くなるよう描画領域を取る
     gap = int(name_fs * 1.35)
 
-    top, bottom = H - 285, 105
+    top, bottom = H - 320, 105
     step = (top - bottom) / max(len(groups), 1)
 
     for i, g in enumerate(groups):
