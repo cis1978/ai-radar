@@ -13,109 +13,127 @@
 <meta name="twitter:card" content="summary">
 <style>
 :root {
-  --ink: #14161a;
-  --sub: #6b7280;
-  --line: #e5e7eb;
-  --accent: #0b5cff;
-  --bg: #ffffff;
-  --box: #f6f8fa;
-  --mark: #fff3b8;
+  --ink: #14161a; --sub: #6b7280; --line: #e5e7eb;
+  --accent: #2f6fed; --bg: #fff; --box: #f6f8fa; --mark: #fff3b8;
 }
 * { box-sizing: border-box; }
 body {
-  margin: 0;
-  background: #f0f2f5;
-  color: var(--ink);
+  margin: 0; background: #f0f2f5; color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
                "Noto Sans JP", "Yu Gothic", sans-serif;
-  line-height: 1.9;
-  font-size: 17px;
-  -webkit-font-smoothing: antialiased;
+  line-height: 1.85; font-size: 17px; -webkit-font-smoothing: antialiased;
 }
-.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 100px; }
-article { background: var(--bg); padding: 56px 56px 72px; margin-top: 32px;
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 100px; }
+article { background: var(--bg); padding: 52px 52px 64px; margin-top: 28px;
           border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
 
 .kicker { font-size: 12px; letter-spacing: .18em; color: var(--accent);
-          font-weight: 700; margin-bottom: 18px; }
-h1 { font-size: 34px; line-height: 1.45; margin: 0 0 20px;
-     letter-spacing: -.01em; font-weight: 800; }
-.dateline { font-size: 13px; color: var(--sub); padding-bottom: 28px;
-            border-bottom: 1px solid var(--line); margin-bottom: 36px; }
-.lead { font-size: 18.5px; line-height: 1.95; font-weight: 600;
-        margin: 0 0 36px; }
-.card-img { width: 100%; height: auto; display: block; margin: 0 0 36px;
+          font-weight: 700; margin-bottom: 16px; }
+h1 { font-size: 33px; line-height: 1.45; margin: 0 0 18px; font-weight: 800;
+     letter-spacing: -.01em; }
+.dateline { font-size: 13px; color: var(--sub); padding-bottom: 24px;
+            border-bottom: 1px solid var(--line); margin-bottom: 30px; }
+.card-img { width: 100%; height: auto; display: block; margin: 0 0 30px;
             border: 1px solid var(--line); border-radius: 4px; }
+.lead { font-size: 18px; line-height: 1.9; font-weight: 600; margin: 0 0 34px; }
 
-h2 { font-size: 23px; line-height: 1.5; margin: 60px 0 22px;
-     padding-top: 4px; font-weight: 800; letter-spacing: -.01em; }
-h2 .num { display: block; font-size: 12px; color: var(--accent);
-          letter-spacing: .16em; margin-bottom: 10px; font-weight: 700; }
+/* 目次 */
+.toc { background: var(--box); border-radius: 8px; padding: 22px 26px;
+       margin: 0 0 40px; }
+.toc-head { display: flex; align-items: baseline; justify-content: space-between;
+            gap: 12px; margin-bottom: 12px; }
+.toc-title { font-size: 12px; letter-spacing: .14em; font-weight: 700;
+             color: var(--accent); }
+.toc ol { margin: 0; padding-left: 0; list-style: none; counter-reset: t; }
+.toc li { counter-increment: t; margin-bottom: 7px; font-size: 15.5px;
+          line-height: 1.6; display: flex; gap: 10px; }
+.toc li::before { content: counter(t, decimal-leading-zero);
+                  color: var(--accent); font-weight: 700; font-size: 12.5px;
+                  flex: none; padding-top: 3px; font-variant-numeric: tabular-nums; }
+.toc a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
+.toc a:hover { border-bottom-color: var(--accent); color: var(--accent); }
 
-p { margin: 0 0 22px; }
+.btn { font: inherit; font-size: 12.5px; color: var(--sub); background: none;
+       border: 1px solid var(--line); border-radius: 999px; padding: 3px 13px;
+       cursor: pointer; white-space: nowrap; }
+.btn:hover { color: var(--accent); border-color: var(--accent); }
+
+/* 項目 */
+.item { border-top: 1px solid var(--line); padding: 28px 0 4px; }
+.item h2 { font-size: 21px; line-height: 1.5; margin: 0 0 12px; font-weight: 800;
+           letter-spacing: -.01em; scroll-margin-top: 16px; }
+.item h2 .num { color: var(--accent); font-size: 12.5px; letter-spacing: .12em;
+                display: block; margin-bottom: 8px;
+                font-variant-numeric: tabular-nums; }
+.sum { margin: 0 0 14px; color: #33373d; }
+
+details { margin: 0 0 20px; }
+details > summary { list-style: none; cursor: pointer; display: inline-flex;
+  align-items: center; gap: 6px; font-size: 13.5px; color: var(--accent);
+  font-weight: 700; padding: 4px 0; user-select: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::after { content: "▾"; font-size: 11px; transition: transform .15s; }
+details[open] > summary::after { transform: rotate(180deg); }
+details > summary:hover { text-decoration: underline; }
+.detail { padding: 14px 0 4px; border-left: 2px solid var(--line);
+          padding-left: 20px; margin-top: 8px; }
+
+p { margin: 0 0 18px; }
+.detail p:last-child { margin-bottom: 0; }
 strong { font-weight: 700; background: linear-gradient(transparent 62%, var(--mark) 62%); }
-a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(11,92,255,.28); }
+a { color: var(--accent); text-decoration: none;
+    border-bottom: 1px solid rgba(47,111,237,.3); }
 a:hover { border-bottom-color: var(--accent); }
 code { background: var(--box); padding: 2px 6px; border-radius: 3px;
        font-size: .88em; font-family: "SF Mono", Menlo, Consolas, monospace; }
-pre { background: var(--box); padding: 20px 22px; border-radius: 6px;
-      overflow-x: auto; margin: 28px 0; line-height: 1.75; }
-pre code { background: none; padding: 0; font-size: 14px; white-space: pre; }
-
-blockquote { margin: 32px 0; padding: 4px 0 4px 24px;
-             border-left: 3px solid var(--ink); font-size: 19px;
-             line-height: 1.85; font-weight: 600; }
+pre { background: var(--box); padding: 18px 20px; border-radius: 6px;
+      overflow-x: auto; margin: 22px 0; line-height: 1.7; }
+pre code { background: none; padding: 0; font-size: 13.5px; white-space: pre; }
+blockquote { margin: 22px 0; padding: 2px 0 2px 20px; border-left: 3px solid var(--ink);
+             font-size: 17.5px; font-weight: 600; }
 blockquote p { margin: 0; }
-
-.box { background: var(--box); border-radius: 6px; padding: 26px 30px;
-       margin: 36px 0; font-size: 15.5px; line-height: 1.85; }
-.box .box-title { font-size: 12px; letter-spacing: .14em; font-weight: 700;
-                  color: var(--accent); margin-bottom: 14px; }
-.box ol, .box ul { margin: 0; padding-left: 20px; }
-.box li { margin-bottom: 8px; }
-.box p:last-child { margin-bottom: 0; }
-
-.idea { border-left: 3px solid var(--accent); background: #f5f8ff;
-        padding: 20px 24px; margin: 28px 0; border-radius: 0 4px 4px 0; }
-.idea .idea-title { font-size: 12px; letter-spacing: .12em; font-weight: 700;
-                    color: var(--accent); margin-bottom: 10px; }
-.idea p { margin: 0; font-size: 16px; }
-
-ul, ol { margin: 0 0 22px; padding-left: 22px; }
-li { margin-bottom: 10px; }
-
-table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 15px; }
-th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; }
-th { background: var(--box); font-weight: 700; font-size: 13px; color: var(--sub); }
+ul, ol { margin: 0 0 18px; padding-left: 22px; }
+li { margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: 14.5px; }
+th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: var(--box); font-weight: 700; font-size: 12.5px; color: var(--sub); }
 td strong { background: none; color: var(--accent); }
 
-hr { border: 0; border-top: 1px solid var(--line); margin: 48px 0; }
-
-.source { font-size: 13px; color: var(--sub); margin: -6px 0 0; }
+.idea { border-left: 3px solid var(--accent); background: #f5f8ff;
+        padding: 16px 20px; margin: 20px 0; border-radius: 0 4px 4px 0; }
+.idea-title { font-size: 11.5px; letter-spacing: .12em; font-weight: 700;
+              color: var(--accent); margin-bottom: 8px; }
+.idea p { margin: 0; font-size: 15.5px; }
+.source { font-size: 13px; color: var(--sub); margin: 0 0 6px; }
 .source a { color: var(--sub); border-bottom-color: var(--line); }
+.box { background: var(--box); border-radius: 8px; padding: 22px 26px; margin: 34px 0 0;
+       font-size: 15px; }
+.box-title { font-size: 11.5px; letter-spacing: .14em; font-weight: 700;
+             color: var(--accent); margin-bottom: 10px; }
+.box p:last-child { margin-bottom: 0; }
 
-footer { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
+footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
          font-size: 13px; color: var(--sub); }
-.nav { margin: 28px 0 0; font-size: 14px; }
+.nav { margin-top: 22px; font-size: 14px; }
 
-/* 一覧ページ */
-.index-head { padding: 48px 0 8px; }
-.index-head h1 { font-size: 28px; }
+.index-head { padding: 44px 0 6px; }
+.index-head h1 { font-size: 27px; }
 .index-head p { color: var(--sub); font-size: 15px; }
-.card { background: #fff; padding: 24px 28px; border-radius: 4px;
-        margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.06);
-        display: block; border: 0; color: inherit; }
+.card { background: #fff; padding: 22px 26px; border-radius: 4px; margin-bottom: 11px;
+        box-shadow: 0 1px 2px rgba(0,0,0,.06); display: block; border: 0; color: inherit; }
 .card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); }
 .card .d { font-size: 12px; color: var(--accent); font-weight: 700;
-           letter-spacing: .1em; margin-bottom: 8px; }
+           letter-spacing: .1em; margin-bottom: 6px; }
 .card .t { font-size: 18px; font-weight: 700; line-height: 1.5; }
 
 @media (max-width: 640px) {
   body { font-size: 16px; }
-  article { padding: 32px 22px 48px; }
-  h1 { font-size: 26px; }
-  h2 { font-size: 20px; margin-top: 44px; }
+  article { padding: 28px 20px 44px; }
+  h1 { font-size: 25px; }
+  .item h2 { font-size: 19px; }
+  .toc { padding: 18px 20px; }
   .wrap { padding: 0 10px 60px; }
+  .detail { padding-left: 14px; }
 }
 </style>
 </head>
@@ -126,36 +144,68 @@ footer { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
   <h1>「AIに聞く」から「AIに手順を渡す」へ</h1>
   <div class="dateline">2026年8月2日（日）</div>
 
-<p class="lead">2026年の潮流は「AIに聞く」から「AIに手順を渡して実行させる」へ移った。<br>転用の起点は新しいモデルではなく、<strong>自分の業務手順を文書化すること</strong>にある。</p>
-<hr>
-<h2><span class="num">01</span>実務者の使い方は「会話」から「手順の再利用」へ移行した</h2>
-<p>Claude Code の実践論は 2026 年に入って構造が変わった。手作業でコンテキストを詰める段階は終わり、プランモード、並列探索、永続的なプロジェクトメモリ、長時間セッションの継続といった「型」が中心になっている。専門家が推す使い分けは明快で、<strong>絶対に守らせたいことは Hooks、業務知識は Skills、責務の切り分けは Subagents</strong> という三分割。ブレインストーミング、subagent 駆動、git worktrees、Research-Plan-Implement パターンなどが日常のワークフローとして定着している。</p>
-<div class="idea"><div class="idea-title">転用アイデア</div><p>自分の定型業務（週次レポート、議事録処理、請求書チェックなど）を1つ選び、手順を Markdown に書き出して「スキル」化する。次回から会話で説明し直す必要がなくなる。まずは説明が面倒な業務＝効果が大きい業務、と考えて選ぶとよい。</p></div>
-<p class="source">出典: <a href="https://medium.com/data-science-collective/effective-claude-code-workflows-in-2026-what-changed-and-what-works-now-c93ebc6f8f50">Effective Claude Code Workflows in 2026</a> / <a href="https://smartscope.blog/en/generative-ai/claude/claude-code-best-practices-advanced-2026/">Claude Code Advanced Best Practices（日本語）</a> / <a href="https://pasqualepillitteri.it/en/news/3235/claude-code-skills-daily-workflow-senior-developer-2026">6 Essential Skills for Senior Developer Workflow</a></p>
-<hr>
-<h2><span class="num">02</span>Slackbot が「AIエージェント」化し、ユーザー定義の Skills を持つようになった</h2>
-<p>Slack はネイティブの MCP サーバーを持ち、Slackbot から Jira・Notion・Google・DocuSign のライブデータを<strong>会話の中に直接引き込める</strong>ようになった。さらに重要なのは、<strong>繰り返し作業に対して自分で「Skills」を定義できる</strong>点（例：定例のアジェンダ作成）。過去の会話や決定を覚えるメモリ機能、音声ディクテーション、ワークスペースのデータからのチャート生成も入った。書き込み系アクションは手動確認が必須で、管理者がMCPのアクセス範囲を制御する設計。合わせて Today View（当日の予定・タスク・優先事項を1画面に集約、Business+/Enterprise から順次）と Focus Mode（全プラン提供）も追加。</p>
-<div class="idea"><div class="idea-title">転用アイデア</div><p>ここでも中心は Skills、つまり<strong>手順を書いて再利用する</strong>という第1項と同じ構造。自分が毎週 Slack で繰り返している作業（定例のアジェンダ、進捗の取りまとめ）を1つ Skill として定義する。Focus Mode は全プランで使えるので、今日から試せる。</p></div>
-<p class="source">出典: <a href="https://www.jotme.io/blog/slack-update">Slack Updates 2026: Slackbot AI &amp; Focus Mode</a> / <a href="https://aipicks.jp/mag/slack-ai-guide-2026">Slack AI完全ガイド 2026</a></p>
-<hr>
-<h2><span class="num">03</span>Notion AI にカスタムエージェントと話者ラベル付き議事録が入った</h2>
-<p>2026年6〜7月のアップデートで、AIミーティングノートが<strong>音声アップロードと話者ラベル</strong>に対応。加えてカスタムエージェントが iOS アプリでも使えるようになり、選択できるAIモデルも拡大した（GPT-5、Gemini、Claude など）。Slack や Google Drive との連携は標準機能。</p>
-<div class="idea"><div class="idea-title">転用アイデア</div><p>録音済みの会議音声をアップロードして、誰が何を言ったかまで含めた議事録を自動生成させる。「録音はしているが文字起こしまで手が回っていない」会議があるなら、そこが最短で効く。</p></div>
-<p class="source">出典: <a href="https://temp.co.jp/blog/notion-ai">Notion AIとは？できること・使い方・料金（2026年版）</a></p>
-<hr>
-<h2><span class="num">04</span>国内の定量成果：企業名と数字が揃った事例が出そろった</h2>
-<p>「導入しました」ではなく数字が出ている国内事例。</p>
-<table><thead><tr><th>企業</th><th>内容</th><th>成果</th></tr></thead><tbody><tr><td>東京海上日動</td><td>CTC・PKSHAとAI統合基盤を2026年3月稼働</td><td>応対時間<strong>最大30%削減</strong>（年間約58,000時間）、代理店向け最大10%（約32,000時間）</td></tr><tr><td>三菱UFJ銀行</td><td>金融専門用語を学習させ、コール振り分けを改善</td><td>PoC約4ヶ月 →2025年12月「発話ベースルーティング」本格提供</td></tr><tr><td>横浜銀行</td><td>モビルス「MOBI VOICE」で定型問い合わせ自動化</td><td><strong>月間67時間削減</strong>＋24時間対応</td></tr><tr><td>小林製薬</td><td>生成AIでFAQ自動生成・更新</td><td>作成工数<strong>75%削減</strong>、応答時間35%改善</td></tr><tr><td>ビックカメラ</td><td>通話後の記録業務とメール振り分けを自動化</td><td>記録業務時間<strong>約50%削減</strong></td></tr><tr><td>JR西日本カスタマーリレーション</td><td>ELYZA Brainで要約・メール作成</td><td><strong>34%削減</strong>（最大54%）</td></tr><tr><td>JAいるま野</td><td>生成AI支援</td><td>38名→4名体制、年間約2億円の人件費削減</td></tr></tbody></table>
+  <p class="lead">2026年の潮流は「AIに聞く」から「AIに手順を渡して実行させる」へ移った。<br>転用の起点は新しいモデルではなく、<strong>自分の業務手順を文書化すること</strong>にある。</p>
+<nav class="toc">
+  <div class="toc-head">
+    <span class="toc-title">目次 — 5件</span>
+    <button class="btn" id="toggle-all" type="button">すべて開く</button>
+  </div>
+  <ol>
+    <li><a href="#i1">実務者の使い方は「会話」から「手順の再利用」へ移行した</a></li>
+    <li><a href="#i2">Slackbot が「AIエージェント」化し、ユーザー定義の Skills を持つようになった</a></li>
+    <li><a href="#i3">Notion AI にカスタムエージェントと話者ラベル付き議事録が入った</a></li>
+    <li><a href="#i4">国内の定量成果：企業名と数字が揃った事例が出そろった</a></li>
+    <li><a href="#i5">現実の温度感：活用企業は3割台、詰まるのは技術ではなく運用</a></li>
+  </ol>
+</nav>
+<section class="item">
+  <h2 id="i1"><span class="num">01</span>実務者の使い方は「会話」から「手順の再利用」へ移行した</h2>
+  <p class="sum">Claude Code の実践論は 2026 年に入って構造が変わった。手作業でコンテキストを詰める段階は終わり、プランモード、並列探索、永続的なプロジェクトメモリ、長時間セッションの継続といった「型」が中心になっている。専門家が推す使い分けは明快で、<strong>絶対に守らせたいことは Hooks、業務知識は Skills、責務の切り分けは Subagents</strong> という三分割。ブレインストーミング、subagent 駆動、git worktrees、Research-Plan-Implement パターンなどが日常のワークフローとして定着している。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><div class="idea"><div class="idea-title">転用アイデア</div><p>自分の定型業務（週次レポート、議事録処理、請求書チェックなど）を1つ選び、手順を Markdown に書き出して「スキル」化する。次回から会話で説明し直す必要がなくなる。まずは説明が面倒な業務＝効果が大きい業務、と考えて選ぶとよい。</p></div>
+<p class="source">出典: <a href="https://medium.com/data-science-collective/effective-claude-code-workflows-in-2026-what-changed-and-what-works-now-c93ebc6f8f50">Effective Claude Code Workflows in 2026</a> / <a href="https://smartscope.blog/en/generative-ai/claude/claude-code-best-practices-advanced-2026/">Claude Code Advanced Best Practices（日本語）</a> / <a href="https://pasqualepillitteri.it/en/news/3235/claude-code-skills-daily-workflow-senior-developer-2026">6 Essential Skills for Senior Developer Workflow</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i2"><span class="num">02</span>Slackbot が「AIエージェント」化し、ユーザー定義の Skills を持つようになった</h2>
+  <p class="sum">Slack はネイティブの MCP サーバーを持ち、Slackbot から Jira・Notion・Google・DocuSign のライブデータを<strong>会話の中に直接引き込める</strong>ようになった。さらに重要なのは、<strong>繰り返し作業に対して自分で「Skills」を定義できる</strong>点（例：定例のアジェンダ作成）。過去の会話や決定を覚えるメモリ機能、音声ディクテーション、ワークスペースのデータからのチャート生成も入った。書き込み系アクションは手動確認が必須で、管理者がMCPのアクセス範囲を制御する設計。合わせて Today View（当日の予定・タスク・優先事項を1画面に集約、Business+/Enterprise から順次）と Focus Mode（全プラン提供）も追加。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><div class="idea"><div class="idea-title">転用アイデア</div><p>ここでも中心は Skills、つまり<strong>手順を書いて再利用する</strong>という第1項と同じ構造。自分が毎週 Slack で繰り返している作業（定例のアジェンダ、進捗の取りまとめ）を1つ Skill として定義する。Focus Mode は全プランで使えるので、今日から試せる。</p></div>
+<p class="source">出典: <a href="https://www.jotme.io/blog/slack-update">Slack Updates 2026: Slackbot AI &amp; Focus Mode</a> / <a href="https://aipicks.jp/mag/slack-ai-guide-2026">Slack AI完全ガイド 2026</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i3"><span class="num">03</span>Notion AI にカスタムエージェントと話者ラベル付き議事録が入った</h2>
+  <p class="sum">2026年6〜7月のアップデートで、AIミーティングノートが<strong>音声アップロードと話者ラベル</strong>に対応。加えてカスタムエージェントが iOS アプリでも使えるようになり、選択できるAIモデルも拡大した（GPT-5、Gemini、Claude など）。Slack や Google Drive との連携は標準機能。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><div class="idea"><div class="idea-title">転用アイデア</div><p>録音済みの会議音声をアップロードして、誰が何を言ったかまで含めた議事録を自動生成させる。「録音はしているが文字起こしまで手が回っていない」会議があるなら、そこが最短で効く。</p></div>
+<p class="source">出典: <a href="https://temp.co.jp/blog/notion-ai">Notion AIとは？できること・使い方・料金（2026年版）</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i4"><span class="num">04</span>国内の定量成果：企業名と数字が揃った事例が出そろった</h2>
+  <p class="sum">「導入しました」ではなく数字が出ている国内事例。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><table><thead><tr><th>企業</th><th>内容</th><th>成果</th></tr></thead><tbody><tr><td>東京海上日動</td><td>CTC・PKSHAとAI統合基盤を2026年3月稼働</td><td>応対時間<strong>最大30%削減</strong>（年間約58,000時間）、代理店向け最大10%（約32,000時間）</td></tr><tr><td>三菱UFJ銀行</td><td>金融専門用語を学習させ、コール振り分けを改善</td><td>PoC約4ヶ月 →2025年12月「発話ベースルーティング」本格提供</td></tr><tr><td>横浜銀行</td><td>モビルス「MOBI VOICE」で定型問い合わせ自動化</td><td><strong>月間67時間削減</strong>＋24時間対応</td></tr><tr><td>小林製薬</td><td>生成AIでFAQ自動生成・更新</td><td>作成工数<strong>75%削減</strong>、応答時間35%改善</td></tr><tr><td>ビックカメラ</td><td>通話後の記録業務とメール振り分けを自動化</td><td>記録業務時間<strong>約50%削減</strong></td></tr><tr><td>JR西日本カスタマーリレーション</td><td>ELYZA Brainで要約・メール作成</td><td><strong>34%削減</strong>（最大54%）</td></tr><tr><td>JAいるま野</td><td>生成AI支援</td><td>38名→4名体制、年間約2億円の人件費削減</td></tr></tbody></table>
 <div class="idea"><div class="idea-title">転用アイデア</div><p>共通するのは「大量・定型・言語」の3条件が揃った業務から入っている点。とくに小林製薬・ビックカメラ・JR西日本は、<strong>顧客対応そのものではなく「対応後の記録・要約・FAQ整備」</strong>を刈り取っていて、ここは個人の業務にもそのまま当てはまる。三菱UFJ銀行のように、全自動化を狙わず<strong>1点だけ</strong>から始めるのも再現性が高い。</p></div>
-<p class="source">出典: <a href="https://vottia.jp/ai-agent-contact-center-japan-cases-2026/">AI活用事例──国内導入20社超まとめ【2026年版】</a> / <a href="https://www.ctc-g.co.jp/company/release/20260304-02050.html">東京海上日動×CTC×PKSHA プレスリリース</a></p>
-<hr>
-<h2><span class="num">05</span>現実の温度感：活用企業は3割台、詰まるのは技術ではなく運用</h2>
-<p>帝国データバンクの2026年3月調査では、生成AIを業務活用している企業は<strong>全体の3割台</strong>。効果を実感している企業は多い一方、課題の上位は「情報の正確性」「専門人材・ノウハウ不足」「活用範囲が定まらない」「情報漏洩」「ルール整備」──<strong>いずれも技術ではなく運用の問題</strong>である。</p>
-<p>実際、20社超の事例を横断すると成功パターンは3つに収束する──<strong>スモールスタート／AIと人の役割を分けるハイブリッド設計／業務プロセスとナレッジの先行整理</strong>。逆に「全社一斉 × AI単独 × ナレッジ未整備」はPoC段階で頓挫しやすい。</p>
+<p class="source">出典: <a href="https://vottia.jp/ai-agent-contact-center-japan-cases-2026/">AI活用事例──国内導入20社超まとめ【2026年版】</a> / <a href="https://www.ctc-g.co.jp/company/release/20260304-02050.html">東京海上日動×CTC×PKSHA プレスリリース</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i5"><span class="num">05</span>現実の温度感：活用企業は3割台、詰まるのは技術ではなく運用</h2>
+  <p class="sum">帝国データバンクの2026年3月調査では、生成AIを業務活用している企業は<strong>全体の3割台</strong>。効果を実感している企業は多い一方、課題の上位は「情報の正確性」「専門人材・ノウハウ不足」「活用範囲が定まらない」「情報漏洩」「ルール整備」──<strong>いずれも技術ではなく運用の問題</strong>である。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>実際、20社超の事例を横断すると成功パターンは3つに収束する──<strong>スモールスタート／AIと人の役割を分けるハイブリッド設計／業務プロセスとナレッジの先行整理</strong>。逆に「全社一斉 × AI単独 × ナレッジ未整備」はPoC段階で頓挫しやすい。</p>
 <div class="idea"><div class="idea-title">転用アイデア</div><p>広げる前に「検証手順」と「入れてよい情報の線引き」を決めておく。A4一枚のルールを先に作るだけで上位課題の半分は潰せる。そして<strong>業務整理が先</strong>という原則は、第1項の「手順を書き出してスキル化する」とまったく同じことを言っている。今日やるべきは検索でも比較検討でもなく、自分の業務を1つ文書化することだ。</p></div>
 <p class="source">出典: <a href="https://www.tdb.co.jp/resource/files/assets/d4b8e8ee91d1489c9a2abd23a4bb5219/61afb5417b4e4abf83e66684660cb4a8/20260514_%E7%94%9F%E6%88%90AI%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E4%BC%81%E6%A5%AD%E3%81%AE%E5%8B%95%E5%90%91%E8%AA%BF%E6%9F%BB%EF%BC%882026%E5%B9%B43%E6%9C%88%EF%BC%89.pdf">生成AIに関する企業の動向調査（2026年3月・帝国データバンク）</a></p>
-<hr>
-<p class="source">この号は仕組みの試作として作成。明日以降は平日朝7時に自動生成されます。</p>
+<p><em>この号は仕組みの試作として作成。明日以降は平日朝7時に自動生成されます。</em></p></div>
+  </details>
+</section>
   <footer>
     判断軸は「明日から自分の業務に転用できるか」の一点。<br>
     収集方針は <code>config.md</code> に定義。書き換えれば翌朝から反映されます。
@@ -163,5 +213,25 @@ footer { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
   </footer>
 </article>
 </div>
+<script>
+(function () {
+  var btn = document.getElementById('toggle-all');
+  if (!btn) return;
+  btn.addEventListener('click', function () {
+    var ds = document.querySelectorAll('details');
+    var open = btn.textContent.indexOf('開く') >= 0;
+    ds.forEach(function (d) { d.open = open; });
+    btn.textContent = open ? 'すべて閉じる' : 'すべて開く';
+  });
+  document.querySelectorAll('.toc a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var sec = document.querySelector(a.getAttribute('href'));
+      if (!sec) return;
+      var d = sec.parentElement.querySelector('details');
+      if (d) d.open = true;
+    });
+  });
+})();
+</script>
 </body>
 </html>
