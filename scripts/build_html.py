@@ -22,6 +22,9 @@ ROOT = Path(__file__).resolve().parent.parent
 ISSUES = ROOT / "issues"
 DOCS = ROOT / "docs"
 
+# Slackやその他のサービスがリンクを展開するときに使う絶対URL
+SITE = "https://cis1978.github.io/ai-radar"
+
 WEEKDAY_JA = ["月", "火", "水", "木", "金", "土", "日"]
 
 CSS = """
@@ -57,6 +60,8 @@ h1 { font-size: 34px; line-height: 1.45; margin: 0 0 20px;
             border-bottom: 1px solid var(--line); margin-bottom: 36px; }
 .lead { font-size: 18.5px; line-height: 1.95; font-weight: 600;
         margin: 0 0 36px; }
+.card-img { width: 100%; height: auto; display: block; margin: 0 0 36px;
+            border: 1px solid var(--line); border-radius: 4px; }
 
 h2 { font-size: 23px; line-height: 1.5; margin: 60px 0 22px;
      padding-top: 4px; font-weight: 800; letter-spacing: -.01em; }
@@ -160,6 +165,7 @@ def convert(md, date_str):
     out, i = [], 0
     section_no = 0
     title = ""
+    lead_text = ""
     in_list = None
 
     def close_list():
@@ -216,6 +222,8 @@ def convert(md, date_str):
             if buf:
                 body = "<br>".join(inline(b) for b in buf)
                 out.append(f'<p class="lead">{body}</p>')
+                if not lead_text:
+                    lead_text = " ".join(buf)
             continue
 
         # 水平線
@@ -300,7 +308,7 @@ def convert(md, date_str):
         i += 1
 
     close_list()
-    return title, "\n".join(out)
+    return title, "\n".join(out), lead_text
 
 
 def headline(h1, raw, date_str):
@@ -326,7 +334,44 @@ def headline(h1, raw, date_str):
     return f"{date_str} の号"
 
 
-def page(title, date_str, body, prev_link, next_link):
+def card_img(date_str):
+    """カード画像があれば記事の先頭にも表示する。"""
+    if (DOCS / "img" / f"{date_str}.png").exists():
+        return (f'  <img class="card-img" src="img/{date_str}.png" '
+                f'alt="" width="1600" height="900">')
+    return ""
+
+
+def ogp(title, date_str, desc):
+    """Slackがリンクを展開したとき、画像付きの大きなカードになるようにする。
+
+    docs/img/YYYY-MM-DD.png があればそれを og:image に指定する。
+    無ければ画像なしのカードになる（本文は問題なく表示される）。
+    """
+    desc = re.sub(r"\s+", " ", re.sub(r"[*_`]", "", desc)).strip()[:160]
+    tags = [
+        '<meta property="og:type" content="article">',
+        '<meta property="og:site_name" content="AI Radar — 業務転用リサーチ">',
+        f'<meta property="og:title" content="{esc(title)}">',
+        f'<meta property="og:description" content="{esc(desc)}">',
+        f'<meta property="og:url" content="{SITE}/{date_str}.html">',
+        f'<meta name="description" content="{esc(desc)}">',
+    ]
+    if (DOCS / "img" / f"{date_str}.png").exists():
+        img = f"{SITE}/img/{date_str}.png"
+        tags += [
+            f'<meta property="og:image" content="{img}">',
+            '<meta property="og:image:width" content="1600">',
+            '<meta property="og:image:height" content="900">',
+            '<meta name="twitter:card" content="summary_large_image">',
+            f'<meta name="twitter:image" content="{img}">',
+        ]
+    else:
+        tags.append('<meta name="twitter:card" content="summary">')
+    return "\n".join(tags)
+
+
+def page(title, date_str, body, prev_link, next_link, desc=""):
     y, mth, d = date_str.split("-")
     import datetime
     wd = WEEKDAY_JA[datetime.date(int(y), int(mth), int(d)).weekday()]
@@ -342,6 +387,7 @@ def page(title, date_str, body, prev_link, next_link):
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{esc(title)}｜AI Radar {date_str}</title>
+{ogp(title, date_str, desc)}
 <style>{CSS}</style>
 </head>
 <body>
@@ -350,6 +396,7 @@ def page(title, date_str, body, prev_link, next_link):
   <div class="kicker">AI RADAR — 業務転用リサーチ</div>
   <h1>{esc(title)}</h1>
   <div class="dateline">{y}年{int(mth)}月{int(d)}日（{wd}）</div>
+{card_img(date_str)}
 {body}
   <footer>
     判断軸は「明日から自分の業務に転用できるか」の一点。<br>
@@ -401,7 +448,7 @@ def main():
     for path in sorted(ISSUES.glob("*.md")):
         date_str = path.stem
         raw = path.read_text(encoding="utf-8")
-        h1, body = convert(raw, date_str)
+        h1, body, lead = convert(raw, date_str)
         title = headline(h1, raw, date_str)
         entries.append((date_str, title, f"{date_str}.html"))
 
@@ -410,7 +457,8 @@ def main():
             prev_link = f"{all_issues[idx-1]}.html" if idx > 0 else None
             next_link = f"{all_issues[idx+1]}.html" if idx < len(all_issues) - 1 else None
             (DOCS / f"{date_str}.html").write_text(
-                page(title, date_str, body, prev_link, next_link), encoding="utf-8"
+                page(title, date_str, body, prev_link, next_link, lead),
+                encoding="utf-8",
             )
             print(f"  生成: docs/{date_str}.html  「{title}」")
 
