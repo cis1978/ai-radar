@@ -75,12 +75,14 @@ def base_canvas(title, subtitle, date_str):
     ax.axis("off")
     ax.set_facecolor(BG)
 
-    ax.text(90, H - 110, title, fontproperties=BOLD, fontsize=44,
+    # スマホでは1600px幅が実質350px程度まで縮む（約0.22倍）。
+    # 12px相当で読ませるには元が55pt前後必要なので、全体的に大きめに取っている。
+    ax.text(90, H - 100, title, fontproperties=BOLD, fontsize=54,
             color=INK, va="top", ha="left")
     if subtitle:
-        ax.text(90, H - 180, subtitle, fontproperties=REG, fontsize=30,
+        ax.text(90, H - 182, subtitle, fontproperties=REG, fontsize=36,
                 color=SUB, va="top", ha="left")
-    ax.text(90, 52, f"AI Radar｜{date_str}", fontproperties=REG, fontsize=22,
+    ax.text(90, 50, f"AI Radar｜{date_str}", fontproperties=REG, fontsize=26,
             color=SUB, va="center", ha="left")
     return fig, ax
 
@@ -98,8 +100,8 @@ def draw_diagram(ax, nodes, hub):
     nodes = nodes[:5]
     n = len(nodes)
 
-    node_fs, hub_fs = 34, 46
-    pad = 56
+    node_fs, hub_fs = 44, 56
+    pad = 58
 
     # 最長ラベルに合わせて箱幅をそろえる（はみ出し防止）
     bw = max(300, max(text_width(s, node_fs) for s in nodes) + pad * 2)
@@ -153,8 +155,12 @@ def draw_map(ax, groups):
 
     groups は "カテゴリ名|01-05|補足" の形の文字列リスト（補足は省略可）。
     """
-    groups = groups[:5]
-    top, bottom = H - 320, 150
+    groups = groups[:4]
+    name_fs, note_fs, badge_fs = 54, 36, 32
+    # タイトルと補足の行間。グループ間の余白がこれより広くなるよう描画領域を取る
+    gap = int(name_fs * 1.35)
+
+    top, bottom = H - 285, 105
     step = (top - bottom) / max(len(groups), 1)
 
     for i, g in enumerate(groups):
@@ -165,50 +171,52 @@ def draw_map(ax, groups):
         y = top - step * (i + 0.5)
 
         # 補足がある行は2段になるので、バッジはタイトル行の高さに合わせる
-        badge_y = y + 15 if note else y
+        badge_y = y + gap / 2 if note else y
 
         if rng:
-            bw = text_width(rng, 26) + 44
-            ax.add_patch(Rectangle((120, badge_y - 26), bw, 52,
+            bw = text_width(rng, badge_fs) + 46
+            bh = badge_fs + 30
+            ax.add_patch(Rectangle((110, badge_y - bh / 2), bw, bh,
                                    facecolor=ACCENT, edgecolor="none"))
-            ax.text(120 + bw / 2, badge_y, rng, fontproperties=BOLD, fontsize=26,
-                    color=BG, ha="center", va="center")
-            x = 120 + bw + 34
+            ax.text(110 + bw / 2, badge_y, rng, fontproperties=BOLD,
+                    fontsize=badge_fs, color=BG, ha="center", va="center")
+            x = 110 + bw + 36
         else:
-            x = 120
+            x = 110
 
         if note:
-            ax.text(x, y + 15, name, fontproperties=BOLD, fontsize=34,
+            ax.text(x, y + gap / 2, name, fontproperties=BOLD, fontsize=name_fs,
                     color=INK, ha="left", va="center")
-            ax.text(x, y - 19, note, fontproperties=REG, fontsize=24,
+            ax.text(x, y - gap / 2, note, fontproperties=REG, fontsize=note_fs,
                     color=SUB, ha="left", va="center")
         else:
-            ax.text(x, y, name, fontproperties=BOLD, fontsize=34,
+            ax.text(x, y, name, fontproperties=BOLD, fontsize=name_fs,
                     color=INK, ha="left", va="center")
 
 
 def draw_list(ax, headlines):
     """ダイジェスト号の表紙。その日の見出しを最大5本、番号付きで並べる。"""
     headlines = headlines[:5]
-    top, bottom = H - 330, 150
+    fs = 44
+    top, bottom = H - 310, 140
     step = (top - bottom) / max(len(headlines), 1)
 
     for i, text in enumerate(headlines):
         y = top - step * (i + 0.5)
-        ax.text(120, y, f"{i + 1:02d}", fontproperties=BOLD, fontsize=26,
+        ax.text(110, y, f"{i + 1:02d}", fontproperties=BOLD, fontsize=32,
                 color=ACCENT, ha="left", va="center")
-        # 長い見出しは折り返す（1行あたり全角24字ぶんを目安）
-        limit = 24 * 34
+        # 収まらない見出しは切って…を付ける（折り返すと行が潰れるため）
+        limit = W - 340
         line, w = "", 0.0
         for ch in text:
-            cw = 34 if ord(ch) > 0x2E7F else 34 * 0.56
+            cw = fs if ord(ch) > 0x2E7F else fs * 0.56
             if w + cw > limit:
                 break
             line += ch
             w += cw
         if len(line) < len(text):
             line = line[:-1] + "…"
-        ax.text(200, y, line, fontproperties=BOLD, fontsize=34,
+        ax.text(230, y, line, fontproperties=BOLD, fontsize=fs,
                 color=INK, ha="left", va="center")
 
 
@@ -217,24 +225,29 @@ def draw_bar(ax, labels, values, suffix):
     labels, values = labels[:5], values[:5]
     n = len(labels)
 
-    area_l, area_r = 150, W - 150
-    baseline = 190
-    top = H - 390  # 値ラベルがサブタイトルに当たらない高さに抑える
+    # 棒が多いほどラベルが窮屈になるので、本数に応じて文字を落とす
+    val_fs = 66 if n <= 3 else 56
+    lab_fs = 42 if n <= 3 else 34
+
+    area_l, area_r = 140, W - 140
+    baseline = 215
+    top = H - 400  # 値ラベルがサブタイトルに当たらない高さに抑える
     slot = (area_r - area_l) / n
-    bw = min(180, slot * 0.5)
+    bw = min(200, slot * 0.5)
     vmax = max(values) if values else 1
 
     ax.plot([area_l - 30, area_r + 30], [baseline, baseline],
-            color=SUB, linewidth=1.6)
+            color=SUB, linewidth=1.8)
 
     for i, (lab, val) in enumerate(zip(labels, values)):
         cx = area_l + slot * (i + 0.5)
         h = (val / vmax) * (top - baseline) * 0.86
+        txt = f"{val:,}{suffix}" if val >= 10000 else f"{val}{suffix}"
         ax.add_patch(Rectangle((cx - bw / 2, baseline), bw, h,
                                facecolor=ACCENT, edgecolor="none"))
-        ax.text(cx, baseline + h + 34, f"{val}{suffix}", fontproperties=BOLD,
-                fontsize=52, color=INK, ha="center", va="bottom")
-        ax.text(cx, baseline - 40, lab, fontproperties=REG, fontsize=32,
+        ax.text(cx, baseline + h + 30, txt, fontproperties=BOLD,
+                fontsize=val_fs, color=INK, ha="center", va="bottom")
+        ax.text(cx, baseline - 42, lab, fontproperties=REG, fontsize=lab_fs,
                 color=SUB, ha="center", va="top")
 
 

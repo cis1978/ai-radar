@@ -160,13 +160,31 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 .card .t { font-size: 18px; font-weight: 700; line-height: 1.5; }
 
 @media (max-width: 640px) {
-  body { font-size: 16px; }
-  article { padding: 28px 20px 44px; }
-  h1 { font-size: 25px; }
-  .item h2 { font-size: 19px; }
-  .toc { padding: 18px 20px; }
+  /* スマホでは小さい文字がとくに読みにくいので、補助的な要素ほど底上げする */
+  body { font-size: 16.5px; }
+  article { padding: 28px 18px 44px; }
+  h1 { font-size: 26px; }
+  .lead { font-size: 17px; }
+  .item h2 { font-size: 20px; }
+  .sum { font-size: 16.5px; }
+  .easy { font-size: 16px; }
+  .toc { padding: 18px 18px; }
+  .toc li { font-size: 16px; }
+  .toc li::before { font-size: 13.5px; }
+  .toc-g-name { font-size: 15px; }
+  .toc-g-range { font-size: 12.5px; }
+  .toc-title { font-size: 13px; }
+  .toc-note { font-size: 13.5px; }
+  .btn { font-size: 13.5px; padding: 5px 12px; }
+  .ctrl { flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+  .source { font-size: 13.5px; }
+  .idea p { font-size: 16px; }
+  table { font-size: 14px; }
+  th, td { padding: 9px 8px; }
+  details > summary { font-size: 15px; padding: 8px 0; }
+  .term-pop { font-size: 15px; }
   .wrap { padding: 0 10px 60px; }
-  .detail { padding-left: 14px; }
+  .detail { padding-left: 13px; }
 }
 </style>
 </head>
