@@ -62,6 +62,9 @@ a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(1
 a:hover { border-bottom-color: var(--accent); }
 code { background: var(--box); padding: 2px 6px; border-radius: 3px;
        font-size: .88em; font-family: "SF Mono", Menlo, Consolas, monospace; }
+pre { background: var(--box); padding: 20px 22px; border-radius: 6px;
+      overflow-x: auto; margin: 28px 0; line-height: 1.75; }
+pre code { background: none; padding: 0; font-size: 14px; white-space: pre; }
 
 blockquote { margin: 32px 0; padding: 4px 0 4px 24px;
              border-left: 3px solid var(--ink); font-size: 19px;
@@ -146,21 +149,14 @@ footer { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
 <h2><span class="num">02</span><code>AGENTS.md</code> に「if / then」で強制ルールを書く</h2>
 <p>スキルは置いただけでは使われない。<strong>リポジトリが正しいタイミングで要求して初めて効く。</strong> そこを担うのが <code>AGENTS.md</code>。</p>
 <p>実際に使われている形は短い条件文の羅列。</p>
-<p>```</p>
-<h2>Mandatory skill usage</h2>
-<ul>
-<li>ランタイムやAPIの変更前に $implementation-strategy で</li>
-</ul>
-<p>互換性の境界と実装方針を決める</p>
-<ul>
-<li>ランタイムコード・テスト・examples・ビルド挙動が変わったら</li>
-</ul>
-<p>$code-change-verification を実行</p>
-<ul>
-<li>OpenAI API / プラットフォーム関連の作業では $openai-knowledge</li>
-<li>まとまった作業が完了しレビュー可能になったら $pr-draft-summary</li>
-</ul>
-<p>```</p>
+<pre><code>## Mandatory skill usage
+
+- ランタイムやAPIの変更前に $implementation-strategy で
+  互換性の境界と実装方針を決める
+- ランタイムコード・テスト・examples・ビルド挙動が変わったら
+  $code-change-verification を実行
+- OpenAI API / プラットフォーム関連の作業では $openai-knowledge
+- まとまった作業が完了しレビュー可能になったら $pr-draft-summary</code></pre>
 <p>重要なのは <code>$code-change-verification</code> のルールの立て方。「常に長い検証を回せ」ではなく、<strong>「ランタイムコード・テスト・examples・ビルド挙動が変わったときに回し、通るまで完了扱いにしない」</strong>。条件付きなのでドキュメントだけの変更は軽いまま、SDKの変更は必ず標準手順を通る。</p>
 <p><code>AGENTS.md</code> にはスキルのトリガーだけでなく、公開APIの互換性ルール（コンストラクタ引数の位置の意味を保つ、新しい任意引数は末尾に足す）も一緒に書かれている。<strong>リリースを壊しうるルールと、スキルのトリガーを同じ場所に置く</strong>という考え方。</p>
 <div class="idea"><div class="idea-title">転用アイデア</div><p><code>config.md</code> に近いことを既にやっているが、<strong>「いつ呼ぶか」を条件文で書く</strong>という発想は入っていない。「〜のときは必ず〜する」の形にすると強制力が変わる。</p></div>
@@ -170,14 +166,10 @@ footer { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
 <p>Agent Skills 仕様では <code>SKILL.md</code> frontmatter の必須項目は <code>name</code> と <code>description</code> の2つ。<strong>起動時に全スキルについて読み込まれるのはこの2つだけ</strong>で、本体や <code>scripts/</code> <code>references/</code> は選択後に初めて読まれる（progressive disclosure）。</p>
 <p>つまり <code>description</code> が実質的なルーティング信号になる。記事の実例が分かりやすい。</p>
 <p>悪い例：</p>
-<p>```</p>
-<p>description: Run the mandatory verification stack in the OpenAI Agents JS monorepo.</p>
-<p>```</p>
+<pre><code>description: Run the mandatory verification stack in the OpenAI Agents JS monorepo.</code></pre>
 <p>実際に使われている記述：</p>
-<p>```</p>
-<p>description: Run the mandatory verification stack when changes affect</p>
-<p>runtime code, tests, or build/test behavior in the OpenAI Agents JS monorepo.</p>
-<p>```</p>
+<pre><code>description: Run the mandatory verification stack when changes affect
+runtime code, tests, or build/test behavior in the OpenAI Agents JS monorepo.</code></pre>
 <p>前者は「何をするか」しか言っていない。後者は<strong>いつ適用されるか／何が引き金か／必須かどうか</strong>の3つを伝えている。</p>
 <p class="lead">ルーティングが不安定なら、コードを足す前にメタデータを直せ。</p>
 <div class="idea"><div class="idea-title">転用アイデア</div><p>スキルを書くとき本文を作り込みがちだが、<strong>先に description を詰めるほうが効く</strong>。「いつ」「何が引き金で」「任意か必須か」の3点を1文に入れる。</p></div>

@@ -74,6 +74,9 @@ a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(1
 a:hover { border-bottom-color: var(--accent); }
 code { background: var(--box); padding: 2px 6px; border-radius: 3px;
        font-size: .88em; font-family: "SF Mono", Menlo, Consolas, monospace; }
+pre { background: var(--box); padding: 20px 22px; border-radius: 6px;
+      overflow-x: auto; margin: 28px 0; line-height: 1.75; }
+pre code { background: none; padding: 0; font-size: 14px; white-space: pre; }
 
 blockquote { margin: 32px 0; padding: 4px 0 4px 24px;
              border-left: 3px solid var(--ink); font-size: 19px;
@@ -208,6 +211,19 @@ def convert(md, date_str):
             else:
                 out.append(f"<h2>{inline(head)}</h2>")
             i += 1
+            continue
+
+        # フェンス付きコードブロック
+        if stripped.startswith("```"):
+            close_list()
+            i += 1
+            buf = []
+            while i < len(lines) and not lines[i].strip().startswith("```"):
+                buf.append(lines[i])
+                i += 1
+            i += 1  # 閉じフェンスを飛ばす
+            code = esc("\n".join(buf))
+            out.append(f"<pre><code>{code}</code></pre>")
             continue
 
         # 引用（「今日の一言」ブロックはリードとして扱う）
