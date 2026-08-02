@@ -4,6 +4,7 @@ feeds_latest.json
 # アクセストークンの受け渡し用（絶対にコミットしない）
 .token
 *.token
+token.txt
 
 # macOS
 .DS_Store
