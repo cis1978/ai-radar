@@ -148,6 +148,31 @@ def draw_diagram(ax, nodes, hub):
             color=BG, ha="center", va="center")
 
 
+def draw_list(ax, headlines):
+    """ダイジェスト号の表紙。その日の見出しを最大5本、番号付きで並べる。"""
+    headlines = headlines[:5]
+    top, bottom = H - 330, 150
+    step = (top - bottom) / max(len(headlines), 1)
+
+    for i, text in enumerate(headlines):
+        y = top - step * (i + 0.5)
+        ax.text(120, y, f"{i + 1:02d}", fontproperties=BOLD, fontsize=26,
+                color=ACCENT, ha="left", va="center")
+        # 長い見出しは折り返す（1行あたり全角24字ぶんを目安）
+        limit = 24 * 34
+        line, w = "", 0.0
+        for ch in text:
+            cw = 34 if ord(ch) > 0x2E7F else 34 * 0.56
+            if w + cw > limit:
+                break
+            line += ch
+            w += cw
+        if len(line) < len(text):
+            line = line[:-1] + "…"
+        ax.text(200, y, line, fontproperties=BOLD, fontsize=34,
+                color=INK, ha="left", va="center")
+
+
 def draw_bar(ax, labels, values, suffix):
     """値ラベルを棒の上に大きく置く。目盛りとグリッドは出さない。"""
     labels, values = labels[:5], values[:5]
@@ -177,7 +202,7 @@ def draw_bar(ax, labels, values, suffix):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("date", help="YYYY-MM-DD")
-    ap.add_argument("kind", choices=["diagram", "bar"])
+    ap.add_argument("kind", choices=["diagram", "bar", "list"])
     ap.add_argument("--title", required=True, help="全角20字以内")
     ap.add_argument("--subtitle", default="")
     ap.add_argument("--nodes", nargs="*", default=[], help="diagram用（最大5）")
@@ -185,11 +210,16 @@ def main():
     ap.add_argument("--labels", nargs="*", default=[], help="bar用（最大5）")
     ap.add_argument("--values", nargs="*", type=float, default=[], help="bar用")
     ap.add_argument("--suffix", default="%", help="bar用の単位")
+    ap.add_argument("--headlines", nargs="*", default=[], help="list用（最大5本の見出し）")
     args = ap.parse_args()
 
     fig, ax = base_canvas(args.title, args.subtitle, args.date)
 
-    if args.kind == "diagram":
+    if args.kind == "list":
+        if not args.headlines:
+            ap.error("list には --headlines が必要")
+        draw_list(ax, args.headlines)
+    elif args.kind == "diagram":
         if not args.nodes or not args.hub:
             ap.error("diagram には --nodes と --hub が必要")
         draw_diagram(ax, args.nodes, args.hub)

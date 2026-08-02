@@ -463,12 +463,13 @@ def split_item(lines):
 
 
 def headline(h1, raw, date_str):
-    if h1:
-        t = re.sub(r"AI Radar", "", h1)
-        t = re.sub(r"[—\-–]\s*\d{4}-\d{2}-\d{2}", "", t)
-        t = re.sub(r"（[^）]*）", "", t).strip(" 　—-–|｜")
-        if len(t) >= 4:
-            return t
+    """H1 をそのまま記事タイトルにする。
+
+    ダイジェスト号は H1 を「AI Radar 8月2日」のような中立な見出しにする。
+    15件を束ねる主張を大見出しに置くと、全項目がその根拠に見えてしまうため。
+    """
+    if h1 and len(h1.strip()) >= 4:
+        return h1.strip()
     for line in raw.split("\n"):
         s = line.strip()
         if s.startswith("## ") and "空振り" not in s:
