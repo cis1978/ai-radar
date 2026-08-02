@@ -3,14 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>「AIに聞く」から「AIに手順を渡す」へ｜AI Radar 2026-08-02</title>
+<title>勝負どころはコンテキスト｜AI Radar 2026-08-02</title>
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="AI Radar — 業務転用リサーチ">
-<meta property="og:title" content="「AIに聞く」から「AIに手順を渡す」へ">
-<meta property="og:description" content="2026年の潮流は「AIに聞く」から「AIに手順を渡して実行させる」へ移った。 転用の起点は新しいモデルではなく、自分の業務手順を文書化することにある。">
+<meta property="og:title" content="勝負どころはコンテキスト">
+<meta property="og:description" content="各社の発表を横に並べると、競争軸が「モデルの賢さ」から「コンテキストをいかに使わずに済ませるか」に移っている。 トークン98.7%削減、85%削減、初回応答60%短縮。どれも新しいモデルの話ではなく、設計の話である。 もうひとつの流れが「エージェントを人のように割り当てる」で、Notion では Claude と Cu">
 <meta property="og:url" content="https://cis1978.github.io/ai-radar/2026-08-02.html">
-<meta name="description" content="2026年の潮流は「AIに聞く」から「AIに手順を渡して実行させる」へ移った。 転用の起点は新しいモデルではなく、自分の業務手順を文書化することにある。">
-<meta name="twitter:card" content="summary">
+<meta name="description" content="各社の発表を横に並べると、競争軸が「モデルの賢さ」から「コンテキストをいかに使わずに済ませるか」に移っている。 トークン98.7%削減、85%削減、初回応答60%短縮。どれも新しいモデルの話ではなく、設計の話である。 もうひとつの流れが「エージェントを人のように割り当てる」で、Notion では Claude と Cu">
+<meta property="og:image" content="https://cis1978.github.io/ai-radar/img/2026-08-02.png">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="900">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cis1978.github.io/ai-radar/img/2026-08-02.png">
 <style>
 :root {
   --ink: #14161a; --sub: #6b7280; --line: #e5e7eb;
@@ -141,71 +145,180 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 <div class="wrap">
 <article>
   <div class="kicker">AI RADAR — 業務転用リサーチ</div>
-  <h1>「AIに聞く」から「AIに手順を渡す」へ</h1>
+  <h1>勝負どころはコンテキスト</h1>
   <div class="dateline">2026年8月2日（日）</div>
-
-  <p class="lead">2026年の潮流は「AIに聞く」から「AIに手順を渡して実行させる」へ移った。<br>転用の起点は新しいモデルではなく、<strong>自分の業務手順を文書化すること</strong>にある。</p>
+  <img class="card-img" src="img/2026-08-02.png" alt="" width="1600" height="900">
+  <p class="lead">各社の発表を横に並べると、競争軸が「モデルの賢さ」から<strong>「コンテキストをいかに使わずに済ませるか」</strong>に移っている。<br>トークン98.7%削減、85%削減、初回応答60%短縮。どれも新しいモデルの話ではなく、<strong>設計の話</strong>である。<br>もうひとつの流れが「エージェントを人のように割り当てる」で、Notion では Claude と Cursor をボードから指名できるようになった。</p>
 <nav class="toc">
   <div class="toc-head">
-    <span class="toc-title">目次 — 5件</span>
+    <span class="toc-title">目次 — 15件</span>
     <button class="btn" id="toggle-all" type="button">すべて開く</button>
   </div>
   <ol>
-    <li><a href="#i1">実務者の使い方は「会話」から「手順の再利用」へ移行した</a></li>
-    <li><a href="#i2">Slackbot が「AIエージェント」化し、ユーザー定義の Skills を持つようになった</a></li>
-    <li><a href="#i3">Notion AI にカスタムエージェントと話者ラベル付き議事録が入った</a></li>
-    <li><a href="#i4">国内の定量成果：企業名と数字が揃った事例が出そろった</a></li>
-    <li><a href="#i5">現実の温度感：活用企業は3割台、詰まるのは技術ではなく運用</a></li>
+    <li><a href="#i1">MCPのコード実行でコンテキストを98.7%削減</a></li>
+    <li><a href="#i2">Tool Search Tool で85%のトークンを温存</a></li>
+    <li><a href="#i3">brain と hands を切り離して初回応答が60%短縮</a></li>
+    <li><a href="#i4">Notion 3.6、Claude と Cursor を「外部エージェント」として指名できる</a></li>
+    <li><a href="#i5">Notion エージェントが PPTX / XLSX / DOCX を読み書き</a></li>
+    <li><a href="#i6">Notion の Webhook が双方向になった</a></li>
+    <li><a href="#i7">企業の80%がエージェントで「実測できるROI」を報告</a></li>
+    <li><a href="#i8">57%が複数ステージのワークフローにエージェントを投入</a></li>
+    <li><a href="#i9">時間削減は4領域でほぼ同率</a></li>
+    <li><a href="#i10">Claude Code の会話の79%は「自動化」</a></li>
+    <li><a href="#i11">分析業務は全タスクの49%（複数ステップを数えると）</a></li>
+    <li><a href="#i12">eval の合格率0%は「エージェントが無能」ではなく「タスクが壊れている」</a></li>
+    <li><a href="#i13">compaction / note-taking / マルチエージェントの使い分け</a></li>
+    <li><a href="#i14">Slack Enterprise Search が提供開始、Today は順次展開</a></li>
+    <li><a href="#i15">Gemini API の Managed Agents に背景実行とリモートMCP</a></li>
   </ol>
 </nav>
 <section class="item">
-  <h2 id="i1"><span class="num">01</span>実務者の使い方は「会話」から「手順の再利用」へ移行した</h2>
-  <p class="sum">Claude Code の実践論は 2026 年に入って構造が変わった。手作業でコンテキストを詰める段階は終わり、プランモード、並列探索、永続的なプロジェクトメモリ、長時間セッションの継続といった「型」が中心になっている。専門家が推す使い分けは明快で、<strong>絶対に守らせたいことは Hooks、業務知識は Skills、責務の切り分けは Subagents</strong> という三分割。ブレインストーミング、subagent 駆動、git worktrees、Research-Plan-Implement パターンなどが日常のワークフローとして定着している。</p>
+  <h2 id="i1"><span class="num">01</span>MCPのコード実行でコンテキストを98.7%削減</h2>
+  <p class="sum">エージェントにツールを呼ばせるのではなく、<strong>ツールを呼ぶコードを書かせて実行環境で走らせる</strong>と、コンテキスト消費が最大98.7%減る。</p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><div class="idea"><div class="idea-title">転用アイデア</div><p>自分の定型業務（週次レポート、議事録処理、請求書チェックなど）を1つ選び、手順を Markdown に書き出して「スキル」化する。次回から会話で説明し直す必要がなくなる。まずは説明が面倒な業務＝効果が大きい業務、と考えて選ぶとよい。</p></div>
-<p class="source">出典: <a href="https://medium.com/data-science-collective/effective-claude-code-workflows-in-2026-what-changed-and-what-works-now-c93ebc6f8f50">Effective Claude Code Workflows in 2026</a> / <a href="https://smartscope.blog/en/generative-ai/claude/claude-code-best-practices-advanced-2026/">Claude Code Advanced Best Practices（日本語）</a> / <a href="https://pasqualepillitteri.it/en/news/3235/claude-code-skills-daily-workflow-senior-developer-2026">6 Essential Skills for Senior Developer Workflow</a></p></div>
+    <div class="detail"><p>MCPサーバーを繋ぎすぎると、ツール定義と実行結果だけで<strong>5万トークン超</strong>を食うことがある。コード実行方式なら中間結果は実行環境に留まり、明示的にログや戻り値にしたものだけがモデルに見える。ループ・条件分岐・データ変換はコードのほうが自然に書けるし、if文の評価をモデルに待たせないぶん初回応答も速くなる。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>繋ぐMCPを増やすほど遅く高くなる、という体感には理由がある。<strong>「ツールを呼ぶ」から「ツールを呼ぶコードを書かせる」への切り替え</strong>は、自分でエージェントを組むときの第一の設計判断になる。</p></div>
+<p class="source">出典: <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP: building more efficient AI agents</a></p></div>
   </details>
 </section>
 <section class="item">
-  <h2 id="i2"><span class="num">02</span>Slackbot が「AIエージェント」化し、ユーザー定義の Skills を持つようになった</h2>
-  <p class="sum">Slack はネイティブの MCP サーバーを持ち、Slackbot から Jira・Notion・Google・DocuSign のライブデータを<strong>会話の中に直接引き込める</strong>ようになった。さらに重要なのは、<strong>繰り返し作業に対して自分で「Skills」を定義できる</strong>点（例：定例のアジェンダ作成）。過去の会話や決定を覚えるメモリ機能、音声ディクテーション、ワークスペースのデータからのチャート生成も入った。書き込み系アクションは手動確認が必須で、管理者がMCPのアクセス範囲を制御する設計。合わせて Today View（当日の予定・タスク・優先事項を1画面に集約、Business+/Enterprise から順次）と Focus Mode（全プラン提供）も追加。</p>
+  <h2 id="i2"><span class="num">02</span>Tool Search Tool で85%のトークンを温存</h2>
+  <p class="sum">Claude Developer Platform の advanced tool use が <strong>GA</strong>。目玉の Tool Search Tool は、全ツール定義を先に読み込まず<strong>必要になったものだけ発見する</strong>。</p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><div class="idea"><div class="idea-title">転用アイデア</div><p>ここでも中心は Skills、つまり<strong>手順を書いて再利用する</strong>という第1項と同じ構造。自分が毎週 Slack で繰り返している作業（定例のアジェンダ、進捗の取りまとめ）を1つ Skill として定義する。Focus Mode は全プランで使えるので、今日から試せる。</p></div>
-<p class="source">出典: <a href="https://www.jotme.io/blog/slack-update">Slack Updates 2026: Slackbot AI &amp; Focus Mode</a> / <a href="https://aipicks.jp/mag/slack-ai-guide-2026">Slack AI完全ガイド 2026</a></p></div>
+    <div class="detail"><p>結果として、従来方式の残コンテキスト122,800トークンに対し<strong>191,300トークンを温存</strong>（約85%削減）。ツールライブラリ全体へのアクセスは保ったままこれを実現している。</p>
+<p>同時にGAしたのが Programmatic Tool Calling（Claudeがツール呼び出しをPythonで書き、サンドボックスで実行。結果はスクリプトが処理し、モデルは最終出力だけを見る）と Tool Use Examples（ツールの使い方の実例を渡す標準形式）。code execution と memory も併せてGA。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>「ツールを減らす」ではなく<strong>「ツールは持ったまま、見せる量を減らす」</strong>という解き方。今日のAI Radar自体、ツール検索で必要なものだけ読み込む構成で動いている。</p></div>
+<p class="source">出典: <a href="https://www.anthropic.com/engineering/advanced-tool-use">Introducing advanced tool use on the Claude Developer Platform</a></p></div>
   </details>
 </section>
 <section class="item">
-  <h2 id="i3"><span class="num">03</span>Notion AI にカスタムエージェントと話者ラベル付き議事録が入った</h2>
-  <p class="sum">2026年6〜7月のアップデートで、AIミーティングノートが<strong>音声アップロードと話者ラベル</strong>に対応。加えてカスタムエージェントが iOS アプリでも使えるようになり、選択できるAIモデルも拡大した（GPT-5、Gemini、Claude など）。Slack や Google Drive との連携は標準機能。</p>
+  <h2 id="i3"><span class="num">03</span>brain と hands を切り離して初回応答が60%短縮</h2>
+  <p class="sum">Anthropic のマネージドエージェントの設計変更。ハーネス（brain）をコンテナの外に出し、<strong>コンテナは必要なときだけツール呼び出しで確保する</strong>構成にした。</p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><div class="idea"><div class="idea-title">転用アイデア</div><p>録音済みの会議音声をアップロードして、誰が何を言ったかまで含めた議事録を自動生成させる。「録音はしているが文字起こしまで手が回っていない」会議があるなら、そこが最短で効く。</p></div>
-<p class="source">出典: <a href="https://temp.co.jp/blog/notion-ai">Notion AIとは？できること・使い方・料金（2026年版）</a></p></div>
+    <div class="detail"><p>効果は明確で、<strong>time-to-first-token が p50 で60%、p95 で90%以上短縮</strong>。従来はbrainがコンテナ内にあったため、推論の前に毎回コンテナ起動コストを払っていた。副次的な効果として、顧客が自社VPC内のリソースに対して作業させたいという要望も解けた（ハーネスがコンテナ内にある前提が消えたため）。各 hand は標準インターフェースを持つツールになり、任意のカスタムツール・MCPサーバーを差せる。</p>
+<p class="source">出典: <a href="https://www.anthropic.com/engineering/managed-agents">Scaling Managed Agents: Decoupling the brain from the hands</a></p></div>
   </details>
 </section>
 <section class="item">
-  <h2 id="i4"><span class="num">04</span>国内の定量成果：企業名と数字が揃った事例が出そろった</h2>
-  <p class="sum">「導入しました」ではなく数字が出ている国内事例。</p>
+  <h2 id="i4"><span class="num">04</span>Notion 3.6、Claude と Cursor を「外部エージェント」として指名できる</h2>
+  <p class="sum">2026年7月1日のリリース。<strong>CLI・IDE・別アプリで動いているエージェントに、Notionの共有ボードからタスクを割り当てられる</strong>ようになった。</p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><table><thead><tr><th>企業</th><th>内容</th><th>成果</th></tr></thead><tbody><tr><td>東京海上日動</td><td>CTC・PKSHAとAI統合基盤を2026年3月稼働</td><td>応対時間<strong>最大30%削減</strong>（年間約58,000時間）、代理店向け最大10%（約32,000時間）</td></tr><tr><td>三菱UFJ銀行</td><td>金融専門用語を学習させ、コール振り分けを改善</td><td>PoC約4ヶ月 →2025年12月「発話ベースルーティング」本格提供</td></tr><tr><td>横浜銀行</td><td>モビルス「MOBI VOICE」で定型問い合わせ自動化</td><td><strong>月間67時間削減</strong>＋24時間対応</td></tr><tr><td>小林製薬</td><td>生成AIでFAQ自動生成・更新</td><td>作成工数<strong>75%削減</strong>、応答時間35%改善</td></tr><tr><td>ビックカメラ</td><td>通話後の記録業務とメール振り分けを自動化</td><td>記録業務時間<strong>約50%削減</strong></td></tr><tr><td>JR西日本カスタマーリレーション</td><td>ELYZA Brainで要約・メール作成</td><td><strong>34%削減</strong>（最大54%）</td></tr><tr><td>JAいるま野</td><td>生成AI支援</td><td>38名→4名体制、年間約2億円の人件費削減</td></tr></tbody></table>
-<div class="idea"><div class="idea-title">転用アイデア</div><p>共通するのは「大量・定型・言語」の3条件が揃った業務から入っている点。とくに小林製薬・ビックカメラ・JR西日本は、<strong>顧客対応そのものではなく「対応後の記録・要約・FAQ整備」</strong>を刈り取っていて、ここは個人の業務にもそのまま当てはまる。三菱UFJ銀行のように、全自動化を狙わず<strong>1点だけ</strong>から始めるのも再現性が高い。</p></div>
-<p class="source">出典: <a href="https://vottia.jp/ai-agent-contact-center-japan-cases-2026/">AI活用事例──国内導入20社超まとめ【2026年版】</a> / <a href="https://www.ctc-g.co.jp/company/release/20260304-02050.html">東京海上日動×CTC×PKSHA プレスリリース</a></p></div>
+    <div class="detail"><p>メンションして呼び、実行の様子を眺められる。<strong>第1弾の統合対象が Claude と Cursor。</strong> エージェントを「別のツール」ではなく「ボード上のチームメイト」として扱う設計。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>複数のAIツールを行き来している人ほど効く。<strong>タスク管理側を起点に、どのエージェントに投げるかを決める</strong>という順番になる。</p></div>
+<p class="source">出典: <a href="https://www.notion.com/releases/2026-07-01">Notion 3.6: External Agents, HTML blocks, and more（2026-07-01）</a></p></div>
   </details>
 </section>
 <section class="item">
-  <h2 id="i5"><span class="num">05</span>現実の温度感：活用企業は3割台、詰まるのは技術ではなく運用</h2>
-  <p class="sum">帝国データバンクの2026年3月調査では、生成AIを業務活用している企業は<strong>全体の3割台</strong>。効果を実感している企業は多い一方、課題の上位は「情報の正確性」「専門人材・ノウハウ不足」「活用範囲が定まらない」「情報漏洩」「ルール整備」──<strong>いずれも技術ではなく運用の問題</strong>である。</p>
+  <h2 id="i5"><span class="num">05</span>Notion エージェントが PPTX / XLSX / DOCX を読み書き</h2>
+  <p class="sum">同じ 3.6 で、Notion Agents が Office 系ファイルに対応。<strong>スプレッドシート・スライド・Word文書を読み、かつ生成できる。</strong></p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><p>実際、20社超の事例を横断すると成功パターンは3つに収束する──<strong>スモールスタート／AIと人の役割を分けるハイブリッド設計／業務プロセスとナレッジの先行整理</strong>。逆に「全社一斉 × AI単独 × ナレッジ未整備」はPoC段階で頓挫しやすい。</p>
-<div class="idea"><div class="idea-title">転用アイデア</div><p>広げる前に「検証手順」と「入れてよい情報の線引き」を決めておく。A4一枚のルールを先に作るだけで上位課題の半分は潰せる。そして<strong>業務整理が先</strong>という原則は、第1項の「手順を書き出してスキル化する」とまったく同じことを言っている。今日やるべきは検索でも比較検討でもなく、自分の業務を1つ文書化することだ。</p></div>
-<p class="source">出典: <a href="https://www.tdb.co.jp/resource/files/assets/d4b8e8ee91d1489c9a2abd23a4bb5219/61afb5417b4e4abf83e66684660cb4a8/20260514_%E7%94%9F%E6%88%90AI%E3%81%AB%E9%96%A2%E3%81%99%E3%82%8B%E4%BC%81%E6%A5%AD%E3%81%AE%E5%8B%95%E5%90%91%E8%AA%BF%E6%9F%BB%EF%BC%882026%E5%B9%B43%E6%9C%88%EF%BC%89.pdf">生成AIに関する企業の動向調査（2026年3月・帝国データバンク）</a></p>
-<p><em>この号は仕組みの試作として作成。明日以降は平日朝7時に自動生成されます。</em></p></div>
+    <div class="detail"><p>選べるモデルも拡大し、Opus 4.8 / Grok 4.3 / 低コストの open-weight GLM 5.2 から選択できる。</p>
+<p class="source">出典: <a href="https://www.notion.com/releases/2026-07-01">Notion 3.6（2026-07-01）</a></p></div>
   </details>
 </section>
+<section class="item">
+  <h2 id="i6"><span class="num">06</span>Notion の Webhook が双方向になった</h2>
+  <p class="sum">Custom Agents はタスクの振り分け、社内Q&amp;A、日次スタンドアップ、ステータスレポートを<strong>一度設定すれば24時間動き続ける</strong>。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>加えて Webhook が双方向化。Workers が webhook を受けてロジックを実行し、Notionを操作したり他のAPIを呼んだりできる。<strong>任意のアプリからNotionを起動できる</strong>ようになった。</p>
+<p class="source">出典: <a href="https://www.notion.com/blog/introducing-custom-agents">Introducing Custom Agents</a> / <a href="https://www.notion.com/releases/2026-05-13">Notion 3.5: Developer Platform（2026-05-13）</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i7"><span class="num">07</span>企業の80%がエージェントで「実測できるROI」を報告</h2>
+  <p class="sum">Anthropic が技術リーダー500名超に聞いた調査。<strong>80%が測定可能な経済的リターンを既に得ている</strong>と回答。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>論点は「導入するか」から「どう規模を広げるか」に移った。<strong>81%がより複雑なユースケースに取り組む予定</strong>（39%が複数ステップのプロセス、29%が適用範囲の追加）。効果の大きい用途は<strong>データ分析とレポート生成が60%</strong>、社内プロセス自動化が48%。今後1年では56%が調査・レポート業務への適用を計画。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>「データ分析とレポート生成が60%」は、AI Radar がやっていることそのもの。<strong>調査・要約・レポートは、企業が最初に成果を出している領域</strong>という裏づけになる。</p></div>
+<p class="source">出典: <a href="https://resources.anthropic.com/2026-state-of-ai-agents">The 2026 State of AI Agents Report</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i8"><span class="num">08</span>57%が複数ステージのワークフローにエージェントを投入</h2>
+  <p class="sum">同調査より。<strong>半数超（57%）が複数ステージのワークフローでエージェントを運用</strong>しており、うち<strong>16%は複数チームをまたぐ横断プロセス</strong>まで進んでいる。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>戦略としては中庸が主流で、多くの組織が「既製のエージェントが効くところは既製を使い、カスタマイズが明確な優位を生むところにだけ開発リソースを割く」という選び方をしている。</p>
+<p class="source">出典: <a href="https://resources.anthropic.com/2026-state-of-ai-agents">The 2026 State of AI Agents Report</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i9"><span class="num">09</span>時間削減は4領域でほぼ同率</h2>
+  <p class="sum">エージェンティックコーディングの調査。時間が浮いた領域の比率が驚くほど揃っている。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><table><thead><tr><th>領域</th><th>割合</th></tr></thead><tbody><tr><td>コード生成</td><td>59%</td></tr><tr><td>調査・ドキュメント</td><td>59%</td></tr><tr><td>コードレビュー・テスト</td><td>59%</td></tr><tr><td>計画・アイデア出し</td><td>58%</td></tr></tbody></table>
+<p><strong>コードを書く以外の3領域が同率</strong>という点が重要。エンジニアリングの外にも広がる根拠になっている。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>「AIはコードを書くもの」という認識だと3/4を取り逃す。<strong>調査・レビュー・計画のほうが、非エンジニアの業務にそのまま転用できる。</strong></p></div>
+<p class="source">出典: <a href="https://resources.anthropic.com/2026-agentic-coding-trends-report">2026 Agentic Coding Trends Report</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i10"><span class="num">10</span>Claude Code の会話の79%は「自動化」</h2>
+  <p class="sum">同レポートより。Claude Code 上の会話の<strong>79%が automation（AIが直接タスクを実行）</strong>に分類され、augmentation（人の能力を補強）は21%。対して claude.ai では automation は49%にとどまる。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>人とAIの分担も明確で、<strong>計画（何をするか）は人が決め、実行（どうやるか）はClaudeが決める</strong>のが典型。そして<strong>その人の専門性が高いほど、1回の指示でClaudeがこなす仕事量が増える</strong>。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>最後の一文が効く。<strong>AIを使うほど専門知識が要らなくなるのではなく、逆に効いてくる。</strong> 業務理解が深い人ほど指示が短くて済む。</p></div>
+<p class="source">出典: <a href="https://resources.anthropic.com/2026-agentic-coding-trends-report">2026 Agentic Coding Trends Report</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i11"><span class="num">11</span>分析業務は全タスクの49%（複数ステップを数えると）</h2>
+  <p class="sum">Microsoft が7月30日に出した観測。単発のタスクとして数えると分析関連は<strong>29%</strong>だが、<strong>複数ステップのワークフローとして数えると49%</strong>に跳ね上がる。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>つまりAIは「タスクを終わらせる」段階から「ワークフロー全体を終わらせる」段階に移っている。業種別では製造・銀行・ソフトウェアが引き続き上位だが、<strong>自動車と医療が最も成長の速い採用層</strong>として浮上している。</p>
+<p class="source">出典: <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/07/30/the-next-measure-of-ai-momentum-is-work-transformed/">The next measure of AI momentum is work transformed（2026-07-30）</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i12"><span class="num">12</span>eval の合格率0%は「エージェントが無能」ではなく「タスクが壊れている」</h2>
+  <p class="sum">エージェント評価の設計論。<strong>多数試行して合格率0%なら、それはほぼ必ずタスク定義かグレーダーの不備のサイン。</strong></p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>原則が3つ。グレーダーが見る項目はすべてタスク記述から読み取れること（曖昧な仕様で落とさない）。各タスクに<strong>リファレンス解</strong>（全グレーダーを通る既知の正解）を用意し、解けること・グレーダーが正しく設定されていることを検証する。そして<strong>振る舞いが起きるべきケースと起きるべきでないケースの両方</strong>をテストする。片側だけだと片側だけ最適化される（検索すべきときだけ検証すると、何でも検索するエージェントができあがる）。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>「AIがうまくやってくれない」ときの見方が変わる。<strong>まず指示のほうを疑う。</strong> リファレンス解を先に用意するのは、人への依頼にもそのまま効く。</p></div>
+<p class="source">出典: <a href="https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents">Demystifying evals for AI agents</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i13"><span class="num">13</span>compaction / note-taking / マルチエージェントの使い分け</h2>
+  <p class="sum">コンテキスト管理の手法選択。用途で明確に分かれる。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p><strong>compaction</strong> は長い往復が必要なタスク向け（会話の流れを保つ）。<strong>note-taking</strong> は明確なマイルストーンがある反復開発向け。<strong>マルチエージェント</strong>は並列探索が効く複雑な調査・分析向け。</p>
+<p>compaction の設計では、<strong>まず recall を最大化</strong>（トレースから関連情報を漏れなく拾う）してから、余計なものを削って precision を上げる、という順序が推奨されている。圧縮しすぎると、後になって重要と分かる微妙な文脈が失われる。</p>
+<p class="source">出典: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i14"><span class="num">14</span>Slack Enterprise Search が提供開始、Today は順次展開</h2>
+  <p class="sum"><strong>Enterprise Search</strong> は Enterprise Grid プランかつ Slack AI ライセンスを持つ顧客に提供開始。Google Drive と GitHub 向けのコネクタはリクエストベースで利用可能、順次展開中。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p><strong>Today</strong>（日次ブリーフィング）は Business+ V2 / Business+ V1（AIアドオン）/ Enterprise+ V2 / Enterprise Select（AIアドオン）/ Enterprise Grid（AIアドオン）に順次展開。Enterprise プランではオープンベータ。</p>
+<p class="source">出典: <a href="https://slack.com/blog/news/slack-enterprise-search-uncover-knowledge-work-smarter">Find Everything: Introducing Enterprise Search in Slack</a> / <a href="https://slack.com/blog/news/today-daily-briefing">Today by Slack</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i15"><span class="num">15</span>Gemini API の Managed Agents に背景実行とリモートMCP</h2>
+  <p class="sum">Google 側の動き。Managed Agents に<strong>バックグラウンド実行</strong>、<strong>リモートMCPサーバー連携</strong>、カスタム関数呼び出し、対話をまたいだ認証情報の更新が追加された。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p><code>antigravity-preview-05-2026</code> エージェントは既定で <strong>Gemini 3.6 Flash</strong> で動くようになり、コード変更なしで次の対話から適用される。企業向けには Google Cloud Next '26 で <strong>Gemini Enterprise Agent Platform</strong> が発表され、Vertex AI のモデル構築・チューニングに、エージェントの統合・セキュリティ・DevOps 機能が乗る形になった。</p>
+<p class="source">出典: <a href="https://blog.google/innovation-and-ai/technology/developers-tools/expanding-managed-agents-gemini-api/">Expanding Managed Agents in Gemini API</a> / <a href="https://blog.google/innovation-and-ai/infrastructure-and-cloud/google-cloud/gemini-enterprise-agent-platform/">Gemini Enterprise Agent Platform</a></p></div>
+  </details>
+</section>
+<div class="box"><div class="box-title">今日の空振り</div><p><strong>国内企業の導入事例は今日は載せていない。</strong> 別途調べた東京海上日動（応対時間 最大30%削減／年間約58,000時間）、小林製薬（FAQ作成工数75%削減）などは数字も企業名も揃っているが、公開が3月前後で新しくない。国内は改めて直近の一次ソースを当たる。</p>
+<p><strong>検証の深さについて。</strong> 項目1〜3、7、9、10、12 は本文または一次資料まで確認済み。項目4〜6、8、11、13〜15 は公式ドメインの記事見出し・要約レベルでの確認にとどまる。数字と固有名詞は公式ページ由来のものだけを書いているが、<strong>文脈の細部は原典を開いて確かめてほしい。</strong> 出典URLはすべて実在を確認済み。</p></div>
   <footer>
     判断軸は「明日から自分の業務に転用できるか」の一点。<br>
     収集方針は <code>config.md</code> に定義。書き換えれば翌朝から反映されます。
