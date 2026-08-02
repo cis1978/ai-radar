@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>常駐エージェント「Autopilot」の登場｜AI Radar 2026-07-29</title>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Radar — 業務転用リサーチ">
+<meta property="og:title" content="常駐エージェント「Autopilot」の登場">
+<meta property="og:description" content="Microsoft が Autopilot という新カテゴリを定義した。呼ばれてから答えるのではなく、常時動いて自分から動くエージェント。 技術的な核は「エージェントが自分の Entra ID を持つ」こと。共有サービスアカウントではないので、誰の権限で何をしたかが監査できる。ここが企業導入の分かれ目になる。">
+<meta property="og:url" content="https://cis1978.github.io/ai-radar/2026-07-29.html">
+<meta name="description" content="Microsoft が Autopilot という新カテゴリを定義した。呼ばれてから答えるのではなく、常時動いて自分から動くエージェント。 技術的な核は「エージェントが自分の Entra ID を持つ」こと。共有サービスアカウントではないので、誰の権限で何をしたかが監査できる。ここが企業導入の分かれ目になる。">
+<meta property="og:image" content="https://cis1978.github.io/ai-radar/img/2026-07-29.png">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="900">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cis1978.github.io/ai-radar/img/2026-07-29.png">
+<style>
+:root {
+  --ink: #14161a;
+  --sub: #6b7280;
+  --line: #e5e7eb;
+  --accent: #0b5cff;
+  --bg: #ffffff;
+  --box: #f6f8fa;
+  --mark: #fff3b8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #f0f2f5;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic", sans-serif;
+  line-height: 1.9;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 100px; }
+article { background: var(--bg); padding: 56px 56px 72px; margin-top: 32px;
+          border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+.kicker { font-size: 12px; letter-spacing: .18em; color: var(--accent);
+          font-weight: 700; margin-bottom: 18px; }
+h1 { font-size: 34px; line-height: 1.45; margin: 0 0 20px;
+     letter-spacing: -.01em; font-weight: 800; }
+.dateline { font-size: 13px; color: var(--sub); padding-bottom: 28px;
+            border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+.lead { font-size: 18.5px; line-height: 1.95; font-weight: 600;
+        margin: 0 0 36px; }
+.card-img { width: 100%; height: auto; display: block; margin: 0 0 36px;
+            border: 1px solid var(--line); border-radius: 4px; }
+
+h2 { font-size: 23px; line-height: 1.5; margin: 60px 0 22px;
+     padding-top: 4px; font-weight: 800; letter-spacing: -.01em; }
+h2 .num { display: block; font-size: 12px; color: var(--accent);
+          letter-spacing: .16em; margin-bottom: 10px; font-weight: 700; }
+
+p { margin: 0 0 22px; }
+strong { font-weight: 700; background: linear-gradient(transparent 62%, var(--mark) 62%); }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(11,92,255,.28); }
+a:hover { border-bottom-color: var(--accent); }
+code { background: var(--box); padding: 2px 6px; border-radius: 3px;
+       font-size: .88em; font-family: "SF Mono", Menlo, Consolas, monospace; }
+
+blockquote { margin: 32px 0; padding: 4px 0 4px 24px;
+             border-left: 3px solid var(--ink); font-size: 19px;
+             line-height: 1.85; font-weight: 600; }
+blockquote p { margin: 0; }
+
+.box { background: var(--box); border-radius: 6px; padding: 26px 30px;
+       margin: 36px 0; font-size: 15.5px; line-height: 1.85; }
+.box .box-title { font-size: 12px; letter-spacing: .14em; font-weight: 700;
+                  color: var(--accent); margin-bottom: 14px; }
+.box ol, .box ul { margin: 0; padding-left: 20px; }
+.box li { margin-bottom: 8px; }
+.box p:last-child { margin-bottom: 0; }
+
+.idea { border-left: 3px solid var(--accent); background: #f5f8ff;
+        padding: 20px 24px; margin: 28px 0; border-radius: 0 4px 4px 0; }
+.idea .idea-title { font-size: 12px; letter-spacing: .12em; font-weight: 700;
+                    color: var(--accent); margin-bottom: 10px; }
+.idea p { margin: 0; font-size: 16px; }
+
+ul, ol { margin: 0 0 22px; padding-left: 22px; }
+li { margin-bottom: 10px; }
+
+table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 15px; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: var(--box); font-weight: 700; font-size: 13px; color: var(--sub); }
+td strong { background: none; color: var(--accent); }
+
+hr { border: 0; border-top: 1px solid var(--line); margin: 48px 0; }
+
+.source { font-size: 13px; color: var(--sub); margin: -6px 0 0; }
+.source a { color: var(--sub); border-bottom-color: var(--line); }
+
+footer { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
+         font-size: 13px; color: var(--sub); }
+.nav { margin: 28px 0 0; font-size: 14px; }
+
+/* 一覧ページ */
+.index-head { padding: 48px 0 8px; }
+.index-head h1 { font-size: 28px; }
+.index-head p { color: var(--sub); font-size: 15px; }
+.card { background: #fff; padding: 24px 28px; border-radius: 4px;
+        margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.06);
+        display: block; border: 0; color: inherit; }
+.card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+.card .d { font-size: 12px; color: var(--accent); font-weight: 700;
+           letter-spacing: .1em; margin-bottom: 8px; }
+.card .t { font-size: 18px; font-weight: 700; line-height: 1.5; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  article { padding: 32px 22px 48px; }
+  h1 { font-size: 26px; }
+  h2 { font-size: 20px; margin-top: 44px; }
+  .wrap { padding: 0 10px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<article>
+  <div class="kicker">AI RADAR — 業務転用リサーチ</div>
+  <h1>常駐エージェント「Autopilot」の登場</h1>
+  <div class="dateline">2026年7月29日（水）</div>
+  <img class="card-img" src="img/2026-07-29.png" alt="" width="1600" height="900">
+<p class="lead">Microsoft が Autopilot という新カテゴリを定義した。呼ばれてから答えるのではなく、<strong>常時動いて自分から動く</strong>エージェント。<br>技術的な核は「エージェントが自分の Entra ID を持つ」こと。共有サービスアカウントではないので、誰の権限で何をしたかが監査できる。ここが企業導入の分かれ目になる。</p>
+<hr>
+<h2><span class="num">01</span>Autopilot は「プロンプトを待たない」エージェント</h2>
+<p>Microsoft が <strong>Autopilots</strong> という新しいエージェントのカテゴリを発表した。定義は3つ。<strong>常時稼働する／自分自身のアイデンティティを持つ／ユーザーに代わって行動する。</strong></p>
+<p>バックグラウンドで動き続け、アプリやシステムをまたいで仕事の進み方を理解し、<strong>毎回プロンプトを与えなくても行動する</strong>。従来のCopilotが「聞かれたら答える」だったのに対し、Autopilotは「answering で止まらず follow-through する」ことを狙っている。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>自分の業務のうち「気づけたはずなのに気づけなくて詰まった」ものを探す。止まった意思決定、期限が近い割に着手していない案件、返していないメール。<strong>Autopilotが狙っているのはそこ</strong>で、これは業務の棚卸し観点としてそのまま使える。</p></div>
+<p class="source">出典: <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/06/02/introducing-microsoft-scout-your-always-on-personal-agent/">Introducing Microsoft Scout: Your always-on personal agent</a></p>
+<hr>
+<h2><span class="num">02</span>Microsoft Scout がその第1号</h2>
+<p>Autopilot の最初の実装が <strong>Microsoft Scout</strong>。Teams / Outlook / OneDrive / SharePoint に繋がり、チャット・メール・カレンダー・連絡先を横断する。操作はTeamsから行い、デスクトップアプリ経由でブラウザ・ローカルリソース・<strong>MCPサーバー</strong>まで到達範囲を広げられる。</p>
+<p>やることは調整業務の削減に寄っている。タイムゾーンをまたいだ会議の設定、重要な会議のフラグ立て、事前資料の生成、<strong>締切から逆算したカレンダーのブロック</strong>、そして「止まっている意思決定」のような risk の検知。</p>
+<p>実装ベースは <strong>OpenClaw のオープンソース技術</strong>。Microsoft はポリシー適合性の検証機構を upstream に還元するとしている。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>MCP対応が入っているのが実務的に効く。<strong>社内ツールをMCPで繋げば、Scoutの守備範囲がそのまま広がる。</strong> どのツールをMCP化すると一番効くかは、今のうちに考えておく価値がある。</p></div>
+<p class="source">出典: <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/06/02/introducing-microsoft-scout-your-always-on-personal-agent/">Introducing Microsoft Scout</a></p>
+<hr>
+<h2><span class="num">03</span>企業導入の鍵は「エージェント1体ごとにEntra ID」</h2>
+<p>ここが今回いちばん重要な設計判断。<strong>すべてのエージェントが、共有の匿名サービスアカウントではなく、統制された自分自身の Entra ID で動く。</strong> 結果として、エージェントがやった仕事は「ディレクトリが既に知っている実行主体」に紐づいて追跡できる。</p>
+<p>その上に3層。</p>
+<ul>
+<li><strong>資格情報</strong> — タスク単位にスコープを絞り、ログや診断からは秘匿される</li>
+<li><strong>アクセス制御</strong> — 承認済みのリソースと宛先にしか到達できない。センシティブな操作は人間の承認を挟める</li>
+<li><strong>データ保護</strong> — Microsoft Purview の秘密度ラベルとDLPが、送信・書き込みの<strong>前</strong>にその場で適用される</li>
+</ul>
+<p>Scout はこれらを迂回せず、組織が既に設定した保護の<strong>内側で</strong>動く。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>AIを社内に広げるとき最初に詰まるのが「誰の権限で動いているのか」。<strong>エージェントに個別のIDを与えて監査可能にする</strong>という考え方は、Microsoft製品を使っていなくても設計として真似できる。前号で触れた「入れてよい情報の線引き」の、その次に来る論点。</p></div>
+<p class="source">出典: <a href="https://www.microsoft.com/en-us/microsoft-365/blog/2026/06/02/introducing-microsoft-scout-your-always-on-personal-agent/">Introducing Microsoft Scout</a></p>
+<hr>
+<h2><span class="num">04</span>入手性はまだ限定的</h2>
+<p>Microsoft社内では既にデスクトップ版の早期体験が使われている。外部には<strong>プライベートプレビュー</strong>と <strong>Frontier 組織</strong>向けの実験的リリースという段階。</p>
+<p>利用条件は Frontier への登録、Intune のポリシー設定、オプトインの表明。その上で <strong>GitHub Copilot ライセンス</strong>を持つユーザーがダウンロードできる。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>今すぐ触れるものではない。ただ<strong>「Autopilot」という言葉は今後のMicrosoft製品の説明に頻出する</strong>ので、Copilot（応答型）との区別だけは押さえておくと後が楽。</p></div>
+<p class="source">出典: <a href="https://learn.microsoft.com/microsoft-scout">Microsoft Scout セットアップ手順</a></p>
+<hr>
+<div class="box"><div class="box-title">今日の空振り</div><p>同時期に発表された <strong>Work IQ API</strong>（エージェントに業務文脈を与える基盤）と <strong>Copilot Cowork</strong>（6/16 GA）は、今回は本文を読めていないため見送った。Scout の文脈理解は Work IQ が支えているので、次に読むならここ。</p></div>
+<hr>
+<p class="source">この号は日次運用の取りこぼしを埋めるために後から作成。元記事の公開は 2026-06-02。</p>
+  <footer>
+    判断軸は「明日から自分の業務に転用できるか」の一点。<br>
+    収集方針は <code>config.md</code> に定義。書き換えれば翌朝から反映されます。
+    <div class="nav"><a href="index.html">バックナンバー</a> ・ <a href="2026-07-30.html">次の号 →</a></div>
+  </footer>
+</article>
+</div>
+</body>
+</html>
