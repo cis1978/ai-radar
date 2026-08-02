@@ -66,8 +66,35 @@ REG = pick(FONT_CANDIDATES)
 BOLD = pick(BOLD_CANDIDATES)
 
 
+def put(fig, ax, x, y, s, fp, fs, color, va="top", ha="left"):
+    """テキストを置き、実際に描画された範囲を (下端, 上端) で返す。
+
+    余白を数値で決め打ちすると、文字サイズを変えたときに必ずズレる。
+    描画結果を測ってから次の要素を置くことで、間隔を確実に保つ。
+    軸は 0..W / 0..H・dpi=100 なので、データ座標1 = 1ピクセル。
+    """
+    t = ax.text(x, y, s, fontproperties=fp, fontsize=fs, color=color, va=va, ha=ha)
+    fig.canvas.draw()
+    bb = t.get_window_extent(renderer=fig.canvas.get_renderer())
+    inv = ax.transData.inverted()
+    y0 = inv.transform((bb.x0, bb.y0))[1]
+    y1 = inv.transform((bb.x1, bb.y1))[1]
+    return min(y0, y1), max(y0, y1)
+
+
+def measure(fig, ax, s, fp, fs):
+    """描画せずに文字の高さだけ測る（レイアウトを組む前の下見用）。"""
+    t = ax.text(-9999, -9999, s, fontproperties=fp, fontsize=fs)
+    fig.canvas.draw()
+    bb = t.get_window_extent(renderer=fig.canvas.get_renderer())
+    inv = ax.transData.inverted()
+    h = abs(inv.transform((bb.x1, bb.y1))[1] - inv.transform((bb.x0, bb.y0))[1])
+    t.remove()
+    return h
+
+
 def base_canvas(title, subtitle, date_str):
-    """タイトル・サブタイトル・クレジットだけ置いた土台を返す。"""
+    """タイトル・サブタイトル・クレジットを置いた土台と、本文に使える上端を返す。"""
     fig = plt.figure(figsize=(W / DPI, H / DPI), dpi=DPI, facecolor=BG)
     ax = fig.add_axes([0, 0, 1, 1])
     ax.set_xlim(0, W)
@@ -77,18 +104,15 @@ def base_canvas(title, subtitle, date_str):
 
     # スマホでは1600px幅が実質350px程度まで縮む（約0.22倍）。
     # 12px相当で読ませるには元が55pt前後必要なので、全体的に大きめに取っている。
-    title_fs, sub_fs = 54, 36
-    title_top = H - 95
+    bottom, _ = put(fig, ax, 90, H - 90, title, BOLD, 46, INK)
 
-    ax.text(90, title_top, title, fontproperties=BOLD, fontsize=title_fs,
-            color=INK, va="top", ha="left")
     if subtitle:
-        # タイトルの下端から余白を空けて置く。タイトルを大きくしたら自動で下がる
-        ax.text(90, title_top - title_fs * 1.55, subtitle, fontproperties=REG,
-                fontsize=sub_fs, color=SUB, va="top", ha="left")
-    ax.text(90, 50, f"AI Radar｜{date_str}", fontproperties=REG, fontsize=26,
-            color=SUB, va="center", ha="left")
-    return fig, ax
+        bottom, _ = put(fig, ax, 90, bottom - 30, subtitle, REG, 30, SUB)
+
+    put(fig, ax, 90, 62, f"AI Radar｜{date_str}", REG, 26, SUB)
+
+    # 本文はヘッダーの下端からさらに余白を空けた位置から始める
+    return fig, ax, bottom - 54
 
 
 def text_width(s, fontsize):
@@ -154,48 +178,70 @@ def draw_diagram(ax, nodes, hub):
             color=BG, ha="center", va="center")
 
 
-def draw_map(ax, groups):
+def draw_map(fig, ax, groups, area_top):
     """ダイジェスト号の表紙。「カテゴリ ＋ 該当番号」で中身の地図を示す。
 
     groups は "カテゴリ名|01-05|補足" の形の文字列リスト（補足は省略可）。
+    余白は決め打ちせず、直前に描いた文字の実測位置から積み上げる。
     """
     groups = groups[:4]
-    name_fs, note_fs, badge_fs = 54, 36, 32
-    # タイトルと補足の行間。グループ間の余白がこれより広くなるよう描画領域を取る
-    gap = int(name_fs * 1.35)
+    BOTTOM = 135        # クレジット表記に被らせないための下限
+    GAP_MIN = 38        # グループ同士の最小距離。これを確保できるまで文字を縮める
 
-    top, bottom = H - 320, 105
-    step = (top - bottom) / max(len(groups), 1)
+    parsed = []
+    for g in groups:
+        p = [x.strip() for x in g.split("|")]
+        parsed.append((p[0], p[1] if len(p) > 1 else "", p[2] if len(p) > 2 else ""))
 
-    for i, g in enumerate(groups):
-        parts = [p.strip() for p in g.split("|")]
-        name = parts[0]
-        rng = parts[1] if len(parts) > 1 else ""
-        note = parts[2] if len(parts) > 2 else ""
-        y = top - step * (i + 0.5)
+    n = len(parsed)
+    avail = area_top - BOTTOM
 
-        # 補足がある行は2段になるので、バッジはタイトル行の高さに合わせる
-        badge_y = y + gap / 2 if note else y
+    # 収まるまで文字を段階的に縮める。決め打ちだと件数や文字数で必ずはみ出すため
+    name_fs, note_fs, badge_fs = 50, 36, 32
+    gap_nn = 24
+    while True:
+        heights = []
+        for name, _, note in parsed:
+            h = measure(fig, ax, name, BOLD, name_fs)
+            if note:
+                h += gap_nn + measure(fig, ax, note, REG, note_fs)
+            heights.append(h)
+        need = sum(heights) + GAP_MIN * (n - 1)
+        if need <= avail or name_fs <= 28:
+            break
+        name_fs -= 2
+        note_fs = max(22, note_fs - 2)
+        badge_fs = max(20, badge_fs - 1)
+        gap_nn = max(14, gap_nn - 1)
 
+    # 余った縦幅はグループ間に均等配分する（ループで GAP_MIN 以上は確保済み）
+    gap_between = (avail - sum(heights)) / (n - 1) if n > 1 else 0
+
+    y = area_top
+
+    for (name, rng, note), _h in zip(parsed, heights):
         if rng:
             bw = text_width(rng, badge_fs) + 46
-            bh = badge_fs + 30
-            ax.add_patch(Rectangle((110, badge_y - bh / 2), bw, bh,
-                                   facecolor=ACCENT, edgecolor="none"))
-            ax.text(110 + bw / 2, badge_y, rng, fontproperties=BOLD,
-                    fontsize=badge_fs, color=BG, ha="center", va="center")
             x = 110 + bw + 36
         else:
-            x = 110
+            bw, x = 0, 110
 
+        name_bottom, name_top = put(fig, ax, x, y, name, BOLD, name_fs, INK)
+
+        if rng:
+            bh = badge_fs + 30
+            cy = (name_bottom + name_top) / 2
+            ax.add_patch(Rectangle((110, cy - bh / 2), bw, bh,
+                                   facecolor=ACCENT, edgecolor="none"))
+            ax.text(110 + bw / 2, cy, rng, fontproperties=BOLD,
+                    fontsize=badge_fs, color=BG, ha="center", va="center")
+
+        y = name_bottom
         if note:
-            ax.text(x, y + gap / 2, name, fontproperties=BOLD, fontsize=name_fs,
-                    color=INK, ha="left", va="center")
-            ax.text(x, y - gap / 2, note, fontproperties=REG, fontsize=note_fs,
-                    color=SUB, ha="left", va="center")
-        else:
-            ax.text(x, y, name, fontproperties=BOLD, fontsize=name_fs,
-                    color=INK, ha="left", va="center")
+            note_bottom, _ = put(fig, ax, x, y - gap_nn, note, REG, note_fs, SUB)
+            y = note_bottom
+
+        y -= gap_between
 
 
 def draw_list(ax, headlines):
@@ -272,12 +318,12 @@ def main():
     ap.add_argument("--out", default=None, help="出力先を明示する（項目ごとの図に使う）")
     args = ap.parse_args()
 
-    fig, ax = base_canvas(args.title, args.subtitle, args.date)
+    fig, ax, area_top = base_canvas(args.title, args.subtitle, args.date)
 
     if args.kind == "map":
         if not args.groups:
             ap.error("map には --groups が必要")
-        draw_map(ax, args.groups)
+        draw_map(fig, ax, args.groups, area_top)
     elif args.kind == "list":
         if not args.headlines:
             ap.error("list には --headlines が必要")
