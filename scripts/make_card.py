@@ -148,6 +148,45 @@ def draw_diagram(ax, nodes, hub):
             color=BG, ha="center", va="center")
 
 
+def draw_map(ax, groups):
+    """ダイジェスト号の表紙。「カテゴリ ＋ 該当番号」で中身の地図を示す。
+
+    groups は "カテゴリ名|01-05|補足" の形の文字列リスト（補足は省略可）。
+    """
+    groups = groups[:5]
+    top, bottom = H - 320, 150
+    step = (top - bottom) / max(len(groups), 1)
+
+    for i, g in enumerate(groups):
+        parts = [p.strip() for p in g.split("|")]
+        name = parts[0]
+        rng = parts[1] if len(parts) > 1 else ""
+        note = parts[2] if len(parts) > 2 else ""
+        y = top - step * (i + 0.5)
+
+        # 補足がある行は2段になるので、バッジはタイトル行の高さに合わせる
+        badge_y = y + 15 if note else y
+
+        if rng:
+            bw = text_width(rng, 26) + 44
+            ax.add_patch(Rectangle((120, badge_y - 26), bw, 52,
+                                   facecolor=ACCENT, edgecolor="none"))
+            ax.text(120 + bw / 2, badge_y, rng, fontproperties=BOLD, fontsize=26,
+                    color=BG, ha="center", va="center")
+            x = 120 + bw + 34
+        else:
+            x = 120
+
+        if note:
+            ax.text(x, y + 15, name, fontproperties=BOLD, fontsize=34,
+                    color=INK, ha="left", va="center")
+            ax.text(x, y - 19, note, fontproperties=REG, fontsize=24,
+                    color=SUB, ha="left", va="center")
+        else:
+            ax.text(x, y, name, fontproperties=BOLD, fontsize=34,
+                    color=INK, ha="left", va="center")
+
+
 def draw_list(ax, headlines):
     """ダイジェスト号の表紙。その日の見出しを最大5本、番号付きで並べる。"""
     headlines = headlines[:5]
@@ -202,7 +241,7 @@ def draw_bar(ax, labels, values, suffix):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("date", help="YYYY-MM-DD")
-    ap.add_argument("kind", choices=["diagram", "bar", "list"])
+    ap.add_argument("kind", choices=["diagram", "bar", "list", "map"])
     ap.add_argument("--title", required=True, help="全角20字以内")
     ap.add_argument("--subtitle", default="")
     ap.add_argument("--nodes", nargs="*", default=[], help="diagram用（最大5）")
@@ -211,11 +250,18 @@ def main():
     ap.add_argument("--values", nargs="*", type=float, default=[], help="bar用")
     ap.add_argument("--suffix", default="%", help="bar用の単位")
     ap.add_argument("--headlines", nargs="*", default=[], help="list用（最大5本の見出し）")
+    ap.add_argument("--groups", nargs="*", default=[],
+                    help='map用。"カテゴリ名|01-05|補足" の形で最大5つ')
+    ap.add_argument("--out", default=None, help="出力先を明示する（項目ごとの図に使う）")
     args = ap.parse_args()
 
     fig, ax = base_canvas(args.title, args.subtitle, args.date)
 
-    if args.kind == "list":
+    if args.kind == "map":
+        if not args.groups:
+            ap.error("map には --groups が必要")
+        draw_map(ax, args.groups)
+    elif args.kind == "list":
         if not args.headlines:
             ap.error("list には --headlines が必要")
         draw_list(ax, args.headlines)
@@ -230,10 +276,10 @@ def main():
         draw_bar(ax, args.labels, vals, args.suffix)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    out = OUT_DIR / f"{args.date}.png"
+    out = OUT_DIR / (args.out if args.out else f"{args.date}.png")
     fig.savefig(out, dpi=DPI, facecolor=BG)
     plt.close(fig)
-    print(f"  生成: docs/img/{args.date}.png  ({args.kind})")
+    print(f"  生成: docs/img/{out.name}  ({args.kind})")
 
 
 if __name__ == "__main__":

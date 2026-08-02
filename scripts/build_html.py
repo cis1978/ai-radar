@@ -69,12 +69,22 @@ h1 { font-size: 33px; line-height: 1.45; margin: 0 0 18px; font-weight: 800;
             gap: 12px; margin-bottom: 12px; }
 .toc-title { font-size: 12px; letter-spacing: .14em; font-weight: 700;
              color: var(--accent); }
-.toc ol { margin: 0; padding-left: 0; list-style: none; counter-reset: t; }
-.toc li { counter-increment: t; margin-bottom: 7px; font-size: 15.5px;
-          line-height: 1.6; display: flex; gap: 10px; }
-.toc li::before { content: counter(t, decimal-leading-zero);
-                  color: var(--accent); font-weight: 700; font-size: 12.5px;
-                  flex: none; padding-top: 3px; font-variant-numeric: tabular-nums; }
+.toc-list { margin: 0; padding-left: 0; list-style: none; }
+.toc li { margin-bottom: 7px; font-size: 15.5px; line-height: 1.6;
+          display: flex; gap: 10px; }
+.toc li::before { content: attr(value); color: var(--accent); font-weight: 700;
+                  font-size: 12.5px; flex: none; padding-top: 3px;
+                  font-variant-numeric: tabular-nums; min-width: 20px; }
+.toc-group + .toc-group { margin-top: 18px; }
+.toc-g-head { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
+.toc-g-range { background: var(--accent); color: #fff; font-size: 11.5px;
+               font-weight: 700; padding: 2px 9px; border-radius: 999px;
+               font-variant-numeric: tabular-nums; }
+.toc-g-name { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+h3.group { font-size: 13px; letter-spacing: .1em; font-weight: 700;
+           color: var(--accent); margin: 44px 0 -8px; }
+.item-img { width: 100%; height: auto; display: block; margin: 0 0 20px;
+            border: 1px solid var(--line); border-radius: 4px; }
 .toc a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
 .toc a:hover { border-bottom-color: var(--accent); color: var(--accent); }
 
@@ -378,7 +388,7 @@ def parse(md):
     """記事を「見出し / リード / 項目リスト / 末尾ボックス」に分解する。"""
     lines = md.split("\n")
     title, lead_lines, lead_text = "", [], ""
-    items, tail = [], []
+    items, tail, groups = [], [], []
     cur = None
     i = 0
 
@@ -413,6 +423,13 @@ def parse(md):
             lead_text = " ".join(lead_lines)
             continue
 
+        # グループ見出し（### カテゴリ名）
+        if s.startswith("### "):
+            groups.append({"name": s[4:].strip(), "start": len(items) + 1})
+            cur = None
+            i += 1
+            continue
+
         if s.startswith("## "):
             head = s[3:].strip()
             if "空振り" in head:
@@ -433,7 +450,11 @@ def parse(md):
             cur["lines"].append(lines[i])
         i += 1
 
-    return title, lead_lines, lead_text, items, tail
+    # 各グループの終端番号を確定する
+    for n, g in enumerate(groups):
+        g["end"] = groups[n + 1]["start"] - 1 if n + 1 < len(groups) else len(items)
+
+    return title, lead_lines, lead_text, items, tail, groups
 
 
 def split_item(lines):
@@ -508,12 +529,35 @@ def plain(s):
     return esc(re.sub(r"[`*]", "", s))
 
 
-def build_body(items, tail, date_str):
-    toc = "\n".join(
-        f'    <li><a href="#i{n}">{plain(it["title"])}</a></li>'
-        for n, it in enumerate(items, 1)
-    )
-    blocks = [
+def build_toc(items, groups):
+    """目次。グループがあればカテゴリごとに区切って番号範囲を見せる。"""
+    def li(n, it):
+        return f'      <li value="{n}"><a href="#i{n}">{plain(it["title"])}</a></li>'
+
+    if not groups:
+        rows = "\n".join(li(n, it) for n, it in enumerate(items, 1))
+        return f'    <ol class="toc-list">\n{rows}\n    </ol>'
+
+    out = []
+    for g in groups:
+        s, e = g["start"], g["end"]
+        if s > e:
+            continue
+        rng = f"{s:02d}" if s == e else f"{s:02d}–{e:02d}"
+        rows = "\n".join(li(n, items[n - 1]) for n in range(s, e + 1))
+        out.append(
+            f'    <div class="toc-group">\n'
+            f'      <div class="toc-g-head"><span class="toc-g-range">{rng}</span>'
+            f'<span class="toc-g-name">{esc(g["name"])}</span></div>\n'
+            f'      <ol class="toc-list">\n{rows}\n      </ol>\n'
+            f"    </div>"
+        )
+    return "\n".join(out)
+
+
+def build_body(items, tail, date_str, groups):
+    """目次と本文を返す。用語注釈は本文だけに掛ける（目次に点線が並ぶと読みにくい）。"""
+    nav = [
         '<nav class="toc">',
         '  <div class="toc-head">',
         f'    <span class="toc-title">目次 — {len(items)}件</span>',
@@ -522,12 +566,17 @@ def build_body(items, tail, date_str):
         '      <button class="btn" id="toggle-all" type="button">すべて開く</button>',
         "    </span>",
         "  </div>",
-        f"  <ol>\n{toc}\n  </ol>",
+        build_toc(items, groups),
         '  <p class="toc-note">用語の点線をタップすると説明が出ます。</p>',
         "</nav>",
     ]
 
+    blocks = []
+    starts = {g["start"]: g["name"] for g in groups}
+
     for n, it in enumerate(items, 1):
+        if n in starts:
+            blocks.append(f'<h3 class="group">{esc(starts[n])}</h3>')
         summary, easy, detail_lines = split_item(it["lines"])
         detail = render(detail_lines).strip()
         blocks.append('<section class="item">')
@@ -537,9 +586,12 @@ def build_body(items, tail, date_str):
         if easy:
             blocks.append(f'  <p class="easy"><span class="easy-tag">かんたんに言うと</span>{inline(easy)}</p>')
         if detail:
+            fig = DOCS / "img" / f"{date_str}-{n:02d}.png"
+            fig_html = (f'<img class="item-img" src="img/{fig.name}" alt="" '
+                        f'width="1600" height="900">') if fig.exists() else ""
             blocks.append("  <details>")
             blocks.append("    <summary>詳しく読む</summary>")
-            blocks.append(f'    <div class="detail">{detail}</div>')
+            blocks.append(f'    <div class="detail">{fig_html}{detail}</div>')
             blocks.append("  </details>")
         blocks.append("</section>")
 
@@ -547,10 +599,10 @@ def build_body(items, tail, date_str):
     if tail_html:
         blocks.append(f'<div class="box"><div class="box-title">今日の空振り</div>{tail_html}</div>')
 
-    return "\n".join(blocks)
+    return "\n".join(nav), "\n".join(blocks)
 
 
-def page(title, date_str, lead_lines, items, tail, prev_link, next_link, desc):
+def page(title, date_str, lead_lines, items, tail, prev_link, next_link, desc, groups):
     y, mth, d = map(int, date_str.split("-"))
     wd = WEEKDAY_JA[datetime.date(y, mth, d).weekday()]
 
@@ -569,6 +621,9 @@ def page(title, date_str, lead_lines, items, tail, prev_link, next_link, desc):
     if lead_lines:
         lead = '  <p class="lead">' + "<br>".join(inline(x) for x in lead_lines) + "</p>"
 
+    nav_html, body_html = build_body(items, tail, date_str, groups)
+    body_html = annotate(body_html, load_glossary())
+
     return f"""<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -586,7 +641,8 @@ def page(title, date_str, lead_lines, items, tail, prev_link, next_link, desc):
   <div class="dateline">{y}年{mth}月{d}日（{wd}）</div>
 {img}
 {lead}
-{annotate(build_body(items, tail, date_str), load_glossary())}
+{nav_html}
+{body_html}
   <footer>
     判断軸は「明日から自分の業務に転用できるか」の一点。<br>
     収集方針は <code>config.md</code> に定義。書き換えれば翌朝から反映されます。
@@ -690,7 +746,7 @@ def main():
     for path in sorted(ISSUES.glob("*.md")):
         date_str = path.stem
         raw = path.read_text(encoding="utf-8")
-        h1, lead_lines, lead_text, items, tail = parse(raw)
+        h1, lead_lines, lead_text, items, tail, groups = parse(raw)
         title = headline(h1, raw, date_str)
         entries.append((date_str, title, f"{date_str}.html"))
 
@@ -702,7 +758,8 @@ def main():
         next_link = f"{all_dates[idx + 1]}.html" if idx < len(all_dates) - 1 else None
 
         (DOCS / f"{date_str}.html").write_text(
-            page(title, date_str, lead_lines, items, tail, prev_link, next_link, lead_text),
+            page(title, date_str, lead_lines, items, tail,
+                 prev_link, next_link, lead_text, groups),
             encoding="utf-8",
         )
         print(f"  生成: docs/{date_str}.html  {len(items):>2}件  「{title}」")
