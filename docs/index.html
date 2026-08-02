@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Radar — 業務転用リサーチ</title>
+<style>
+:root {
+  --ink: #14161a;
+  --sub: #6b7280;
+  --line: #e5e7eb;
+  --accent: #0b5cff;
+  --bg: #ffffff;
+  --box: #f6f8fa;
+  --mark: #fff3b8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #f0f2f5;
+  color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic", sans-serif;
+  line-height: 1.9;
+  font-size: 17px;
+  -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 720px; margin: 0 auto; padding: 0 20px 100px; }
+article { background: var(--bg); padding: 56px 56px 72px; margin-top: 32px;
+          border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+.kicker { font-size: 12px; letter-spacing: .18em; color: var(--accent);
+          font-weight: 700; margin-bottom: 18px; }
+h1 { font-size: 34px; line-height: 1.45; margin: 0 0 20px;
+     letter-spacing: -.01em; font-weight: 800; }
+.dateline { font-size: 13px; color: var(--sub); padding-bottom: 28px;
+            border-bottom: 1px solid var(--line); margin-bottom: 36px; }
+.lead { font-size: 18.5px; line-height: 1.95; font-weight: 600;
+        margin: 0 0 36px; }
+
+h2 { font-size: 23px; line-height: 1.5; margin: 60px 0 22px;
+     padding-top: 4px; font-weight: 800; letter-spacing: -.01em; }
+h2 .num { display: block; font-size: 12px; color: var(--accent);
+          letter-spacing: .16em; margin-bottom: 10px; font-weight: 700; }
+
+p { margin: 0 0 22px; }
+strong { font-weight: 700; background: linear-gradient(transparent 62%, var(--mark) 62%); }
+a { color: var(--accent); text-decoration: none; border-bottom: 1px solid rgba(11,92,255,.28); }
+a:hover { border-bottom-color: var(--accent); }
+code { background: var(--box); padding: 2px 6px; border-radius: 3px;
+       font-size: .88em; font-family: "SF Mono", Menlo, Consolas, monospace; }
+
+blockquote { margin: 32px 0; padding: 4px 0 4px 24px;
+             border-left: 3px solid var(--ink); font-size: 19px;
+             line-height: 1.85; font-weight: 600; }
+blockquote p { margin: 0; }
+
+.box { background: var(--box); border-radius: 6px; padding: 26px 30px;
+       margin: 36px 0; font-size: 15.5px; line-height: 1.85; }
+.box .box-title { font-size: 12px; letter-spacing: .14em; font-weight: 700;
+                  color: var(--accent); margin-bottom: 14px; }
+.box ol, .box ul { margin: 0; padding-left: 20px; }
+.box li { margin-bottom: 8px; }
+.box p:last-child { margin-bottom: 0; }
+
+.idea { border-left: 3px solid var(--accent); background: #f5f8ff;
+        padding: 20px 24px; margin: 28px 0; border-radius: 0 4px 4px 0; }
+.idea .idea-title { font-size: 12px; letter-spacing: .12em; font-weight: 700;
+                    color: var(--accent); margin-bottom: 10px; }
+.idea p { margin: 0; font-size: 16px; }
+
+ul, ol { margin: 0 0 22px; padding-left: 22px; }
+li { margin-bottom: 10px; }
+
+table { width: 100%; border-collapse: collapse; margin: 30px 0; font-size: 15px; }
+th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: var(--box); font-weight: 700; font-size: 13px; color: var(--sub); }
+td strong { background: none; color: var(--accent); }
+
+hr { border: 0; border-top: 1px solid var(--line); margin: 48px 0; }
+
+.source { font-size: 13px; color: var(--sub); margin: -6px 0 0; }
+.source a { color: var(--sub); border-bottom-color: var(--line); }
+
+footer { margin-top: 64px; padding-top: 28px; border-top: 1px solid var(--line);
+         font-size: 13px; color: var(--sub); }
+.nav { margin: 28px 0 0; font-size: 14px; }
+
+/* 一覧ページ */
+.index-head { padding: 48px 0 8px; }
+.index-head h1 { font-size: 28px; }
+.index-head p { color: var(--sub); font-size: 15px; }
+.card { background: #fff; padding: 24px 28px; border-radius: 4px;
+        margin-bottom: 12px; box-shadow: 0 1px 2px rgba(0,0,0,.06);
+        display: block; border: 0; color: inherit; }
+.card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+.card .d { font-size: 12px; color: var(--accent); font-weight: 700;
+           letter-spacing: .1em; margin-bottom: 8px; }
+.card .t { font-size: 18px; font-weight: 700; line-height: 1.5; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  article { padding: 32px 22px 48px; }
+  h1 { font-size: 26px; }
+  h2 { font-size: 20px; margin-top: 44px; }
+  .wrap { padding: 0 10px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="index-head">
+    <div class="kicker">AI RADAR</div>
+    <h1>業務転用リサーチ</h1>
+    <p>平日の朝、AIの動向から「明日から自分の業務に使えるもの」だけを拾う。</p>
+  </div>
+  <a class="card" href="2026-08-03.html"><div class="d">2026-08-03</div><div class="t">Excelが「SKILL.md」を読み始めた</div></a>
+<a class="card" href="2026-08-02.html"><div class="d">2026-08-02</div><div class="t">「AIに聞く」から「AIに手順を渡す」へ</div></a>
+</div>
+</body>
+</html>
