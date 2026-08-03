@@ -311,7 +311,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
     <summary>詳しく読む</summary>
     <div class="detail"><img class="item-img" src="img/2026-08-03-07.png" alt="" width="1600" height="900"><table><thead><tr><th>指標</th><th>ステージ1のみ</th><th>2段構え（実運用）</th></tr></thead><tbody><tr><td>誤ってブロック（実トラフィック n=10,000）</td><td>8.5%</td><td><strong>0.4%</strong></td></tr><tr><td><span class="term" tabindex="0" role="button" data-d="本当は危ないのに通してしまう割合。低いほど安全">見逃し</span>（実際のやりすぎ操作 n=52）</td><td>6.6%</td><td><strong>17%</strong></td></tr><tr><td>見逃し（合成の情報持ち出し n=1,000）</td><td>1.8%</td><td><strong>5.7%</strong></td></tr></tbody></table>
 <p>注目すべきは Anthropic 自身の但し書きで、<strong>「17%が正直な数字だ」</strong>と明記している。<code>--dangerously-skip-permissions</code> を使っている人にとっては大きな改善だが、<strong>1件ずつ丁寧に確認している人にとっては後退</strong>であり、重要インフラでの人のレビューを置き換えるものではない、と。</p>
-<p>見逃しの中身も分析されている。分類器は危険性自体はほぼ正しく認識している。間違えるのは<strong>「そのユーザー発言が、この操作の<span class="term" tabindex="0" role="button" data-d="何かが失敗したとき、被害が及ぶ最大の範囲。爆発の半径にたとえた言い方">影響範囲</span>まで許可しているか」</strong>の判断。「<span class="term" tabindex="0" role="button" data-d="変更をチームにレビューしてもらうための申請。これが増えている＝開発が進んでいる、の目安">PR</span>を整理して」は force-push を名指ししていないし、似た操作を前に1回承認したことは承認パターンの成立を意味しない。プロンプトの工夫では解決できなかったと書いている。</p>
+<p>見逃しの中身も分析されている。分類器は危険性自体はほぼ正しく認識している。間違えるのは<strong>「そのユーザー発言が、この操作の<span class="term" tabindex="0" role="button" data-d="何かが失敗したとき、被害が及ぶ最大の範囲。爆発の半径にたとえた言い方">影響範囲</span>まで許可しているか」</strong>の判断。「<span class="term" tabindex="0" role="button" data-d="変更をチームにレビューしてもらうための申請。これが増えている＝開発が進んでいる、の目安">PR</span>を整理して」は force-push を名指ししていないし、似た操作を前に1回承認したことは承認パ<span class="term" tabindex="0" role="button" data-d="AIが指示を受けてから手を止めるまでの一区切り。長いほど「人に聞かずに走り続けた」ことを意味する">ターン</span>の成立を意味しない。プロンプトの工夫では解決できなかったと書いている。</p>
 <div class="idea"><div class="idea-title">転用アイデア</div><p>「AIに任せていいか」を議論するとき、<strong>比較対象を明示しないと答えが出ない</strong>という構造がよく分かる。無防備と比べるのか、丁寧な人力レビューと比べるのかで結論が正反対になる。社内でAI活用を提案するときは、まず何と比べているのかを合意してから数字を出すのが早い。</p></div>
 <p class="source">出典: <a href="https://www.anthropic.com/engineering/claude-code-auto-mode">How we built Claude Code auto mode: a safer way to skip permissions</a></p></div>
   </details>
@@ -420,7 +420,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
   <footer>
     判断軸は「明日から自分の業務に転用できるか」の一点。<br>
     収集方針は <code>config.md</code> に定義。書き換えれば翌朝から反映されます。
-    <div class="nav"><a href="2026-08-02.html">← 前の号</a> ・ <a href="index.html">バックナンバー</a></div>
+    <div class="nav"><a href="2026-08-02.html">← 前の号</a> ・ <a href="index.html">バックナンバー</a> ・ <a href="2026-08-04.html">次の号 →</a></div>
   </footer>
 </article>
 </div>
