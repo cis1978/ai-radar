@@ -280,7 +280,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 </section>
 <section class="item">
   <h2 id="i5"><span class="num">05</span>Gemini API の Managed Agents に背景実行とリモートMCP</h2>
-  <p class="sum">Google 側の動き。Managed Agents に<strong>バックグラウンド実行</strong>、<strong>リモート<span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの"><span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの">MCP</span>サーバー</span>連携</strong>、カスタム関数呼び出し、対話をまたいだ認証情報の更新が追加された。</p>
+  <p class="sum">Google 側の動き。Managed Agents に<strong>バックグラウンド実行</strong>、<strong>リモート<span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの">MCPサーバー</span>連携</strong>、カスタム関数呼び出し、対話をまたいだ認証情報の更新が追加された。</p>
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>GoogleのAIも、裏で動き続ける・外部サービスにつなぐ、といった機能を追加してきた。各社が同じ方向に進んでいる。</p>
   <details>
     <summary>詳しく読む</summary>
@@ -295,7 +295,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>AIに道具を1つずつ使わせるのではなく、道具の使い方を書いたプログラムを作らせて実行する。作業メモが手元に残らないぶん、AIの「机の上」が散らからない。</p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><p>MCPサーバーを繋ぎすぎると、ツール定義と実行結果だけで<strong>5万<span class="term" tabindex="0" role="button" data-d="AIが文章を数える単位。日本語だとおおよそ1文字＝1トークン前後。多いほど時間もお金もかかる">トークン</span>超</strong>を食うことがある。コード実行方式なら中間結果は実行環境に留まり、明示的にログや戻り値にしたものだけがモデルに見える。ループ・条件分岐・データ変換はコードのほうが自然に書けるし、if文の<span class="term" tabindex="0" role="button" data-d="AIの出力が正しいかを機械的に採点する仕組み。テストのようなもの">評価</span>をモデルに待たせないぶん<span class="term" tabindex="0" role="button" data-d="指示を出してから最初の文字が返ってくるまでの時間">初回応答</span>も速くなる。</p>
+    <div class="detail"><p><span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの">MCP</span>サーバーを繋ぎすぎると、ツール定義と実行結果だけで<strong>5万<span class="term" tabindex="0" role="button" data-d="AIが文章を数える単位。日本語だとおおよそ1文字＝1トークン前後。多いほど時間もお金もかかる">トークン</span>超</strong>を食うことがある。コード実行方式なら中間結果は実行環境に留まり、明示的にログや戻り値にしたものだけがモデルに見える。ループ・条件分岐・データ変換はコードのほうが自然に書けるし、if文の<span class="term" tabindex="0" role="button" data-d="AIの出力が正しいかを機械的に採点する仕組み。テストのようなもの">評価</span>をモデルに待たせないぶん<span class="term" tabindex="0" role="button" data-d="指示を出してから最初の文字が返ってくるまでの時間">初回応答</span>も速くなる。</p>
 <div class="idea"><div class="idea-title">転用アイデア</div><p>繋ぐMCPを増やすほど遅く高くなる、という体感には理由がある。<strong>「ツールを呼ぶ」から「ツールを呼ぶコードを書かせる」への切り替え</strong>は、自分でエージェントを組むときの第一の設計判断になる。</p></div>
 <p class="source">出典: <a href="https://www.anthropic.com/engineering/code-execution-with-mcp">Code execution with MCP: building more efficient AI agents</a></p></div>
   </details>
@@ -318,7 +318,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>AIの「頭脳」と「手足」を分けて、手足は必要なときだけ用意するようにした。毎回手足の準備を待たなくていいので、返事が速くなった。</p>
   <details>
     <summary>詳しく読む</summary>
-    <div class="detail"><img class="item-img" src="img/2026-08-02-08.png" alt="" width="1600" height="900"><p>効果は明確で、<strong><span class="term" tabindex="0" role="button" data-d="指示を出してから最初の文字が返ってくるまでの時間">time-to-first-token</span> が <span class="term" tabindex="0" role="button" data-d="速さのばらつきを見る指標。p50は「半分の場合はこれより速い」、<span class="term" tabindex="0" role="button" data-d="速さのばらつきを見る指標。p50は「半分の場合はこれより速い」、p95は「95%の場合はこれより速い」。p95は最悪ケースに近い">p95</span>は「95%の場合はこれより速い」。p95は最悪ケースに近い">p50</span> で60%、p95 で90%以上短縮</strong>。従来はbrainがコンテナ内にあったため、推論の前に毎回コンテナ起動コストを払っていた。副次的な効果として、顧客が自社VPC内のリソースに対して作業させたいという要望も解けた（ハーネスがコンテナ内にある前提が消えたため）。各 hand は標準インターフェースを持つツールになり、任意のカスタムツール・MCPサーバーを差せる。</p>
+    <div class="detail"><img class="item-img" src="img/2026-08-02-08.png" alt="" width="1600" height="900"><p>効果は明確で、<strong><span class="term" tabindex="0" role="button" data-d="指示を出してから最初の文字が返ってくるまでの時間">time-to-first-token</span> が <span class="term" tabindex="0" role="button" data-d="速さのばらつきを見る指標。p50は「半分の場合はこれより速い」、p95は「95%の場合はこれより速い」。p95は最悪ケースに近い">p50</span> で60%、<span class="term" tabindex="0" role="button" data-d="速さのばらつきを見る指標。p50は「半分の場合はこれより速い」、p95は「95%の場合はこれより速い」。p95は最悪ケースに近い">p95</span> で90%以上短縮</strong>。従来はbrainがコンテナ内にあったため、推論の前に毎回コンテナ起動コストを払っていた。副次的な効果として、顧客が自社VPC内のリソースに対して作業させたいという要望も解けた（ハーネスがコンテナ内にある前提が消えたため）。各 hand は標準インターフェースを持つツールになり、任意のカスタムツール・MCPサーバーを差せる。</p>
 <p class="source">出典: <a href="https://www.anthropic.com/engineering/managed-agents">Scaling Managed Agents: Decoupling the brain from the hands</a></p></div>
   </details>
 </section>

@@ -244,12 +244,12 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 <h3 class="group">業務ツールで今すぐ効く</h3>
 <section class="item">
   <h2 id="i1"><span class="num">01</span>Claude、第三者スキルとプラグインを pass / warn / fail の3段階で自動スキャン</h2>
-  <p class="sum">8月6日の更新。Enterpriseプランで<strong><span class="term" tabindex="0" role="button" data-d="よく使う作業手順をまとめて名前を付けたもの。毎回説明し直さずに呼び出せる">スキル</span>とプラグインの<span class="term" tabindex="0" role="button" data-d="ファイルの中身を自動で検査して、悪意ある動きが仕込まれていないか調べること">セキュリティ<span class="term" tabindex="0" role="button" data-d="ファイルの中身を自動で検査して、悪意ある動きが仕込まれていないか調べること">スキャン</span></span>（<span class="term" tabindex="0" role="button" data-d="正式版の前に試しに公開している状態。動作が変わることがある">ベータ</span>）</strong>が使えるようになった。第三者のスキル／プラグインが<strong>アップロードまたは編集された瞬間</strong>に中身を検査し、<code>pass</code>（そのまま導入）／<code>warn</code>（注意バナーを承認すれば使える）／<code>fail</code>（ブロック、上書き不可）の3値を返す。スキャンは1〜2分、追加費用なし。</p>
+  <p class="sum">8月6日の更新。Enterpriseプランで<strong><span class="term" tabindex="0" role="button" data-d="よく使う作業手順をまとめて名前を付けたもの。毎回説明し直さずに呼び出せる">スキル</span>とプラグインの<span class="term" tabindex="0" role="button" data-d="ファイルの中身を自動で検査して、悪意ある動きが仕込まれていないか調べること">セキュリティスキャン</span>（<span class="term" tabindex="0" role="button" data-d="正式版の前に試しに公開している状態。動作が変わることがある">ベータ</span>）</strong>が使えるようになった。第三者のスキル／プラグインが<strong>アップロードまたは編集された瞬間</strong>に中身を検査し、<code>pass</code>（そのまま導入）／<code>warn</code>（注意バナーを承認すれば使える）／<code>fail</code>（ブロック、上書き不可）の3値を返す。<span class="term" tabindex="0" role="button" data-d="ファイルの中身を自動で検査して、悪意ある動きが仕込まれていないか調べること">スキャン</span>は1〜2分、追加費用なし。</p>
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>外から持ってきた作業マニュアルを、使う前に自動で中身チェックしてくれるようになった。危ないものは赤信号で止まる。</p>
   <details>
     <summary>詳しく読む</summary>
     <div class="detail"><img class="item-img" src="img/2026-08-07-01.png" alt="" width="1600" height="900"><p>既定はオフで、OwnerかPrimary Ownerが「組織設定 &gt; スキル」から有効化する。カスタムロールを使っていれば、ロール単位で適用範囲を絞れる。</p>
-<p>対象外がはっきり書かれているのが実務的に重要。<strong>すでに組織に入っているスキル／プラグインは対象外</strong>（有効化しても既存のものは止まらない）。<strong>Claudeに作らせたスキル、<span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの"><span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの">MCP</span>サーバー</span>経由で共有されたスキル、MCPサーバー本体、<span class="term" tabindex="0" role="button" data-d="「これだけは必ず守らせる」を強制する仕組み">フック</span>も対象外</strong>。<span class="term" tabindex="0" role="button" data-d="暗号化の鍵を提供元ではなく利用企業側が持つ方式。鍵を握っている側がデータを最終的に管理できる">CMEK</span>・<span class="term" tabindex="0" role="button" data-d="やり取りした内容を提供元に一切残さない設定。機密性の高い業務で選ばれる">ZDR</span>・HIPAA構成の組織も従来どおりスキャンなしで導入する。</p>
+<p>対象外がはっきり書かれているのが実務的に重要。<strong>すでに組織に入っているスキル／プラグインは対象外</strong>（有効化しても既存のものは止まらない）。<strong>Claudeに作らせたスキル、<span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの">MCPサーバー</span>経由で共有されたスキル、<span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの">MCP</span>サーバー本体、<span class="term" tabindex="0" role="button" data-d="「これだけは必ず守らせる」を強制する仕組み">フック</span>も対象外</strong>。<span class="term" tabindex="0" role="button" data-d="暗号化の鍵を提供元ではなく利用企業側が持つ方式。鍵を握っている側がデータを最終的に管理できる">CMEK</span>・<span class="term" tabindex="0" role="button" data-d="やり取りした内容を提供元に一切残さない設定。機密性の高い業務で選ばれる">ZDR</span>・HIPAA構成の組織も従来どおりスキャンなしで導入する。</p>
 <p><code>fail</code> は本人も管理者も解除できない。誤検知だと思う場合は「編集して再アップロード」しかない（同一内容の再アップロードは結果もキャッシュから同じものが返る）。</p>
 <p>スキャン中の中身は通常のセッションから隔離された環境で処理され、<strong>走査後にコピーは削除</strong>、結果とメタデータだけが残る。</p>
 <p>検出範囲も限定されている。狙っているのは「与えられた権限を悪用して、データを本来行くべきでない場所に静かに移す」型の第三者スキルだけ。<code>pass</code> は「その脅威が見つからなかった」であって「安全の保証ではない」と明記されている。</p>
@@ -301,7 +301,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 <h3 class="group">開発ツールとプラグインの流通</h3>
 <section class="item">
   <h2 id="i6"><span class="num">06</span>Codex CLI 0.146、Amazon Bedrock と Claude Code のプラグインマーケットプレイスを読む</h2>
-  <p class="sum">7月29日リリースの <strong><span class="term" tabindex="0" role="button" data-d="OpenAI のコーディング支援ツールを、ターミナルから使うための版">Codex CLI</span> 0.146.0</strong> に、<strong>Agent Plugins マニフェストのサポート、ワークスペース単位のプラグイン公開、そして追加の<span class="term" tabindex="0" role="button" data-d="追加機能をまとめて配布・入手できる公式の置き場。アプリストアのようなもの">プラグイン<span class="term" tabindex="0" role="button" data-d="追加機能をまとめて配布・入手できる公式の置き場。アプリストアのようなもの">マーケットプレイス</span></span>（Amazon Bedrock と Claude Code）</strong> が入った。OpenAI のCLIが、他社のプラグイン置き場を読みにいく形になる。</p>
+  <p class="sum">7月29日リリースの <strong><span class="term" tabindex="0" role="button" data-d="OpenAI のコーディング支援ツールを、ターミナルから使うための版">Codex CLI</span> 0.146.0</strong> に、<strong>Agent Plugins マニフェストのサポート、ワークスペース単位のプラグイン公開、そして追加の<span class="term" tabindex="0" role="button" data-d="追加機能をまとめて配布・入手できる公式の置き場。アプリストアのようなもの">プラグインマーケットプレイス</span>（Amazon Bedrock と Claude Code）</strong> が入った。OpenAI のCLIが、他社のプラグイン置き場を読みにいく形になる。</p>
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>道具箱の中身を、よそのメーカーの棚からも取ってこられるようになった。ツールごとに同じ道具を作り直さなくてよくなる方向。</p>
   <details>
     <summary>詳しく読む</summary>
@@ -342,7 +342,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 </section>
 <section class="item">
   <h2 id="i10"><span class="num">10</span>M365 Agent Builder、SharePointリストを知識源に。1エージェント1リスト・2万件まで</h2>
-  <p class="sum">Microsoft 365 Copilot の <span class="term" tabindex="0" role="button" data-d="Microsoft の、コードを書かずに<span class="term" tabindex="0" role="button" data-d="指示を受けて、自分で手順を考えて複数の作業を実行するAI。「聞いたら答える」ではなく「頼んだらやっておいてくれる」タイプ">AIエージェント</span>を組み立てるツール">Agent Builder</span> が、<strong>SharePointリストをエージェントの<span class="term" tabindex="0" role="button" data-d="AIが答えを作るときに参照する資料の置き場。ここに入っていない情報は答えられない">知識源</span>として使える</strong>ようになった。構造化されたリストのデータにエージェントを紐づけ、利用者がそのリストの中身に基づいた回答を得られる。</p>
+  <p class="sum">Microsoft 365 Copilot の <span class="term" tabindex="0" role="button" data-d="Microsoft の、コードを書かずにAIエージェントを組み立てるツール">Agent Builder</span> が、<strong>SharePointリストをエージェントの<span class="term" tabindex="0" role="button" data-d="AIが答えを作るときに参照する資料の置き場。ここに入っていない情報は答えられない">知識源</span>として使える</strong>ようになった。構造化されたリストのデータにエージェントを紐づけ、利用者がそのリストの中身に基づいた回答を得られる。</p>
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>社内で管理している一覧表を、AIが直接読んで答えられるようになった。ただし今のところ1体につき1つの表まで。</p>
   <details>
     <summary>詳しく読む</summary>
@@ -387,7 +387,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 <h3 class="group">国内の導入事例</h3>
 <section class="item">
   <h2 id="i14"><span class="num">14</span>あいち銀行、融資稟議書AIで年間13,400時間。審査役の指摘が約25%減</h2>
-  <p class="sum">7月9日発表。NTTデータが<strong>あいち銀行に<span class="term" tabindex="0" role="button" data-d="銀行が会社にお金を貸すかを決めるための社内申請書。担当者が顧客の状況と財務を調べて書き、審査役が承認する">融資<span class="term" tabindex="0" role="button" data-d="銀行が会社にお金を貸すかを決めるための社内申請書。担当者が顧客の状況と財務を調べて書き、審査役が承認する">稟議書</span></span>作成AIサービスを7月27日から提供開始</strong>する。<span class="term" tabindex="0" role="button" data-d="AIに答えさせる前に、手元の資料を検索して読ませる仕組み。思いつきで答えるのではなく、社内の資料に基づいて答えさせたいときに使う">RAG</span>の「<span class="term" tabindex="0" role="button" data-d="NTTデータの生成AIサービス。金融機関向けに、社内資料を検索して文書の素案を作る用途で使われている">LITRON</span> Generative Assistant on finposs」を使い、行内の複数システムに散らばる顧客概況・財務情報を横断的に集めて、稟議書の素案を自動生成する。試行利用の結果、<strong>最大で年間13,400時間の業務削減</strong>を見込む。</p>
+  <p class="sum">7月9日発表。NTTデータが<strong>あいち銀行に<span class="term" tabindex="0" role="button" data-d="銀行が会社にお金を貸すかを決めるための社内申請書。担当者が顧客の状況と財務を調べて書き、審査役が承認する">融資稟議書</span>作成AIサービスを7月27日から提供開始</strong>する。<span class="term" tabindex="0" role="button" data-d="AIに答えさせる前に、手元の資料を検索して読ませる仕組み。思いつきで答えるのではなく、社内の資料に基づいて答えさせたいときに使う">RAG</span>の「<span class="term" tabindex="0" role="button" data-d="NTTデータの生成AIサービス。金融機関向けに、社内資料を検索して文書の素案を作る用途で使われている">LITRON</span> Generative Assistant on finposs」を使い、行内の複数システムに散らばる顧客概況・財務情報を横断的に集めて、<span class="term" tabindex="0" role="button" data-d="銀行が会社にお金を貸すかを決めるための社内申請書。担当者が顧客の状況と財務を調べて書き、審査役が承認する">稟議書</span>の素案を自動生成する。試行利用の結果、<strong>最大で年間13,400時間の業務削減</strong>を見込む。</p>
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>銀行がお金を貸すかどうか決める申請書を、AIが下書きする。あちこちのシステムから情報を集める作業がなくなり、書き方のばらつきも減る。</p>
   <details>
     <summary>詳しく読む</summary>
@@ -400,7 +400,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
 </section>
 <section class="item">
   <h2 id="i15"><span class="num">15</span>日立、トラブル事例検索が60分→5分。レポート120分→15分、原因分析16時間→3時間</h2>
-  <p class="sum">6月4日発表。日立が品質保証業務向けのAIエージェント「<strong>品質ナレッジシステム</strong>」を <span class="term" tabindex="0" role="button" data-d="日立の、製造業向けAIソリューション群の名前">HMAX Industry</span> のラインアップとして2026年4月より提供開始した。機器故障などのトラブル発生時に、過去の対応記録の検索と対応レポート作成を支援する。</p>
+  <p class="sum">6月4日発表。日立が品質保証業務向けの<span class="term" tabindex="0" role="button" data-d="指示を受けて、自分で手順を考えて複数の作業を実行するAI。「聞いたら答える」ではなく「頼んだらやっておいてくれる」タイプ">AIエージェント</span>「<strong>品質ナレッジシステム</strong>」を <span class="term" tabindex="0" role="button" data-d="日立の、製造業向けAIソリューション群の名前">HMAX Industry</span> のラインアップとして2026年4月より提供開始した。機器故障などのトラブル発生時に、過去の対応記録の検索と対応レポート作成を支援する。</p>
   <p class="easy"><span class="easy-tag">かんたんに言うと</span>「昔これと同じ故障があったはず」を探す作業を、AIが肩代わりする。ベテランしか知らなかった探し方を、AIに教え込んである。</p>
   <details>
     <summary>詳しく読む</summary>

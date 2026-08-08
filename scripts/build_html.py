@@ -265,15 +265,33 @@ def annotate(body, terms):
             out.append(part)
             continue
 
+        # 元の文字列に対して先に位置を決めてから、一度だけ組み立てる。
+        # 途中で seg を書き換えながら探すと、差し込んだ data-d 属性の中身に
+        # 別の用語がマッチして、タグが壊れる。
         seg = part
+        spans = []  # [(start, end, alias, desc)]
         for alias, desc in terms:
-            if alias in used or alias not in seg:
+            if alias in used:
                 continue
             idx = seg.find(alias)
-            chip = (f'<span class="term" tabindex="0" role="button" '
-                    f'data-d="{html.escape(desc, quote=True)}">{alias}</span>')
-            seg = seg[:idx] + chip + seg[idx + len(alias):]
-            used.add(alias)
+            while idx != -1:
+                end = idx + len(alias)
+                if all(end <= s or idx >= e for s, e, _, _ in spans):
+                    spans.append((idx, end, alias, desc))
+                    used.add(alias)
+                    break
+                idx = seg.find(alias, idx + 1)
+
+        if spans:
+            spans.sort()
+            built, cur = [], 0
+            for s, e, alias, desc in spans:
+                built.append(seg[cur:s])
+                built.append(f'<span class="term" tabindex="0" role="button" '
+                             f'data-d="{html.escape(desc, quote=True)}">{alias}</span>')
+                cur = e
+            built.append(seg[cur:])
+            seg = "".join(built)
         out.append(seg)
 
     return "".join(out)
