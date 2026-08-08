@@ -340,7 +340,7 @@ footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
   <details>
     <summary>詳しく読む</summary>
     <div class="detail"><p><strong><span class="term" tabindex="0" role="button" data-d="会話が長くなったとき、それまでの内容を要約して圧縮すること。流れは保てるが細部が落ちる">compaction</span></strong> は長い往復が必要なタスク向け（会話の流れを保つ）。<strong><span class="term" tabindex="0" role="button" data-d="AIが作業メモをファイルに書き出して残すこと。次の作業のときに読み直せる">note-taking</span></strong> は明確なマイルストーンがある反復開発向け。<strong>マルチエージェント</strong>は並列探索が効く複雑な調査・分析向け。</p>
-<p>compaction の設計では、<strong>まず recall を最大化</strong>（トレースから関連情報を漏れなく拾う）してから、余計なものを削って precision を上げる、という順序が推奨されている。圧縮しすぎると、後になって重要と分かる微妙な文脈が失われる。</p>
+<p>compaction の設計では、<strong>まず recall を最大化</strong>（<span class="term" tabindex="0" role="button" data-d="AIが何をどの順で実行したかの記録。うまくいかなかったとき、どこで外したかを後から辿るために使う">トレース</span>から関連情報を漏れなく拾う）してから、余計なものを削って precision を上げる、という順序が推奨されている。圧縮しすぎると、後になって重要と分かる微妙な文脈が失われる。</p>
 <p class="source">出典: <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents">Effective context engineering for AI agents</a></p></div>
   </details>
 </section>

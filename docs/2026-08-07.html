@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Radar 8月7日｜AI Radar 2026-08-07</title>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="AI Radar — 業務転用リサーチ">
+<meta property="og:title" content="AI Radar 8月7日">
+<meta property="og:description" content="全15件を4つに分けた。01〜05は今日から触れる機能（Claudeがスキルとプラグインをアップロード時に自動スキャンするようになった、PowerPointのCopilotがOneDriveの自作スキルを読む、など）。 06〜08は開発ツールとプラグインの流通。Codex CLI が Amazon Bedrock と ">
+<meta property="og:url" content="https://cis1978.github.io/ai-radar/2026-08-07.html">
+<meta name="description" content="全15件を4つに分けた。01〜05は今日から触れる機能（Claudeがスキルとプラグインをアップロード時に自動スキャンするようになった、PowerPointのCopilotがOneDriveの自作スキルを読む、など）。 06〜08は開発ツールとプラグインの流通。Codex CLI が Amazon Bedrock と ">
+<meta property="og:image" content="https://cis1978.github.io/ai-radar/img/2026-08-07.png">
+<meta property="og:image:width" content="1600">
+<meta property="og:image:height" content="900">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://cis1978.github.io/ai-radar/img/2026-08-07.png">
+<style>
+:root {
+  --ink: #14161a; --sub: #6b7280; --line: #e5e7eb;
+  --accent: #2f6fed; --bg: #fff; --box: #f6f8fa; --mark: #fff3b8;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: #f0f2f5; color: var(--ink);
+  font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans",
+               "Noto Sans JP", "Yu Gothic", sans-serif;
+  line-height: 1.85; font-size: 17px; -webkit-font-smoothing: antialiased;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 100px; }
+article { background: var(--bg); padding: 52px 52px 64px; margin-top: 28px;
+          border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+
+.kicker { font-size: 12px; letter-spacing: .18em; color: var(--accent);
+          font-weight: 700; margin-bottom: 16px; }
+h1 { font-size: 33px; line-height: 1.45; margin: 0 0 18px; font-weight: 800;
+     letter-spacing: -.01em; }
+.dateline { font-size: 13px; color: var(--sub); padding-bottom: 24px;
+            border-bottom: 1px solid var(--line); margin-bottom: 30px; }
+.card-img { width: 100%; height: auto; display: block; margin: 0 0 30px;
+            border: 1px solid var(--line); border-radius: 4px; }
+.lead { font-size: 18px; line-height: 1.9; font-weight: 600; margin: 0 0 34px; }
+
+/* 目次 */
+.toc { background: var(--box); border-radius: 8px; padding: 22px 26px;
+       margin: 0 0 40px; }
+.toc-head { display: flex; align-items: baseline; justify-content: space-between;
+            gap: 12px; margin-bottom: 12px; }
+.toc-title { font-size: 12px; letter-spacing: .14em; font-weight: 700;
+             color: var(--accent); }
+.toc-list { margin: 0; padding-left: 0; list-style: none; }
+.toc li { margin-bottom: 7px; font-size: 15.5px; line-height: 1.6;
+          display: flex; gap: 10px; }
+.toc li::before { content: attr(value); color: var(--accent); font-weight: 700;
+                  font-size: 12.5px; flex: none; padding-top: 3px;
+                  font-variant-numeric: tabular-nums; min-width: 20px; }
+.toc-group + .toc-group { margin-top: 18px; }
+.toc-g-head { display: flex; align-items: center; gap: 9px; margin-bottom: 9px; }
+.toc-g-range { background: var(--accent); color: #fff; font-size: 11.5px;
+               font-weight: 700; padding: 2px 9px; border-radius: 999px;
+               font-variant-numeric: tabular-nums; }
+.toc-g-name { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+h3.group { font-size: 13px; letter-spacing: .1em; font-weight: 700;
+           color: var(--accent); margin: 44px 0 -8px; }
+.item-img { width: 100%; height: auto; display: block; margin: 0 0 20px;
+            border: 1px solid var(--line); border-radius: 4px; }
+.toc a { color: var(--ink); text-decoration: none; border-bottom: 1px solid transparent; }
+.toc a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+
+.btn { font: inherit; font-size: 12.5px; color: var(--sub); background: none;
+       border: 1px solid var(--line); border-radius: 999px; padding: 3px 13px;
+       cursor: pointer; white-space: nowrap; }
+.btn:hover { color: var(--accent); border-color: var(--accent); }
+.btn.on { color: #fff; background: var(--accent); border-color: var(--accent); }
+.ctrl { display: flex; gap: 8px; flex: none; }
+.toc-note { margin: 14px 0 0; font-size: 12.5px; color: var(--sub); }
+
+/* 用語注釈 */
+.term { border-bottom: 1px dotted var(--accent); cursor: help; }
+.term:focus { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: 2px; }
+.term-pop { position: absolute; z-index: 20; max-width: 320px; background: #1f2430;
+            color: #fff; font-size: 13.5px; line-height: 1.7; padding: 12px 15px;
+            border-radius: 8px; box-shadow: 0 6px 22px rgba(0,0,0,.25); }
+.term-pop b { display: block; font-size: 12px; color: #9fc0ff; margin-bottom: 4px; }
+
+/* やさしい説明 */
+.easy { display: none; background: #fffbe9; border-radius: 6px; padding: 13px 16px;
+        margin: 0 0 14px; font-size: 15.5px; line-height: 1.8; }
+.easy-tag { display: block; font-size: 11.5px; letter-spacing: .1em; font-weight: 700;
+            color: #9a7b12; margin-bottom: 5px; }
+body.easy-on .easy { display: block; }
+body.easy-on .term { background: #fffbe9; }
+
+/* 項目 */
+.item { border-top: 1px solid var(--line); padding: 28px 0 4px; }
+.item h2 { font-size: 21px; line-height: 1.5; margin: 0 0 12px; font-weight: 800;
+           letter-spacing: -.01em; scroll-margin-top: 16px; }
+.item h2 .num { color: var(--accent); font-size: 12.5px; letter-spacing: .12em;
+                display: block; margin-bottom: 8px;
+                font-variant-numeric: tabular-nums; }
+.sum { margin: 0 0 14px; color: #33373d; }
+
+details { margin: 0 0 20px; }
+details > summary { list-style: none; cursor: pointer; display: inline-flex;
+  align-items: center; gap: 6px; font-size: 13.5px; color: var(--accent);
+  font-weight: 700; padding: 4px 0; user-select: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::after { content: "▾"; font-size: 11px; transition: transform .15s; }
+details[open] > summary::after { transform: rotate(180deg); }
+details > summary:hover { text-decoration: underline; }
+.detail { padding: 14px 0 4px; border-left: 2px solid var(--line);
+          padding-left: 20px; margin-top: 8px; }
+
+p { margin: 0 0 18px; }
+.detail p:last-child { margin-bottom: 0; }
+strong { font-weight: 700; background: linear-gradient(transparent 62%, var(--mark) 62%); }
+a { color: var(--accent); text-decoration: none;
+    border-bottom: 1px solid rgba(47,111,237,.3); }
+a:hover { border-bottom-color: var(--accent); }
+code { background: var(--box); padding: 2px 6px; border-radius: 3px;
+       font-size: .88em; font-family: "SF Mono", Menlo, Consolas, monospace; }
+pre { background: var(--box); padding: 18px 20px; border-radius: 6px;
+      overflow-x: auto; margin: 22px 0; line-height: 1.7; }
+pre code { background: none; padding: 0; font-size: 13.5px; white-space: pre; }
+blockquote { margin: 22px 0; padding: 2px 0 2px 20px; border-left: 3px solid var(--ink);
+             font-size: 17.5px; font-weight: 600; }
+blockquote p { margin: 0; }
+ul, ol { margin: 0 0 18px; padding-left: 22px; }
+li { margin-bottom: 8px; }
+table { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: 14.5px; }
+th, td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+th { background: var(--box); font-weight: 700; font-size: 12.5px; color: var(--sub); }
+td strong { background: none; color: var(--accent); }
+
+.idea { border-left: 3px solid var(--accent); background: #f5f8ff;
+        padding: 16px 20px; margin: 20px 0; border-radius: 0 4px 4px 0; }
+.idea-title { font-size: 11.5px; letter-spacing: .12em; font-weight: 700;
+              color: var(--accent); margin-bottom: 8px; }
+.idea p { margin: 0; font-size: 15.5px; }
+.source { font-size: 13px; color: var(--sub); margin: 0 0 6px; }
+.source a { color: var(--sub); border-bottom-color: var(--line); }
+.box { background: var(--box); border-radius: 8px; padding: 22px 26px; margin: 34px 0 0;
+       font-size: 15px; }
+.box-title { font-size: 11.5px; letter-spacing: .14em; font-weight: 700;
+             color: var(--accent); margin-bottom: 10px; }
+.box p:last-child { margin-bottom: 0; }
+
+footer { margin-top: 52px; padding-top: 24px; border-top: 1px solid var(--line);
+         font-size: 13px; color: var(--sub); }
+.nav { margin-top: 22px; font-size: 14px; }
+
+.index-head { padding: 44px 0 6px; }
+.index-head h1 { font-size: 27px; }
+.index-head p { color: var(--sub); font-size: 15px; }
+.card { background: #fff; padding: 22px 26px; border-radius: 4px; margin-bottom: 11px;
+        box-shadow: 0 1px 2px rgba(0,0,0,.06); display: block; border: 0; color: inherit; }
+.card:hover { box-shadow: 0 2px 10px rgba(0,0,0,.1); }
+.card .d { font-size: 12px; color: var(--accent); font-weight: 700;
+           letter-spacing: .1em; margin-bottom: 6px; }
+.card .t { font-size: 18px; font-weight: 700; line-height: 1.5; }
+
+@media (max-width: 640px) {
+  /* スマホでは小さい文字がとくに読みにくいので、補助的な要素ほど底上げする */
+  body { font-size: 16.5px; }
+  article { padding: 28px 18px 44px; }
+  h1 { font-size: 26px; }
+  .lead { font-size: 17px; }
+  .item h2 { font-size: 20px; }
+  .sum { font-size: 16.5px; }
+  .easy { font-size: 16px; }
+  .toc { padding: 18px 18px; }
+  .toc li { font-size: 16px; }
+  .toc li::before { font-size: 13.5px; }
+  .toc-g-name { font-size: 15px; }
+  .toc-g-range { font-size: 12.5px; }
+  .toc-title { font-size: 13px; }
+  .toc-note { font-size: 13.5px; }
+  .btn { font-size: 13.5px; padding: 5px 12px; }
+  .ctrl { flex-wrap: wrap; justify-content: flex-end; gap: 6px; }
+  .source { font-size: 13.5px; }
+  .idea p { font-size: 16px; }
+  table { font-size: 14px; }
+  th, td { padding: 9px 8px; }
+  details > summary { font-size: 15px; padding: 8px 0; }
+  .term-pop { font-size: 15px; }
+  .wrap { padding: 0 10px 60px; }
+  .detail { padding-left: 13px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<article>
+  <div class="kicker">AI RADAR — 業務転用リサーチ</div>
+  <h1>AI Radar 8月7日</h1>
+  <div class="dateline">2026年8月7日（金）</div>
+  <img class="card-img" src="img/2026-08-07.png" alt="" width="1600" height="900">
+  <p class="lead">全15件を4つに分けた。<strong>01〜05は今日から触れる機能</strong>（Claudeがスキルとプラグインをアップロード時に自動スキャンするようになった、PowerPointのCopilotがOneDriveの自作スキルを読む、など）。<br><strong>06〜08は開発ツールとプラグインの流通</strong>。Codex CLI が Amazon Bedrock と Claude Code のプラグインマーケットプレイスを読みにいく。ベンダーの垣根がまた1つ下がった。<br><strong>09〜13は組織で配る／本番で回すための管理機能</strong>。AgentCore が本番トラフィックをA/Bで割ってプロンプト改善を検証できるようになったのがいちばん実務的。<br><strong>14〜15は国内事例</strong>。年間13,400時間、事例検索60分→5分。気になるものだけ開いてほしい。</p>
+<nav class="toc">
+  <div class="toc-head">
+    <span class="toc-title">目次 — 15件</span>
+    <span class="ctrl">
+      <button class="btn" id="easy-mode" type="button">やさしく表示</button>
+      <button class="btn" id="toggle-all" type="button">すべて開く</button>
+    </span>
+  </div>
+    <div class="toc-group">
+      <div class="toc-g-head"><span class="toc-g-range">01–05</span><span class="toc-g-name">業務ツールで今すぐ効く</span></div>
+      <ol class="toc-list">
+      <li value="1"><a href="#i1">Claude、第三者スキルとプラグインを pass / warn / fail の3段階で自動スキャン</a></li>
+      <li value="2"><a href="#i2">PowerPoint の Copilot が OneDrive の自作スキルを読む</a></li>
+      <li value="3"><a href="#i3">ChatGPT Enterprise のモデル選択が Medium / High / Extra High に。Excel・Sheets はトークン課金へ</a></li>
+      <li value="4"><a href="#i4">OpenAI Atlas が8月9日に停止。ブラウザ機能は ChatGPT と Codex に吸収</a></li>
+      <li value="5"><a href="#i5">Google Meet の自動議事メモが、投影スライドのスクショを貼るようになった</a></li>
+      </ol>
+    </div>
+    <div class="toc-group">
+      <div class="toc-g-head"><span class="toc-g-range">06–08</span><span class="toc-g-name">開発ツールとプラグインの流通</span></div>
+      <ol class="toc-list">
+      <li value="6"><a href="#i6">Codex CLI 0.146、Amazon Bedrock と Claude Code のプラグインマーケットプレイスを読む</a></li>
+      <li value="7"><a href="#i7">Codex 0.146.1、サイバー能力の高いモデルには自動レビューの既定を安全側へ</a></li>
+      <li value="8"><a href="#i8">Sign in with ChatGPT がベータ開始。Airtable・GitLab・HubSpot・Notion・Supabase・Vercel から</a></li>
+      </ol>
+    </div>
+    <div class="toc-group">
+      <div class="toc-g-head"><span class="toc-g-range">09–13</span><span class="toc-g-name">組織で配る・本番で回す</span></div>
+      <ol class="toc-list">
+      <li value="9"><a href="#i9">Claude Enterprise、使えるモデルと「考える強さ」を管理者が指定できる</a></li>
+      <li value="10"><a href="#i10">M365 Agent Builder、SharePointリストを知識源に。1エージェント1リスト・2万件まで</a></li>
+      <li value="11"><a href="#i11">自作エージェントを Agent Store に申請できる。管理者レビューを通ってから公開</a></li>
+      <li value="12"><a href="#i12">AgentCore Optimization がGA。本番トラフィックをA/Bで割って、プロンプト改善を実データで検証する</a></li>
+      <li value="13"><a href="#i13">Gemini Enterprise、Memory Bank の「メモリプロファイル」がGA。ログにユーザーIDが付く</a></li>
+      </ol>
+    </div>
+    <div class="toc-group">
+      <div class="toc-g-head"><span class="toc-g-range">14–15</span><span class="toc-g-name">国内の導入事例</span></div>
+      <ol class="toc-list">
+      <li value="14"><a href="#i14">あいち銀行、融資稟議書AIで年間13,400時間。審査役の指摘が約25%減</a></li>
+      <li value="15"><a href="#i15">日立、トラブル事例検索が60分→5分。レポート120分→15分、原因分析16時間→3時間</a></li>
+      </ol>
+    </div>
+  <p class="toc-note">用語の点線をタップすると説明が出ます。</p>
+</nav>
+<h3 class="group">業務ツールで今すぐ効く</h3>
+<section class="item">
+  <h2 id="i1"><span class="num">01</span>Claude、第三者スキルとプラグインを pass / warn / fail の3段階で自動スキャン</h2>
+  <p class="sum">8月6日の更新。Enterpriseプランで<strong><span class="term" tabindex="0" role="button" data-d="よく使う作業手順をまとめて名前を付けたもの。毎回説明し直さずに呼び出せる">スキル</span>とプラグインの<span class="term" tabindex="0" role="button" data-d="ファイルの中身を自動で検査して、悪意ある動きが仕込まれていないか調べること">セキュリティ<span class="term" tabindex="0" role="button" data-d="ファイルの中身を自動で検査して、悪意ある動きが仕込まれていないか調べること">スキャン</span></span>（<span class="term" tabindex="0" role="button" data-d="正式版の前に試しに公開している状態。動作が変わることがある">ベータ</span>）</strong>が使えるようになった。第三者のスキル／プラグインが<strong>アップロードまたは編集された瞬間</strong>に中身を検査し、<code>pass</code>（そのまま導入）／<code>warn</code>（注意バナーを承認すれば使える）／<code>fail</code>（ブロック、上書き不可）の3値を返す。スキャンは1〜2分、追加費用なし。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>外から持ってきた作業マニュアルを、使う前に自動で中身チェックしてくれるようになった。危ないものは赤信号で止まる。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><img class="item-img" src="img/2026-08-07-01.png" alt="" width="1600" height="900"><p>既定はオフで、OwnerかPrimary Ownerが「組織設定 &gt; スキル」から有効化する。カスタムロールを使っていれば、ロール単位で適用範囲を絞れる。</p>
+<p>対象外がはっきり書かれているのが実務的に重要。<strong>すでに組織に入っているスキル／プラグインは対象外</strong>（有効化しても既存のものは止まらない）。<strong>Claudeに作らせたスキル、<span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの"><span class="term" tabindex="0" role="button" data-d="AIを外部のサービス（Slack、Notion、社内システムなど）につなぐための共通規格。USBの差込口のようなもの">MCP</span>サーバー</span>経由で共有されたスキル、MCPサーバー本体、<span class="term" tabindex="0" role="button" data-d="「これだけは必ず守らせる」を強制する仕組み">フック</span>も対象外</strong>。<span class="term" tabindex="0" role="button" data-d="暗号化の鍵を提供元ではなく利用企業側が持つ方式。鍵を握っている側がデータを最終的に管理できる">CMEK</span>・<span class="term" tabindex="0" role="button" data-d="やり取りした内容を提供元に一切残さない設定。機密性の高い業務で選ばれる">ZDR</span>・HIPAA構成の組織も従来どおりスキャンなしで導入する。</p>
+<p><code>fail</code> は本人も管理者も解除できない。誤検知だと思う場合は「編集して再アップロード」しかない（同一内容の再アップロードは結果もキャッシュから同じものが返る）。</p>
+<p>スキャン中の中身は通常のセッションから隔離された環境で処理され、<strong>走査後にコピーは削除</strong>、結果とメタデータだけが残る。</p>
+<p>検出範囲も限定されている。狙っているのは「与えられた権限を悪用して、データを本来行くべきでない場所に静かに移す」型の第三者スキルだけ。<code>pass</code> は「その脅威が見つからなかった」であって「安全の保証ではない」と明記されている。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>自分で<span class="term" tabindex="0" role="button" data-d="業務手順を書いたテキストファイル。AIに渡すと、その手順どおりに作業してくれる。いわば作業マニュアル">SKILL.md</span>を書いて運用しているなら、この機能の<strong>対象外リストのほうが効く情報</strong>。「Claudeに作らせたスキル」と「MCP経由のスキル」は検査されないので、外部由来のスキルを取り込む導線がどれかを一度棚卸ししておくとよい。</p></div>
+<p class="source">出典: <a href="https://support.claude.com/en/articles/15927065-get-started-with-skill-and-plugin-scanning">Get started with skill and plugin scanning</a> / <a href="https://support.claude.com/en/articles/12138966-release-notes">Release notes — August 6, 2026</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i2"><span class="num">02</span>PowerPoint の Copilot が OneDrive の自作スキルを読む</h2>
+  <p class="sum">Microsoft 365 <span class="term" tabindex="0" role="button" data-d="Microsoft のAI機能の総称。Word や Excel の中で動く">Copilot</span> の8月展開。<strong>Copilot in PowerPoint にカスタムユーザースキルが入った</strong>。自分でスキルを作って OneDrive に置き、更新できる。繰り返し出す指示を、使い回せるガイダンスに変えられる。OneDrive 保管のユーザー定義スキルは7月下旬から順次展開されている。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>「うちの資料はこう作る」というメモを置いておくと、PowerPointのAIが毎回それに従うようになる。Excelで先に入った仕組みが、スライドにも来た。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>同じ8月展開で、Microsoft 365 <strong><span class="term" tabindex="0" role="button" data-d="会社のロゴ・色・フォントなどをまとめて登録しておく仕組み。資料の見た目を揃えるために使う">ブランドキット</span></strong>（ロゴ・アイコン・テーマ・フォント）を Copilot in PowerPoint から直接使えるようになる。ブランド管理者側が正式なキットを更新・配布する形なので、資料ごとにロゴを探す作業が消える。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>Excel の <code>SKILL.md</code> と同じ流れが PowerPoint に来たということは、<strong>手順書の置き場所をOneDriveに統一すれば複数アプリで効く</strong>。既存の資料作成ルールを1本のスキルに書き出して、まずPowerPointで試すのが早い。</p></div>
+<p class="source">出典: <a href="https://techcommunity.microsoft.com/blog/microsoft365copilotblog/what%e2%80%99s-new-in-microsoft-365-copilot--july-2026/4538332">What's New in Microsoft 365 Copilot | July 2026</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i3"><span class="num">03</span>ChatGPT Enterprise のモデル選択が Medium / High / Extra High に。Excel・Sheets はトークン課金へ</h2>
+  <p class="sum">ChatGPT Enterprise・Edu のモデルピッカーが更新され、<strong>Thinking Standard → Medium、Thinking Extended → High、Thinking Heavy → Extra High</strong> に名前が変わった。ワークスペースで使えるモデル自体は変わらず、速度と<span class="term" tabindex="0" role="button" data-d="AIにどれだけ念入りに考えさせるかの設定。強くすると賢くなるが、遅くなり費用も上がる">推論の強さ</span>のバランスだけを選ぶ形になる。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>「どのくらい念入りに考えさせるか」を3段階から選ぶ形に整理された。名前が分かりやすくなっただけで、使えるAIの種類は変わっていない。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>課金も変わる。<strong>ChatGPT for Excel / Sheets のタスクが<span class="term" tabindex="0" role="button" data-d="AIが文章を数える単位。日本語だとおおよそ1文字＝1トークン前後。多いほど時間もお金もかかる">トークン</span>ベースのクレジット課金</strong>になり、固定クレジットではなく入力トークン・キャッシュ入力トークン・出力トークンで計算される。<strong>ChatGPT for PowerPoint は8月6日まで Enterprise で無料</strong>、以降は Excel / Sheets と同じ課金方式に入る。</p>
+<p class="source">出典: <a href="https://help.openai.com/en/articles/10128477-chatgpt-enterprise-edu-release-notes">ChatGPT Enterprise &amp; Edu - Release Notes</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i4"><span class="num">04</span>OpenAI Atlas が8月9日に停止。ブラウザ機能は ChatGPT と Codex に吸収</h2>
+  <p class="sum"><strong><span class="term" tabindex="0" role="button" data-d="OpenAI が提供していたAI搭載ブラウザ。2026年8月9日で終了し、機能はChatGPTとCodexに統合された">Atlas</span> は2026年8月9日で動作しなくなる。</strong> OpenAI はブラウザベースの<span class="term" tabindex="0" role="button" data-d="指示を受けて、自分で手順を考えて複数の作業を実行するAI。「聞いたら答える」ではなく「頼んだらやっておいてくれる」タイプ">エージェント</span>機能を ChatGPT と <span class="term" tabindex="0" role="button" data-d="OpenAI のコーディング支援ツール">Codex</span> 本体に取り込む方針で、独立したブラウザ製品を畳む形になる。あわせて <strong>8月30日に DALL·E GPT を廃止</strong>（残したい画像は事前にダウンロードが必要）。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>専用ブラウザは終わりで、その機能は本体アプリの中に移る。使っていた人は移行が要る。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>実際、7月30日のデスクトップアプリ更新（26.727）で<strong>内蔵ブラウザのアドレスバーから履歴を辿れる／履歴をChatGPTに検索させられる</strong>ようになり、Chrome拡張から開いているタブを参照する導線も入っている。機能そのものは消えず、置き場所が変わる。</p>
+<p class="source">出典: <a href="https://help.openai.com/en/articles/10128477-chatgpt-enterprise-edu-release-notes">ChatGPT Enterprise &amp; Edu - Release Notes</a> / <a href="https://learn.chatgpt.com/docs/changelog">ChatGPT &amp; Codex changelog</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i5"><span class="num">05</span>Google Meet の自動議事メモが、投影スライドのスクショを貼るようになった</h2>
+  <p class="sum">8月3日から順次展開。Google Meet の「<strong>Take notes for me</strong>（自分用のメモを取る）」が、<strong>会議中に投影された内容のスクリーンショットを自動で取り込み、議事メモのドキュメントに直接差し込む</strong>ようになった。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>会議の自動メモに、画面共有された資料の画像が一緒に残る。「あのとき出てたグラフ、どれだっけ」が減る。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>同時期に Google ドライブのWeb版で<strong>動画へのタイムスタンプ付きコメント</strong>が入った。動画の特定の時刻にコメントを紐づけられる。</p>
+<p class="source">出典: <a href="https://workspace.google.com/blog/product-announcements/july-2026-workspace-feature-drop">July 2026 Workspace update: Gemini, Meet and more</a></p></div>
+  </details>
+</section>
+<h3 class="group">開発ツールとプラグインの流通</h3>
+<section class="item">
+  <h2 id="i6"><span class="num">06</span>Codex CLI 0.146、Amazon Bedrock と Claude Code のプラグインマーケットプレイスを読む</h2>
+  <p class="sum">7月29日リリースの <strong><span class="term" tabindex="0" role="button" data-d="OpenAI のコーディング支援ツールを、ターミナルから使うための版">Codex CLI</span> 0.146.0</strong> に、<strong>Agent Plugins マニフェストのサポート、ワークスペース単位のプラグイン公開、そして追加の<span class="term" tabindex="0" role="button" data-d="追加機能をまとめて配布・入手できる公式の置き場。アプリストアのようなもの">プラグイン<span class="term" tabindex="0" role="button" data-d="追加機能をまとめて配布・入手できる公式の置き場。アプリストアのようなもの">マーケットプレイス</span></span>（Amazon Bedrock と Claude Code）</strong> が入った。OpenAI のCLIが、他社のプラグイン置き場を読みにいく形になる。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>道具箱の中身を、よそのメーカーの棚からも取ってこられるようになった。ツールごとに同じ道具を作り直さなくてよくなる方向。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>同じリリースで<strong>スキル周り</strong>も動いている。実行環境側が提供するスキルを発見し、関連リソースを安全に読めるようになった（明示的に選択されたスキルを含む）。バグ修正側には「<strong><span class="term" tabindex="0" role="button" data-d="AIが一度に読める文章の量。ここに入りきらない情報は忘れる。人間でいう「机の上に広げられる資料の量」">コンテキスト</span>予算が厳しいときに、利用可能なスキルをより多く保持し、スキルカタログを切り詰めざるを得ないときは警告を出す</strong>」という項目がある。スキルを増やしすぎると黙って落ちていた挙動に、警告が付いたということ。</p>
+<p>セッション管理も変わった。<code>/new</code> や <code>/clear</code> で<strong>新しいセッションに名前を付けられる</strong>、重要なスレッドをピン留めできる、サイド会話を閉じずに切り替えられる。<strong>スレッドのフォーク</strong>（ページ分割された履歴つき、スレッド一覧に出ない一時フォークも可）も入った。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>「スキルカタログの切り詰め警告」は、SKILL.md を何本も持っている人には直接効く。<strong>スキルが多すぎて読まれていない</strong>という状況が、これまでは無言で起きていた。数を増やす前に、警告が出ていないか確認する運用にしておくとよい。</p></div>
+<p class="source">出典: <a href="https://learn.chatgpt.com/docs/changelog">ChatGPT &amp; Codex changelog — Codex CLI 0.146.0（2026-07-29）</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i7"><span class="num">07</span>Codex 0.146.1、サイバー能力の高いモデルには自動レビューの既定を安全側へ</h2>
+  <p class="sum">8月5日の <strong>Codex CLI 0.146.1</strong>。<strong>サイバー関連の能力が高いモデルに対して、自動レビューの既定値をより安全な側に振り、権限の変更点をターミナル上で説明する</strong>ようになった。バグ修正1件だけのリリース。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>危ないことができてしまうAIを使うときは、勝手に進める範囲を自動で狭める。しかも「いま何を制限したか」を画面に出す。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p class="source">出典: <a href="https://learn.chatgpt.com/docs/changelog">ChatGPT &amp; Codex changelog — Codex CLI 0.146.1（2026-08-05）</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i8"><span class="num">08</span>Sign in with ChatGPT がベータ開始。Airtable・GitLab・HubSpot・Notion・Supabase・Vercel から</h2>
+  <p class="sum">7月29日。<strong>Sign in with ChatGPT</strong> が一部プラグインとパートナーサイトでベータ提供に入った。初期対応は <strong>Airtable、GitLab、HubSpot、Notion、Supabase、Vercel</strong>。ChatGPTのプラグインディレクトリから対応プラグインをつなぐとき、少ない手数でアカウント作成・連携ができる。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>「Googleでログイン」のChatGPT版。つなぐ手間が減るが、権限の確認は今までどおり自分でやる必要がある。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>サインイン時にパートナーに渡るのは<strong>名前・メールアドレス・プロフィール画像だけ</strong>で、各プラグインが要求するアクセス権の承認は<strong>別ステップとして残る</strong>と明記されている。</p>
+<p class="source">出典: <a href="https://learn.chatgpt.com/docs/changelog">ChatGPT &amp; Codex changelog — Sign in with ChatGPT (beta)（2026-07-29）</a></p></div>
+  </details>
+</section>
+<h3 class="group">組織で配る・本番で回す</h3>
+<section class="item">
+  <h2 id="i9"><span class="num">09</span>Claude Enterprise、使えるモデルと「考える強さ」を管理者が指定できる</h2>
+  <p class="sum">7月1日の更新。Enterpriseプランの管理者が、<strong>メンバーがどのモデルにアクセスできるか、どの<span class="term" tabindex="0" role="button" data-d="AIにどれだけ念入りに考えさせるかの設定。強くすると賢くなるが、遅くなり費用も上がる">effort level</span>（推論の強さ）設定を使えるか</strong>を制御できるようになった（ベータ）。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>「この部署は速いモデルだけ」「この用途は念入りに考えるモードを許可」といった線引きを、管理側で引けるようになった。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p class="source">出典: <a href="https://support.claude.com/en/articles/12138966-release-notes">Release notes — July 1, 2026</a> / <a href="https://support.claude.com/en/articles/15694740">Manage model access for your organization</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i10"><span class="num">10</span>M365 Agent Builder、SharePointリストを知識源に。1エージェント1リスト・2万件まで</h2>
+  <p class="sum">Microsoft 365 Copilot の <span class="term" tabindex="0" role="button" data-d="Microsoft の、コードを書かずに<span class="term" tabindex="0" role="button" data-d="指示を受けて、自分で手順を考えて複数の作業を実行するAI。「聞いたら答える」ではなく「頼んだらやっておいてくれる」タイプ">AIエージェント</span>を組み立てるツール">Agent Builder</span> が、<strong>SharePointリストをエージェントの<span class="term" tabindex="0" role="button" data-d="AIが答えを作るときに参照する資料の置き場。ここに入っていない情報は答えられない">知識源</span>として使える</strong>ようになった。構造化されたリストのデータにエージェントを紐づけ、利用者がそのリストの中身に基づいた回答を得られる。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>社内で管理している一覧表を、AIが直接読んで答えられるようになった。ただし今のところ1体につき1つの表まで。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>制限が明記されている。<strong>1エージェントにつき参照できるSharePointリストは1つ、最大20,000アイテムまで</strong>。他の知識源タイプとの併用は可能。<strong>リストの添付ファイルとルックアップ列は未対応</strong>。</p>
+<p class="source">出典: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/release-notes">Release Notes for Microsoft 365 Copilot</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i11"><span class="num">11</span>自作エージェントを Agent Store に申請できる。管理者レビューを通ってから公開</h2>
+  <p class="sum">Agent Builder で作ったエージェントを、<strong><span class="term" tabindex="0" role="button" data-d="Microsoft の、社内外で作られたAIエージェントを探して導入できる場所">Agent Store</span> の「Built by your org」区分に申請</strong>できるようになった。Microsoft 365 管理センターで管理者がレビュー・承認したうえで公開される。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>誰かが作った便利なAIを、社内で正式に配れるようになった。ただし配る前に管理者のチェックが1回入る。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>同じ更新群で、<strong>Copilot Prompt Gallery の全社公開</strong>も入っている。自社の業務に合わせた<span class="term" tabindex="0" role="button" data-d="AIへの指示文">プロンプト</span>集を組織で作り、テナント内の全ユーザーに配布できる。</p>
+<p class="source">出典: <a href="https://learn.microsoft.com/en-us/microsoft-365/copilot/release-notes">Release Notes for Microsoft 365 Copilot</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i12"><span class="num">12</span>AgentCore Optimization がGA。本番トラフィックをA/Bで割って、プロンプト改善を実データで検証する</h2>
+  <p class="sum">Amazon Bedrock <span class="term" tabindex="0" role="button" data-d="AWS の、AIエージェントを本番運用するための基盤。動かす・監視する・改善するを一式で提供する">AgentCore</span> に <strong>Optimization</strong> が入り、「観測する→<span class="term" tabindex="0" role="button" data-d="AIの出力が正しいかを機械的に採点する仕組み。テストのようなもの">評価</span>する→改善する」のループが閉じた。3つの機能で構成されている。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>AIの指示文を直したとき、「本当に良くなったのか」を実際の利用の半分で試して数字で確かめられるようになった。テスト環境の結果だけで判断しなくてよくなる。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p><strong>Recommendations</strong> は、本番の<span class="term" tabindex="0" role="button" data-d="AIが何をどの順で実行したかの記録。うまくいかなかったとき、どこで外したかを後から辿るために使う">トレース</span>と評価結果を分析して、<strong>システムプロンプトとツール説明への具体的な改善案</strong>をAIが出す。実際のエージェントの振る舞いに根拠を置く。</p>
+<p><strong>Batch <span class="term" tabindex="0" role="button" data-d="AIの出力が正しいかを機械的に採点する仕組み。テストのようなもの">eval</span>uation</strong> は「何を良しとするか」を先に定義し、候補となる変更を規模を持って測る。</p>
+<p><strong>A/B tests</strong> が本番の要。<strong>ライブの本番トラフィックを分割して、エージェントのバージョン同士を並べて比較</strong>する。全体展開に踏み切る前に「テストデータ上ではなく本番で効いている」という統計的な証拠を取る。</p>
+<p>提供状況は、<strong>バッチ評価・推奨・<span class="term" tabindex="0" role="button" data-d="2つの案を実際の利用者に半々で見せて、どちらが良いかを実データで比べる方法。思い込みで良し悪しを決めないための手続き">A/Bテスト</span>が14リージョンで<span class="term" tabindex="0" role="button" data-d="正式版として誰でも使える状態。試験公開の次の段階">GA</span></strong>、失敗／意図／軌跡のインサイトが13リージョンで<span class="term" tabindex="0" role="button" data-d="正式版の前に試しに公開している状態。動作が変わることがある">プレビュー</span>。<strong>AgentCore ランタイムに限らず、AWS Lambda、Amazon EKS、AWS外の環境で動くエージェントでも使える</strong>。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>自作エージェントの改善が「直した→たぶん良くなった」で止まっているなら、<strong>A/B分割の考え方だけでも先に入れる価値がある</strong>。プロンプトを2版持って、実際の依頼を半々で流し、結果を採点する。基盤を乗り換えなくても手動で回せる形。</p></div>
+<p class="source">出典: <a href="https://aws.amazon.com/about-aws/whats-new/2026/06/amazon-bedrock-agentcore-new-optimization-capabilities/">Amazon Bedrock AgentCore introduces new optimization capabilities to continuously improve agents in production</a> / <a href="https://docs.aws.amazon.com/bedrock-agentcore/latest/devguide/optimization.html">AgentCore optimization: Improve agent quality loop with recommendations and A/B tests</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i13"><span class="num">13</span>Gemini Enterprise、Memory Bank の「メモリプロファイル」がGA。ログにユーザーIDが付く</h2>
+  <p class="sum">Gemini Enterprise Agent Platform の更新。<strong><span class="term" tabindex="0" role="button" data-d="Google のAI基盤で、利用者ごとの情報を決まった項目に整理して覚えておく仕組み">Memory Bank</span> の<span class="term" tabindex="0" role="button" data-d="Google のAI基盤で、利用者ごとの情報を決まった項目に整理して覚えておく仕組み">メモリプロファイル</span>が<span class="term" tabindex="0" role="button" data-d="正式版として誰でも使える状態。試験公開の次の段階">一般提供</span>（GA）</strong>になった。静的なスキーマを持つデータ構造を、LLMで埋めて更新していく形の「構造化プロファイル」を生成できる。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>AIが利用者ごとの情報を、決まった項目に整理して覚えておける。自由記述のメモではなく、記入欄のある台帳に近い。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><p>運用面では、「プロンプト入力と応答出力のログ記録を有効にする」をオプトインしたとき、<strong>エージェントのログにユーザーIDが含まれる</strong>ようになった。異常なツール呼び出しを追いやすくするための変更。あわせて <strong>Grok 4.1 系（<code>xai/grok-4.1-fast-reasoning</code> ほか）は8月20日で停止</strong>が告知されている。</p>
+<p class="source">出典: <a href="https://docs.cloud.google.com/gemini-enterprise-agent-platform/release-notes">Gemini Enterprise Agent Platform release notes</a></p></div>
+  </details>
+</section>
+<h3 class="group">国内の導入事例</h3>
+<section class="item">
+  <h2 id="i14"><span class="num">14</span>あいち銀行、融資稟議書AIで年間13,400時間。審査役の指摘が約25%減</h2>
+  <p class="sum">7月9日発表。NTTデータが<strong>あいち銀行に<span class="term" tabindex="0" role="button" data-d="銀行が会社にお金を貸すかを決めるための社内申請書。担当者が顧客の状況と財務を調べて書き、審査役が承認する">融資<span class="term" tabindex="0" role="button" data-d="銀行が会社にお金を貸すかを決めるための社内申請書。担当者が顧客の状況と財務を調べて書き、審査役が承認する">稟議書</span></span>作成AIサービスを7月27日から提供開始</strong>する。<span class="term" tabindex="0" role="button" data-d="AIに答えさせる前に、手元の資料を検索して読ませる仕組み。思いつきで答えるのではなく、社内の資料に基づいて答えさせたいときに使う">RAG</span>の「<span class="term" tabindex="0" role="button" data-d="NTTデータの生成AIサービス。金融機関向けに、社内資料を検索して文書の素案を作る用途で使われている">LITRON</span> Generative Assistant on finposs」を使い、行内の複数システムに散らばる顧客概況・財務情報を横断的に集めて、稟議書の素案を自動生成する。試行利用の結果、<strong>最大で年間13,400時間の業務削減</strong>を見込む。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>銀行がお金を貸すかどうか決める申請書を、AIが下書きする。あちこちのシステムから情報を集める作業がなくなり、書き方のばらつきも減る。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><img class="item-img" src="img/2026-08-07-14.png" alt="" width="1600" height="900"><p>数字で押さえるべきは削減時間より<strong>「審査役による稟議書評価で、従来の指摘数から約25%削減」</strong>のほう。速くなっただけでなく、<strong>差し戻しの原因そのものが減った</strong>という主張になっている。</p>
+<p>背景が具体的で参考になる。あいち銀行は<strong>2025年1月に銀行統合</strong>しており、統合前の両行で審査プロセスも融資判断の観点・評価基準も違った。稟議書の記載粒度と構成が揃わないことが課題だった。そこで「融資判断で押さえるべき観点」を<strong>あらかじめ整理してからAIに書かせる</strong>設計にしている。効率化の道具ではなく、<strong><span class="term" tabindex="0" role="button" data-d="人や部署ごとにバラバラだったやり方を、共通の型に揃えること">業務標準化</span>の道具として入れている</strong>のがこの事例の肝。</p>
+<p>先行する京都銀行（2026年2月発表）では、<strong>稟議書に対する審査役評価の合格ライン到達率が約30%から約95%へ</strong>向上し、最大で年間11,700時間の削減を見込むとされている。あいち銀行は本サービスの採用2行目、法人営業から融資審査までの一連プロセス支援としては3例目の商用採用。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p>「AIに書かせる前に、判断の観点を人間側で再整理した」という順番がそのまま使える。<strong>出力の質を上げたいときに触るのはプロンプトではなく、その前段の観点リスト</strong>。組織が2つ以上あって書き方が揃わない場面には特に効く。</p></div>
+<p class="source">出典: <a href="https://www.nttdata.com/global/ja/news/topics/2026/070901/">金融機関向けの融資稟議書作成AIサービスをあいち銀行に提供決定（2026年7月9日）</a> / <a href="https://www.nttdata.com/global/ja/news/topics/2026/022500/">同・京都銀行への導入決定（2026年2月25日）</a></p></div>
+  </details>
+</section>
+<section class="item">
+  <h2 id="i15"><span class="num">15</span>日立、トラブル事例検索が60分→5分。レポート120分→15分、原因分析16時間→3時間</h2>
+  <p class="sum">6月4日発表。日立が品質保証業務向けのAIエージェント「<strong>品質ナレッジシステム</strong>」を <span class="term" tabindex="0" role="button" data-d="日立の、製造業向けAIソリューション群の名前">HMAX Industry</span> のラインアップとして2026年4月より提供開始した。機器故障などのトラブル発生時に、過去の対応記録の検索と対応レポート作成を支援する。</p>
+  <p class="easy"><span class="easy-tag">かんたんに言うと</span>「昔これと同じ故障があったはず」を探す作業を、AIが肩代わりする。ベテランしか知らなかった探し方を、AIに教え込んである。</p>
+  <details>
+    <summary>詳しく読む</summary>
+    <div class="detail"><img class="item-img" src="img/2026-08-07-15.png" alt="" width="1600" height="900"><p>自社の大みか事業所（茨城県日立市）に<strong><span class="term" tabindex="0" role="button" data-d="自社を最初の顧客として、自分たちで先に使ってみること">カスタマーゼロ</span></strong>として先行導入した結果が具体的に出ている。<strong>事例検索が1件あたり60分→5分（約9割削減）、対応レポート作成が120分→15分（8割以上）、不具合の原因分析が16時間→3時間（8割以上）</strong>。</p>
+<p>作り方が本題。<strong>熟練者がどのようなキーワードや順序で情報を探索し、判断してきたかという業務プロセスを分析</strong>し、<span class="term" tabindex="0" role="button" data-d="ベテランの頭の中にあって、言葉になっていない勘やコツ。本人も説明できないことが多い">暗黙知</span>を<span class="term" tabindex="0" role="button" data-d="暗黙知を、文章や手順として書き出すこと。書き出せばはじめて他人やAIに渡せる">形式知化</span>してAIに組み込んでいる。日立の「Generative AI センター」が、<strong>熟練者の業務知見100件以上をAIへ組み込み</strong>、プロンプトの改善とチューニングを重ねた。検索対象の資料を増やしたのではなく、<strong>探し方を移植した</strong>という構図。</p>
+<p>対象は<span class="term" tabindex="0" role="button" data-d="工場や発電所など、現場の機械を動かすための技術。ITと区別して使う">OT</span>領域。大みか事業所が扱うエネルギー・モビリティ・産業のシステムは10年以上稼働することが多く、保守運用の情報が膨大に溜まる一方、そこから引き出す作業が熟練者依存になっていた。</p>
+<div class="idea"><div class="idea-title">転用アイデア</div><p><strong>「資料を全部AIに読ませる」ではなく「探し方の手順をAIに書き起こす」</strong>という発想が転用できる。自分が何かを調べるとき、どの順でどのキーワードを打つかを100件書き出せば、それがそのままスキルになる。日立がやったのは規模の大きい同じことでしかない。</p></div>
+<p class="source">出典: <a href="https://www.hitachi.com/content/dam/hitachi/global/ja_jp/press/files/2026/06/0604.pdf">日立、熟練ノウハウを形式知化し、品質保証業務を大幅に効率化するAIエージェントをHMAX Industryとして提供開始（2026年6月4日, PDF）</a></p></div>
+  </details>
+</section>
+<div class="box"><div class="box-title">今日の空振り</div><p><strong>検証の深さ</strong>: 本文を <code>web_fetch</code> して数字・機能名を確認したのは 01（スキャン仕様の対象外リストまで）、06・07・08（Codex changelog 本文）、10・11（M365リリースノート本文）、14（NTTデータ発表全文）、15（日立プレスリリースPDF全文）。02・03・04・05・09・12・13 は検索結果の見出しレベルで裏を取り、出典URLの実在は確認済み。</p>
+<p><strong>国内の定量事例</strong>: 「2026年8月」で切って検索すると、出てくるのはセミナー告知とSEO目的のまとめ記事ばかりで、一次ソースまで辿れる定量事例が見つからなかった。角度を変えて金融・製造の個別ベンダー発表に寄せた結果、NTTデータ（7月9日）と日立（6月4日）に行き着いた。8月の国内一次情報はまだ薄い。</p>
+<p><strong>Notion</strong>: MCPが議事録とブロックコメントに対応し、データベース作成・更新が91%トークン効率化した件を追ったが、<strong>5月13日の Notion 3.5 の内容</strong>で、7月31日号ですでに扱った範囲と重なるため見送った。</p>
+<p><strong>Anthropic Economic Index「Cadences」</strong>（6月26日、約9,700人の回答を利用データに紐づけ）は、「週末は仕事の質問が減るが高収入の職種ほど減り方が小さい」といった生活リズムの分析が中心で、業務転用の判断軸に乗らなかったため落とした。</p>
+<p><strong>Hugging Face</strong>: Thinking Machines の Inkling（約1兆パラメータ、100万トークンコンテキスト、画像・音声・テキストをネイティブ入力）が公開されているが、モデルの性能発表であって「明日から業務に転用できるか」の基準に届かないと判断した。</p></div>
+  <footer>
+    判断軸は「明日から自分の業務に転用できるか」の一点。<br>
+    収集方針は <code>config.md</code> に定義。書き換えれば翌朝から反映されます。
+    <div class="nav"><a href="2026-08-04.html">← 前の号</a> ・ <a href="index.html">バックナンバー</a></div>
+  </footer>
+</article>
+</div>
+<script>
+(function () {
+  var all = document.getElementById('toggle-all');
+  if (all) all.addEventListener('click', function () {
+    var open = all.textContent.indexOf('開く') >= 0;
+    document.querySelectorAll('details').forEach(function (d) { d.open = open; });
+    all.textContent = open ? 'すべて閉じる' : 'すべて開く';
+  });
+
+  var easy = document.getElementById('easy-mode');
+  if (easy) {
+    if (localStorage.getItem('ai-radar-easy') === '1') {
+      document.body.classList.add('easy-on');
+      easy.classList.add('on');
+    }
+    easy.addEventListener('click', function () {
+      var on = document.body.classList.toggle('easy-on');
+      easy.classList.toggle('on', on);
+      try { localStorage.setItem('ai-radar-easy', on ? '1' : '0'); } catch (e) {}
+    });
+  }
+
+  document.querySelectorAll('.toc a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      var sec = document.querySelector(a.getAttribute('href'));
+      if (!sec) return;
+      var d = sec.parentElement.querySelector('details');
+      if (d) d.open = true;
+    });
+  });
+
+  var pop = null;
+  function close() { if (pop) { pop.remove(); pop = null; } }
+  function show(el) {
+    close();
+    pop = document.createElement('div');
+    pop.className = 'term-pop';
+    pop.innerHTML = '<b>' + el.textContent + '</b>' + el.getAttribute('data-d');
+    document.body.appendChild(pop);
+    var r = el.getBoundingClientRect();
+    var w = Math.min(320, window.innerWidth - 24);
+    pop.style.width = w + 'px';
+    var left = Math.min(r.left + window.scrollX, window.innerWidth - w - 12);
+    pop.style.left = Math.max(12, left) + 'px';
+    pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+  }
+  document.querySelectorAll('.term').forEach(function (el) {
+    el.addEventListener('click', function (e) { e.stopPropagation(); show(el); });
+    el.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); show(el); }
+    });
+  });
+  document.addEventListener('click', close);
+  window.addEventListener('scroll', close, { passive: true });
+})();
+</script>
+</body>
+</html>
